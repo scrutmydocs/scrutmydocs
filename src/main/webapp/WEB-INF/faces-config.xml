@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+	<!-- CONVERTOR -->
+
+	<!-- NAVIGATION -->
+	<application>
+		<!-- SPRING -->
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+		<!-- FIN SPRING <locale-config> <default-locale>fr</default-locale> <supported-locale>fr</supported-locale> 
+			</locale-config> <message-bundle>ApplicationResources</message-bundle> -->
+	</application>
+</faces-config>

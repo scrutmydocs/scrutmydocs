@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" media="all" />
+	<title>Es Search</title>
+	<link rel="shortcut icon" type="image/x-icon" href="./img/logo.png" />
+
+</h:head>
+<h:form id="formlogin" enctype="multipart/form-data">
+	<p:growl id="messages" showDetail="true" />
+
+	<p:menubar>
+		<p:submenu label="Documents" icon="ui-icon-gear">
+			<p:menuitem value="Add..." onclick="upload.show();" />
+		</p:submenu>
+	</p:menubar>
+
+	<center><h:panelGrid>
+		<h:graphicImage value="./img/logo-text.png" />
+		<h:inputText value="#{searchController.search}" size="100" />
+		<h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Recherche" update="results"
+					action="#{searchController.google}" />
+				<p:commandButton value="J'ai de la chance" />
+			</h:panelGrid>
+		</h:panelGrid>
+
+	</h:panelGrid></center>
+
+
+
+	<center>
+	<p:dataList  value="#{searchController.hits}" id="results"
+		var="hit" itemType="disc">  
+  	#{hit}
+ </p:dataList></center>
+
+	<p:dialog header="Effects" widgetVar="upload" showEffect="explode"
+		modal="true" hideEffect="explode" height="300" width="500">
+
+		<p:fileUpload
+			fileUploadListener="#{fileUploadController.handleFileUpload}"
+			mode="advanced" update="messages" multiple="true" sizeLimit="100000" />
+
+	</p:dialog>
+
+
+
+
+
+</h:form>
+<h:body>
+
+
+</h:body>
+</html>
