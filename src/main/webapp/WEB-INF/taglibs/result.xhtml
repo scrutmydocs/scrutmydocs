@@ -7,7 +7,10 @@
 
 		<h:dataTable var="fragment" value="#{result.fragments}">
 			<f:facet name="header">  
-	            <h:outputLink value="http://localhost:9200/#{result.searchHit.index}/#{result.searchHit.type}/#{result.searchHit.id}"> #{result.title}</h:outputLink> 
+	            <h:outputLink value="http://localhost:9200/#{result.searchHit.index}/#{result.searchHit.type}/#{result.searchHit.id}"> #{result.title}</h:outputLink>
+				<p:commandButton value="Download" ajax="false">
+					<p:fileDownload value="#{result.file}" />
+				</p:commandButton>	            
 	       	</f:facet>
 			<p:column>
 				<h:outputText value="#{fragment}" escape="false" />

@@ -29,12 +29,17 @@ public class FileUploadController {
 			esClient
 					.prepareIndex("index","document")
 					.setSource(
-							jsonBuilder().startObject()
-									.field("name", event.getFile().getFileName())
-									.field("postDate", new Date())
-									.field("file", Base64
+						jsonBuilder()
+							.startObject()
+								.field("name", event.getFile().getFileName())
+								.field("postDate", new Date())
+								.startObject("file")
+									.field("_content_type", event.getFile().getContentType())
+									.field("_name", event.getFile().getFileName())
+									.field("content", Base64
 											.encodeBytes(event.getFile().getContents()))
-									.endObject())
+								.endObject()
+							.endObject())
 					.execute().actionGet();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -2,6 +2,7 @@ package fr.issamax.essearch.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
@@ -21,7 +22,6 @@ public class Results {
 		this.took = searchResponse.getTook().format();
 
 		for (SearchHit searchHit : searchResponse.getHits()) {
-
 			Result result = new Result(searchHit);
 			searchHit.getHighlightFields();
 			searchHit.getId();
