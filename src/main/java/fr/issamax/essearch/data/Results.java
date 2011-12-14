@@ -11,14 +11,18 @@ public class Results {
 
 	protected Collection<Result> results=new ArrayList<Result>();
 	protected String took;
+	protected boolean rendered = false;
+	protected SearchResponse searchResponse;
+	
+	
+	public Results(SearchResponse searchResponse) {
+		this.searchResponse = searchResponse;
+		
+		this.took = searchResponse.getTook().format();
 
-	public Results(SearchResponse SearchResponse) {
+		for (SearchHit searchHit : searchResponse.getHits()) {
 
-		this.took = SearchResponse.getTook().format();
-
-		for (SearchHit searchHit : SearchResponse.getHits()) {
-
-			Result result = new Result();
+			Result result = new Result(searchHit);
 			searchHit.getHighlightFields();
 			searchHit.getId();
 			result.setTitle(searchHit.getSource().get("name").toString());
@@ -35,8 +39,10 @@ public class Results {
 				}
 			}
 
-			this.getResults().add(result);
+			this.results.add(result);
 		}
+		
+		this.rendered = !this.results.isEmpty();
 	}
 
 	public String getTook() {
@@ -53,5 +59,21 @@ public class Results {
 
 	public void setResults(Collection<Result> results) {
 		this.results = results;
+	}
+	
+	public boolean isRendered() {
+		return rendered;
+	}
+	
+	public void setRendered(boolean rendered) {
+		this.rendered = rendered;
+	}
+	
+	public SearchResponse getSearchResponse() {
+		return searchResponse;
+	}
+	
+	public void setSearchResponse(SearchResponse searchResponse) {
+		this.searchResponse = searchResponse;
 	}
 }

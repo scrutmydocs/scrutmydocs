@@ -5,24 +5,23 @@
 	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:es="http://essearch.fr/taglibs">
 
-	<p:outputPanel id="results">
-
-
-		<p:dataGrid var="result" value="#{results.results}">
-
-			<p:column>
+	<p:panel id="results">
 				<f:facet name="header">
-					<h:outputText value="#{results.took}" />
+					Took <h:outputText value="#{results.took}" /> -
+					<h:outputText value="#{results.searchResponse.hits.totalHits}" /> elements found
 				</f:facet>
 
-
+		<p:dataTable var="result" value="#{results.results}" rendered="#{results.rendered}">
+	       	<p:column>
+				<es:result searchHits="#{result}" />
 			</p:column>
-			<p:column>
-				<es:result searchHits="#{result}"></es:result>
-			</p:column>
-		</p:dataGrid>
+		</p:dataTable>
 
-
+	<p:outputPanel id="noresults" rendered="#{!results.rendered}">
+		Please refine your search...
 	</p:outputPanel>
+
+	</p:panel>
+
 
 </ui:composition>
