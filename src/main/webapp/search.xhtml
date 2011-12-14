@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.prime.com.tr/ui">
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:es="http://essearch.fr/taglibs">
 
 <h:head>
 	<link rel="stylesheet" type="text/css" media="all" />
@@ -35,10 +36,10 @@
 
 
 	<center>
-	<p:dataList  value="#{searchController.hits}" id="results"
-		var="hit" itemType="disc">  
-  	#{hit}
- </p:dataList></center>
+
+	<es:results results="#{searchController.results}" />
+	
+	</center>
 
 	<p:dialog header="Effects" widgetVar="upload" showEffect="explode"
 		modal="true" hideEffect="explode" height="300" width="500">
@@ -48,7 +49,6 @@
 			mode="advanced" update="messages" multiple="true" sizeLimit="100000" />
 
 	</p:dialog>
-
 
 
 

@@ -1,20 +1,18 @@
 package fr.issamax.essearch.action;
 
-import java.io.IOException;
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+
 import java.util.Date;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import org.elasticsearch.ElasticSearchException;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.Base64;
 import org.primefaces.event.FileUploadEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
 @Component("fileUploadController")
 @Scope("request")

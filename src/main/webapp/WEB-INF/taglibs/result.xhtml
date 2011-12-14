@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+		<h:dataTable var="fragment" value="#{result.fragments}">
+
+			<f:facet name="header">  
+                   <h:outputLink value="http://google.com"> #{result.title}</h:outputLink> 
+           	</f:facet>
+			<p:column>
+				<h:outputText value="#{fragment}" escape="false" />
+			</p:column>
+		</h:dataTable>
+
+</ui:composition>

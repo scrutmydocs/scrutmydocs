@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:es="http://essearch.fr/taglibs">
+
+	<p:outputPanel id="results">
+
+
+		<p:dataGrid var="result" value="#{results.results}">
+
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="#{results.took}" />
+				</f:facet>
+
+
+			</p:column>
+			<p:column>
+				<es:result searchHits="#{result}"></es:result>
+			</p:column>
+		</p:dataGrid>
+
+
+	</p:outputPanel>
+
+</ui:composition>
