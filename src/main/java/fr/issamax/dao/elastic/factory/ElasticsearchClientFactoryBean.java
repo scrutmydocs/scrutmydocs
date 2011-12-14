@@ -82,24 +82,33 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 	public void initMapping() throws IOException, InterruptedException,
 			ElasticSearchException, ExecutionException {
 		// Creating the index
-		if (!node.client().admin().indices()
+		if (!client.admin().indices()
 				.exists(new IndicesExistsRequest(INDEX_NAME)).get().exists()) {
 
-			node.client().admin().indices()
+			client.admin().indices()
 					.create(new CreateIndexRequest(INDEX_NAME)).actionGet();
 
-			XContentBuilder xbMapping = jsonBuilder().startObject()
-					.startObject(INDEX_TYPE).startObject("properties")
-					.startObject("name").field("type", "string").endObject()
-					.startObject("postDate").field("type", "date").endObject()
-					.startObject("file").field("type", "attachment")
-					.startObject("fields").startObject("title")
-					.field("store", "yes").endObject().startObject("file")
-					.field("term_vector", "with_positions_offsets")
-					.field("store", "yes").endObject().endObject().endObject()
-					.endObject().endObject().endObject();
+			XContentBuilder xbMapping = 
+				jsonBuilder()
+					.startObject()
+						.startObject(INDEX_TYPE)
+							.startObject("properties")
+								.startObject("name").field("type", "string").endObject()
+								.startObject("postDate").field("type", "date").endObject()
+								.startObject("file").field("type", "attachment")
+									.startObject("fields")
+										.startObject("title").field("store", "yes").endObject()
+										.startObject("file")
+											.field("term_vector", "with_positions_offsets")
+											.field("store", "yes")
+										.endObject()
+									.endObject()
+								.endObject()
+							.endObject()
+						.endObject()
+					.endObject();
 
-			node.client().admin().indices().preparePutMapping(INDEX_NAME)
+			client.admin().indices().preparePutMapping(INDEX_NAME)
 					.setType(INDEX_TYPE).setSource(xbMapping).execute()
 					.actionGet();
 		}
