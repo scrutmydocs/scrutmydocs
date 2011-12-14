@@ -20,18 +20,23 @@
 		</p:submenu>
 	</p:menubar>
 
-	<center><h:panelGrid>
-		<h:graphicImage value="./img/logo-text.png" />
-		<h:inputText value="#{searchController.search}" size="100" />
+	<center>
 		<h:panelGrid>
-			<h:panelGrid columns="2">
-				<p:commandButton value="Recherche" update="results"
-					action="#{searchController.google}" />
-				<p:commandButton value="J'ai de la chance" />
-			</h:panelGrid>
+			<f:facet name="header">
+		  		<h:graphicImage value="./img/logo-text.png" />
+			</f:facet>
+			<p:inputText value="#{searchController.search}" size="100" />
+			<f:facet name="footer">
+				<center>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Recherche" update="results"
+						action="#{searchController.google}" />
+					<p:commandButton value="J'ai de la chance" />
+				</h:panelGrid>
+				</center>
+			</f:facet>
 		</h:panelGrid>
-
-	</h:panelGrid></center>
+	</center>
 
 
 
