@@ -1,10 +1,12 @@
 package fr.issamax.essearch.action;
 
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -24,9 +26,16 @@ public class SearchController {
 
 	public void google() {
 		try {
+			QueryBuilder qb;
+			if (search == null || search.trim().length() <= 0) {
+				qb = matchAllQuery();
+			} else {
+				qb = termQuery("_all", search);
+			}
+			
 			 SearchResponse searchHits = esClient.prepareSearch()
 					.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-					.setQuery(termQuery("_all", search)).setFrom(0).setSize(10)
+					.setQuery(qb).setFrom(0).setSize(10)
 					.addHighlightedField("name").addHighlightedField("file")
 					.setHighlighterPreTags("<b>")
 					.setHighlighterPostTags("</b>").execute().actionGet();
