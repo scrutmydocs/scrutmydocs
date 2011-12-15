@@ -17,10 +17,9 @@ import org.springframework.stereotype.Component;
 @Scope("request")
 public class DownloadController {
 
-	@Autowired
-	Client esClient;
+	@Autowired Client esClient;
 
-	private SearchHit hit;
+	private SearchHit hit = null;
 	
 	private StreamedContent file;
 
