@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component("downloadController")
-@Scope("request")
+@Scope("session")
 public class DownloadController {
 
 	@Autowired Client esClient;
