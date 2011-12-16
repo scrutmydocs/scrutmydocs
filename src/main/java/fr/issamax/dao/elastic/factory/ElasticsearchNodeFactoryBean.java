@@ -85,11 +85,11 @@ public class ElasticsearchNodeFactoryBean implements FactoryBean<Node>,
 			nodeBuilder.getSettings().put(settings);
 		}
 		
-		if (logger.isDebugEnabled()) logger.debug("Starting ElasticSearch node...");
+ 		if (logger.isDebugEnabled()) logger.debug("Starting ElasticSearch node...");
 		node = nodeBuilder.node();
 		logger.info( "Node [" + node.settings().get("name") + "] for [" + node.settings().get("cluster.name") + "] cluster started..." );
-		if (logger.isDebugEnabled()) logger.debug( "  - data : " + node.settings().get("path.data") );
-		if (logger.isDebugEnabled()) logger.debug( "  - logs : " + node.settings().get("path.logs") );
+		if (logger.isInfoEnabled()) logger.info( "  - data : " + node.settings().get("path.data") );
+		if (logger.isInfoEnabled()) logger.info( "  - logs : " + node.settings().get("path.logs") );
 	}
 
 	private void internalLoadSettings(final NodeBuilder nodeBuilder,

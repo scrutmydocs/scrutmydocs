@@ -3,6 +3,8 @@ package fr.issamax.essearch.action;
 import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 
+import java.io.Serializable;
+
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
@@ -14,8 +16,8 @@ import org.springframework.stereotype.Component;
 import fr.issamax.essearch.data.Results;
 
 @Component("searchController")
-@Scope("session")
-public class SearchController {
+@Scope("request")
+public class SearchController implements Serializable{
 
 	@Autowired
 	protected Client esClient;

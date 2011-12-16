@@ -7,13 +7,10 @@
 
 	<h:dataTable var="fragment" value="#{result.fragments}">
 		<f:facet name="header">
-			<h:outputLink
-				value="http://localhost:9200/#{result.searchHit.index}/#{result.searchHit.type}/#{result.searchHit.id}"> #{result.title}</h:outputLink>
-			<p:commandButton value="Download">
-				<f:setPropertyActionListener value="#{result.searchHit}"
-					target="#{downloadController.hit}" />
-				<p:fileDownload value="#{downloadController.file}" />
-			</p:commandButton>
+			<h:commandLink
+				action="#{downloadController.download(result.searchHit)}" target="blank">
+			 #{result.title} 
+			 </h:commandLink>
 		</f:facet>
 		<p:column>
 			<h:outputText value="#{fragment}" escape="false" />
