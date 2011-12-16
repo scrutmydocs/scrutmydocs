@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import fr.issamax.essearch.data.Results;
 
 @Component("searchController")
-@Scope("request")
+@Scope("session")
 public class SearchController implements Serializable{
 
 	@Autowired
