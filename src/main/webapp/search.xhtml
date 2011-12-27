@@ -63,10 +63,10 @@
 			mode="advanced" update="messages" multiple="true" />
 	</p:dialog>
 
-	<p:dialog header="Login" widgetVar="login" showEffect="explode"
+	<p:dialog header="Login" widgetVar="login" id="loginDialog" showEffect="explode"
 		modal="true" hideEffect="explode" height="300" width="500">
 		<p:inputText value="#{userController.username}" size="20" />
-		<p:password value="#{userController.password}" size="20" />
+		<p:password value="#{userController.password}" size="20" feedback="false" />
 		<p:commandButton value="Login" update="menu,messages"
 			actionListener="#{userController.login}"
 			oncomplete="handleLoginRequest(xhr, status, args)" />
@@ -77,7 +77,7 @@
 <script type="text/javascript">  
     function handleLoginRequest(xhr, status, args) {  
         if(args.validationFailed || !args.logged) {  
-            jQuery('#login').effect("shake", { times:3 }, 100);  
+            jQuery('#loginDialog').effect("shake", { times:3 }, 100);  
         } else {   
         	login.hide();  
             jQuery('#loginLink').fadeOut();  
