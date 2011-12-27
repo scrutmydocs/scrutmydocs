@@ -1,7 +1,7 @@
 package fr.issamax.essearch.action;
 
-import static org.elasticsearch.index.query.QueryBuilders.termQuery;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
+import static org.elasticsearch.index.query.QueryBuilders.queryString;
 
 import java.io.Serializable;
 
@@ -32,7 +32,7 @@ public class SearchController implements Serializable{
 			if (search == null || search.trim().length() <= 0) {
 				qb = matchAllQuery();
 			} else {
-				qb = termQuery("_all", search);
+				qb = queryString(search);
 			}
 			
 			 SearchResponse searchHits = esClient.prepareSearch()

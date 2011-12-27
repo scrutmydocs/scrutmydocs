@@ -7,10 +7,9 @@
 
 	<h:dataTable var="fragment" value="#{result.fragments}">
 		<f:facet name="header">
-			<h:commandLink
-				action="#{downloadController.download(result.searchHit)}" target="blank">
+			<h:outputLink value="./api/download/#{result.searchHit.id}">
 			 #{result.title} 
-			 </h:commandLink>
+			</h:outputLink>
 		</f:facet>
 		<p:column>
 			<h:outputText value="#{fragment}" escape="false" />
