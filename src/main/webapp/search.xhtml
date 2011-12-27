@@ -13,7 +13,6 @@
 </h:head>
 <h:form id="formlogin" enctype="multipart/form-data">
 	
-	
 	<p:growl id="messages" showDetail="true" />
 
 	
@@ -38,7 +37,7 @@
 				<h:panelGrid columns="2">
 					<p:commandButton value="Recherche" update="results"
 						action="#{searchController.google}" />
-					<p:commandButton value="J'ai de la chance" />
+					<p:commandButton value="J'ai de la chance" action="#{searchController.imlucky}" />
 				</h:panelGrid>
 				</center>
 			</f:facet>
