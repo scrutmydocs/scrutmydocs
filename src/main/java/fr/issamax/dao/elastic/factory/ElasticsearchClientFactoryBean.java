@@ -38,9 +38,9 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 
 	private Client client;
 
-	private final String INDEX_NAME = "index";
+	public static final String INDEX_NAME = "index";
 
-	private final String INDEX_TYPE = "document";
+	public static final String INDEX_TYPE = "document";
 
 	// @Override
 	public void afterPropertiesSet() throws Exception {

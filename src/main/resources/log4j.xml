@@ -23,7 +23,7 @@
    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
       <param name="Target" value="System.out"/>
       
-      <param name="Threshold" value="INFO"/>
+      <param name="Threshold" value="DEBUG"/>
 
       <layout class="org.apache.log4j.PatternLayout">
          <!-- The default pattern: Date Priority [Category] Message\n -->
@@ -39,9 +39,14 @@
      <priority value="INFO" />
    </category>
    
+   <category name="org.elasticsearch">
+     <priority value="INFO" />
+   </category>
+   
    <category name="org.springframework">
      <priority value="INFO" />
    </category>
+   
    <!-- Limit the org.apache category to INFO as its DEBUG is verbose -->
    <category name="org.apache">
       <priority value="INFO"/>
@@ -52,7 +57,7 @@
    <!-- ======================= -->
 
    <root>
-      <priority value="DEBUG"/>
+      <priority value="INFO"/>
       <appender-ref ref="CONSOLE"/>
    </root>
 
