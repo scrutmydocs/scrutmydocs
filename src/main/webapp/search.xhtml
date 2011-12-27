@@ -9,21 +9,25 @@
 	<link rel="stylesheet" type="text/css" media="all" />
 	<title>Es Search</title>
 	<link rel="shortcut icon" type="image/x-icon" href="./img/logo.png" />
-
 </h:head>
+
+<p:growl id="messages" showDetail="true" life="1000" />
+
 <h:form id="formlogin" enctype="multipart/form-data">
 	
-	<p:growl id="messages" showDetail="true" />
-
-	
-	
-	
-	
-	<p:menubar>
-		<p:submenu label="Documents" icon="ui-icon-gear">
-			<p:menuitem value="Add..." onclick="upload.show();" />
-		</p:submenu>
-	</p:menubar>
+	<p:toolbar id="menu">
+   		<p:toolbarGroup align="left" rendered="#{userController.logged}">
+   			<p:commandButton type="push" value="Add..." image="ui-icon-document" />
+   		</p:toolbarGroup>
+   		<p:toolbarGroup align="right" rendered="#{userController.logged}">
+			<p:menuButton value="#{userController.username}">
+				<p:menuitem icon="ui-icon-power" value="Logout" action="#{userController.logout}" update="menu,messages" />
+			</p:menuButton> 
+   		</p:toolbarGroup>
+   		<p:toolbarGroup align="right" rendered="#{!userController.logged}">
+   			<p:commandButton id="loginLink" type="push" value="Login..." image="ui-icon-power" onclick="login.show();" />
+   		</p:toolbarGroup>
+	</p:toolbar>
 
 
 	<center>
@@ -52,19 +56,36 @@
 	
 	</center>
 
-	<p:dialog header="Effects" widgetVar="upload" showEffect="explode"
+	<p:dialog header="Upload your documents" widgetVar="upload" showEffect="explode"
 		modal="true" hideEffect="explode" height="300" width="500">
-
 		<p:fileUpload
 			fileUploadListener="#{fileUploadController.handleFileUpload}"
 			mode="advanced" update="messages" multiple="true" />
-
 	</p:dialog>
 
-
-
+	<p:dialog header="Login" widgetVar="login" showEffect="explode"
+		modal="true" hideEffect="explode" height="300" width="500">
+		<p:inputText value="#{userController.username}" size="20" />
+		<p:password value="#{userController.password}" size="20" />
+		<p:commandButton value="Login" update="menu,messages"
+			actionListener="#{userController.login}"
+			oncomplete="handleLoginRequest(xhr, status, args)" />
+	</p:dialog>
 
 </h:form>
+
+<script type="text/javascript">  
+    function handleLoginRequest(xhr, status, args) {  
+        if(args.validationFailed || !args.logged) {  
+            jQuery('#login').effect("shake", { times:3 }, 100);  
+        } else {   
+        	login.hide();  
+            jQuery('#loginLink').fadeOut();  
+        }  
+    }  
+</script>
+
+
 <h:body>
 
 
