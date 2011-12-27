@@ -18,7 +18,7 @@
 	
 	<p:toolbar id="menu">
    		<p:toolbarGroup align="left" rendered="#{userController.logged}">
-   			<p:commandButton type="push" value="Add..." image="ui-icon-document" />
+   			<p:commandButton type="push" value="Add..." image="ui-icon-document" onclick="upload.show();" />
    		</p:toolbarGroup>
    		<p:toolbarGroup align="right" rendered="#{userController.logged}">
 			<p:menuButton value="#{userController.username}">
