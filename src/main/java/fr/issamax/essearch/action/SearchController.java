@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import fr.issamax.dao.elastic.factory.ElasticsearchClientFactoryBean;
 import fr.issamax.essearch.data.Results;
 
 @Component("searchController")
@@ -40,6 +41,7 @@ public class SearchController implements Serializable{
 			}
 			
 			 SearchResponse searchHits = esClient.prepareSearch()
+					.setIndices(ElasticsearchClientFactoryBean.INDEX_NAME)
 					.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 					.setQuery(qb).setFrom(0).setSize(10)
 					.addHighlightedField("name").addHighlightedField("file")

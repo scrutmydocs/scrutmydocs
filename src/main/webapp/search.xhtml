@@ -12,25 +12,25 @@
 </h:head>
 
 
-<h:form id="formlogin" enctype="multipart/form-data">
-	
 	<p:growl id="messages" showDetail="true" life="1000" />
 	
+<h:form id="formlogin">
 	<p:toolbar id="menu">
    		<p:toolbarGroup align="left" rendered="#{userController.logged}">
    			<p:commandButton type="push" value="Add..." image="ui-icon-document" onclick="upload.show();" />
    		</p:toolbarGroup>
    		<p:toolbarGroup align="right" rendered="#{userController.logged}">
 			<p:menuButton value="#{userController.username}">
-				<p:menuitem icon="ui-icon-power" value="Logout" action="#{userController.logout}" update="menu,messages" />
+				<p:menuitem icon="ui-icon-power" value="Logout" action="#{userController.logout}" update="formlogin,messages" />
 			</p:menuButton> 
    		</p:toolbarGroup>
    		<p:toolbarGroup align="right" rendered="#{!userController.logged}">
    			<p:commandButton id="loginLink" type="push" value="Login..." image="ui-icon-power" onclick="login.show();" />
    		</p:toolbarGroup>
 	</p:toolbar>
-
-
+</h:form>
+	
+<h:form id="formsearch">
 	<center>
 		<h:panelGrid>
 			<f:facet name="header">
@@ -50,13 +50,17 @@
 	</center>
 
 
-
 	<center>
 
 	<es:results results="#{searchController.results}" />
 	
 	</center>
 
+</h:form>
+
+
+<h:form id="formadd" enctype="multipart/form-data">
+	
 	<p:dialog header="Upload your documents" widgetVar="upload" showEffect="explode"
 		modal="true" hideEffect="explode" height="300" width="500">
 		<p:fileUpload
@@ -64,16 +68,21 @@
 			mode="advanced" update="messages" multiple="true" />
 	</p:dialog>
 
+</h:form>
+
+<h:form id="loginlog">
 	<p:dialog header="Login" widgetVar="login" id="loginDialog" showEffect="explode"
 		modal="true" hideEffect="explode" height="300" width="500">
 		<p:inputText value="#{userController.username}" size="20" />
 		<p:password value="#{userController.password}" size="20" feedback="false" />
-		<p:commandButton value="Login" update="menu,messages"
+		<p:commandButton value="Login" update="formlogin,messages"
 			actionListener="#{userController.login}"
 			oncomplete="handleLoginRequest(xhr, status, args)" />
 		<p:commandButton value="Create" onclick="login.hide();create.show();" />
 	</p:dialog>
+</h:form>
 
+<h:form id="logincreate">
 	<p:dialog header="Create user" widgetVar="create" id="createDialog" showEffect="explode"
 		modal="true" hideEffect="explode" height="400" width="800">
         <p:messages showDetail="true" autoUpdate="true"/>  
@@ -93,7 +102,7 @@
             
         </h:panelGrid>  
   
-		<p:commandButton value="Create" update="matchGrid,menu,messages"
+		<p:commandButton value="Create" update="matchGrid,formlogin,messages"
 			action="#{userController.push}" />
 	</p:dialog>
 
