@@ -12,7 +12,7 @@
 </h:head>
 
 
-	<p:growl id="messages" showDetail="true" life="1000" />
+<p:growl id="messages" showDetail="true" life="1000" />
 	
 <h:form id="formlogin">
 	<p:toolbar id="menu">
@@ -65,7 +65,7 @@
 		modal="true" hideEffect="explode" height="300" width="500">
 		<p:fileUpload
 			fileUploadListener="#{fileUploadController.handleFileUpload}"
-			mode="advanced" update="messages" multiple="true" />
+			mode="advanced" update="messages" multiple="true" oncomplete="upload.hide();"/>
 	</p:dialog>
 
 </h:form>
