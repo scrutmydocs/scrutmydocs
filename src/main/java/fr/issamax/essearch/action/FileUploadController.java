@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import fr.issamax.dao.elastic.factory.ElasticsearchClientFactoryBean;
+
 @Component("fileUploadController")
 @Scope("request")
 public class FileUploadController {
@@ -27,7 +29,7 @@ public class FileUploadController {
 
 		try {
 			esClient
-					.prepareIndex("index","document")
+					.prepareIndex(ElasticsearchClientFactoryBean.INDEX_NAME,ElasticsearchClientFactoryBean.INDEX_TYPE)
 					.setSource(
 						jsonBuilder()
 							.startObject()
