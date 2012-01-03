@@ -3,6 +3,8 @@ package fr.issamax.dao.elastic.factory;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.logging.Log;
@@ -40,13 +42,33 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 
 	public static final String INDEX_NAME = "docs";
 
-	public static final String INDEX_TYPE = "doc";
+	public static final String INDEX_TYPE_DOC = "doc";
+
+	public static final String INDEX_TYPE_FOLDER = "folder";
+
+	public static final String INDEX_TYPE_FS = "fsRiver";
+
+	public static String sign(String toSign) throws NoSuchAlgorithmException {
+
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(toSign.getBytes());
+
+		String key = "";
+		byte b[] = md.digest();
+		for (int i = 0; i < b.length; i++) {
+			long t = b[i] < 0 ? 256 + b[i] : b[i];
+			key += Long.toHexString(t);
+		}
+
+		return key;
+	}
 
 	// @Override
 	public void afterPropertiesSet() throws Exception {
 		logger.info("Starting ElasticSearch client");
 		if (node == null)
-			throw new Exception("You must define an ElasticSearch Node as a Spring Bean.");
+			throw new Exception(
+					"You must define an ElasticSearch Node as a Spring Bean.");
 		client = node.client();
 
 		initMapping();
@@ -85,32 +107,54 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 		if (!client.admin().indices()
 				.exists(new IndicesExistsRequest(INDEX_NAME)).get().exists()) {
 
-			client.admin().indices()
-					.create(new CreateIndexRequest(INDEX_NAME)).actionGet();
+			client.admin().indices().create(new CreateIndexRequest(INDEX_NAME))
+					.actionGet();
 
-			XContentBuilder xbMapping = 
-				jsonBuilder()
-					.startObject()
-						.startObject(INDEX_TYPE)
-							.startObject("properties")
-								.startObject("name").field("type", "string").endObject()
-								.startObject("postDate").field("type", "date").endObject()
-								.startObject("file").field("type", "attachment")
-									.startObject("fields")
-										.startObject("title").field("store", "yes").endObject()
-										.startObject("file")
-											.field("term_vector", "with_positions_offsets")
-											.field("store", "yes")
-										.endObject()
-									.endObject()
-								.endObject()
-							.endObject()
-						.endObject()
-					.endObject();
+			XContentBuilder xbMapping = jsonBuilder().startObject()
+					.startObject(INDEX_TYPE_DOC).startObject("properties")
+					.startObject("name").field("type", "string").endObject()
+					.startObject("path").field("type", "string").endObject()
+					.startObject("postDate").field("type", "date").endObject()
+					.startObject("file").field("type", "attachment")
+					.startObject("fields").startObject("title")
+					.field("store", "yes").endObject().startObject("file")
+					.field("term_vector", "with_positions_offsets")
+					.field("store", "yes").endObject().endObject().endObject()
+					.endObject().endObject().endObject();
 
 			client.admin().indices().preparePutMapping(INDEX_NAME)
-					.setType(INDEX_TYPE).setSource(xbMapping).execute()
+					.setType(INDEX_TYPE_DOC).setSource(xbMapping).execute()
 					.actionGet();
+
+			/*** FS RIVER ***/
+
+			xbMapping = jsonBuilder().startObject().startObject(INDEX_TYPE_FS)
+					.startObject("properties").startObject("scanDate")
+					.field("type", "long").endObject().endObject().endObject()
+					.endObject();
+
+			client.admin()
+					.indices()
+					.preparePutMapping(
+							ElasticsearchClientFactoryBean.INDEX_NAME)
+					.setType(INDEX_TYPE_FS).setSource(xbMapping).execute()
+					.actionGet();
+
+			/*** FOLDER ***/
+
+			xbMapping = jsonBuilder().startObject()
+					.startObject(INDEX_TYPE_FOLDER).startObject("properties")
+					.startObject("name").field("type", "string").endObject()
+					.startObject("path").field("type", "string").endObject()
+					.endObject().endObject().endObject();
+
+			client.admin()
+					.indices()
+					.preparePutMapping(
+							ElasticsearchClientFactoryBean.INDEX_NAME)
+					.setType(INDEX_TYPE_FOLDER).setSource(xbMapping).execute()
+					.actionGet();
+
 		}
 	}
 }

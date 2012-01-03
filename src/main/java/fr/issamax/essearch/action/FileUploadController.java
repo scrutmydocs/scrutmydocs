@@ -29,7 +29,7 @@ public class FileUploadController {
 
 		try {
 			esClient
-					.prepareIndex(ElasticsearchClientFactoryBean.INDEX_NAME,ElasticsearchClientFactoryBean.INDEX_TYPE)
+					.prepareIndex(ElasticsearchClientFactoryBean.INDEX_NAME,ElasticsearchClientFactoryBean.INDEX_TYPE_DOC)
 					.setSource(
 						jsonBuilder()
 							.startObject()

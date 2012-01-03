@@ -44,7 +44,7 @@
    </category>
    
    <category name="org.springframework">
-     <priority value="INFO" />
+     <priority value="DEBUG" />
    </category>
    
    <!-- Limit the org.apache category to INFO as its DEBUG is verbose -->
@@ -57,7 +57,7 @@
    <!-- ======================= -->
 
    <root>
-      <priority value="INFO"/>
+      <priority value="DEBUG"/>
       <appender-ref ref="CONSOLE"/>
    </root>
 

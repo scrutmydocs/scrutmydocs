@@ -29,7 +29,7 @@ public class DownloaderDefault {
 	@Path("/{id}")
 	public Response get(@PathParam(value = "id") final String id) throws IOException {
 		
-		GetResponse response = esClient.prepareGet(ElasticsearchClientFactoryBean.INDEX_NAME, ElasticsearchClientFactoryBean.INDEX_TYPE, id)
+		GetResponse response = esClient.prepareGet(ElasticsearchClientFactoryBean.INDEX_NAME, ElasticsearchClientFactoryBean.INDEX_TYPE_DOC, id)
         .setOperationThreaded(false)
         .execute()
         .actionGet();
