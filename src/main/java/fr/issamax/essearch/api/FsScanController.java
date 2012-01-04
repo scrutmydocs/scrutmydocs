@@ -38,28 +38,35 @@ import fr.issamax.dao.elastic.factory.ElasticsearchClientFactoryBean;
 public class FsScanController {
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	@Autowired
-	Client esClient;
+	@Autowired Client esClient;
 
-	public float nbDocScan = 0;
+	public int nbDocScan = 0;
+	public int nbDocDeleted = 0;
+	private String rootPath;
+	private String rootPathId;
 
 	@GET
 	public Response scanDirectory() throws Exception {
-		return scanDirectoryWithEs("D:\\TEST_ES_FS");
+		rootPath = "D:\\TEST_ES_FS\\";
+		return scanDirectoryWithEs();
 	}
 
 	@GET
 	@Path("/{path}")
 	public Response scanDirectory(@PathParam(value = "path") String path)
 			throws Exception {
-		return scanDirectoryWithEs(path);
+		rootPath = path;
+		return scanDirectoryWithEs();
 	}
 
-	private Response scanDirectoryWithEs(String path) throws Exception {
+	private Response scanDirectoryWithEs() throws Exception {
 
 		nbDocScan = 0;
 
-		File directory = new File(path);
+		File directory = new File(rootPath);
+		rootPathId = ElasticsearchClientFactoryBean.sign(directory.getAbsolutePath());
+		indexDirectory(directory);
+
 		long scanDatenew = new Date().getTime();
 		long scanDate = getScanDateFsRiver();
 		addFilesRecursively(directory, scanDate);
@@ -67,10 +74,18 @@ public class FsScanController {
 		updateFsRiver(scanDatenew);
 
 		return Response.status(200)
-				.entity(nbDocScan + " documents Scan done for path :" + path)
+				.entity(nbDocScan + " added " + nbDocDeleted + " deleted for path :" + rootPath)
 				.build();
 	}
 
+	private String computeVirtualPathName(String realPath) {
+		if (realPath == null) return null;
+		
+		if (realPath.length() < rootPath.length()) return "/";
+		
+		return realPath.substring(rootPath.length()-1).replace(File.separator, "/");
+	}
+	
 	private void addFilesRecursively(File path, long lastScanDate)
 			throws Exception {
 
@@ -115,7 +130,7 @@ public class FsScanController {
 							INDEX_TYPE_DOC,
 							ElasticsearchClientFactoryBean.sign(file
 									.getAbsolutePath()));
-					nbDocScan++;
+					nbDocDeleted++;
 				}
 			}
 
@@ -217,7 +232,8 @@ public class FsScanController {
 						.field(DOC_FIELD_NAME, file.getName())
 						.field(DOC_FIELD_DATE, file.lastModified())
 						.field(DOC_FIELD_PATH_ENCODED, ElasticsearchClientFactoryBean.sign(file.getParent()))
-						.field(DOC_FIELD_PATH, file.getParent())
+						.field(DOC_FIELD_ROOT_PATH, rootPathId)
+						.field(DOC_FIELD_VIRTUAL_PATH, computeVirtualPathName(file.getParent()))
 						.startObject("file")
 							.field("_name", file.getName())
 							.field("content", Base64.encodeBytes(data))
@@ -232,7 +248,8 @@ public class FsScanController {
 				jsonBuilder()
 					.startObject()
 						.field(DIR_FIELD_NAME, file.getName())
-						.field(DIR_FIELD_PATH, file.getParent())
+						.field(DIR_FIELD_ROOT_PATH, rootPathId)
+						.field(DIR_FIELD_VIRTUAL_PATH, computeVirtualPathName(file.getParent()))
 						.field(DIR_FIELD_PATH_ENCODED, ElasticsearchClientFactoryBean.sign(file.getParent()))
 					.endObject());
 	}

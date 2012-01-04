@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.elasticsearch.ElasticSearchException;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.exists.IndicesExistsRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -96,6 +97,14 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 
 	public void initMapping() throws IOException, InterruptedException,
 			ElasticSearchException, ExecutionException {
+
+		// TODO Suppress it : tests purpose only : DELETE the index
+		try {
+			client.admin().indices().delete(new DeleteIndexRequest(INDEX_NAME)).actionGet();
+		} catch (Exception e) {
+			logger.warn("Can not delete index" + e.getMessage());
+		}
+
 		// Creating the index
 		if (!client.admin().indices()
 				.exists(new IndicesExistsRequest(INDEX_NAME)).get().exists()) {
@@ -107,7 +116,8 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 					.startObject(INDEX_TYPE_DOC).startObject("properties")
 					.startObject(DOC_FIELD_NAME).field("type", "string").endObject()
 					.startObject(DOC_FIELD_PATH_ENCODED).field("type", "string").endObject()
-					.startObject(DOC_FIELD_PATH).field("type", "string").endObject()
+					.startObject(DOC_FIELD_ROOT_PATH).field("type", "string").endObject()
+					.startObject(DOC_FIELD_VIRTUAL_PATH).field("type", "string").endObject()
 					.startObject(DOC_FIELD_DATE).field("type", "date").endObject()
 					.startObject("file").field("type", "attachment")
 					.startObject("fields").startObject("title")
@@ -140,7 +150,8 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 					.startObject(INDEX_TYPE_FOLDER).startObject("properties")
 					.startObject(DIR_FIELD_NAME).field("type", "string").endObject()
 					.startObject(DIR_FIELD_PATH_ENCODED).field("type", "string").endObject()
-					.startObject(DIR_FIELD_PATH).field("type", "string").endObject()
+					.startObject(DIR_FIELD_ROOT_PATH).field("type", "string").endObject()
+					.startObject(DIR_FIELD_VIRTUAL_PATH).field("type", "string").endObject()
 					.endObject().endObject().endObject();
 
 			client.admin()
