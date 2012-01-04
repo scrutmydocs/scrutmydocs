@@ -1,6 +1,18 @@
 package fr.issamax.essearch.api;
 
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.*;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.DIR_FIELD_NAME;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.DIR_FIELD_PATH_ENCODED;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.DIR_FIELD_ROOT_PATH;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.DIR_FIELD_VIRTUAL_PATH;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.DOC_FIELD_DATE;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.DOC_FIELD_NAME;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.DOC_FIELD_PATH_ENCODED;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.DOC_FIELD_ROOT_PATH;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.DOC_FIELD_VIRTUAL_PATH;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_NAME;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_TYPE_DOC;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_TYPE_FOLDER;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_TYPE_FS;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.File;
@@ -11,9 +23,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -47,14 +60,7 @@ public class FsScanController {
 	private String rootPathId;
 
 	@GET
-	public Response scanDirectory() throws Exception {
-		rootPath = "C:\\tests_es\\";
-		return scanDirectoryWithEs();
-	}
-
-	@GET
-	@Path("/{path}")
-	public Response scanDirectory(@PathParam(value = "path") String path)
+	public Response scanDirectory(@DefaultValue("c:\\tests_es\\") @QueryParam(value = "path") String path)
 			throws Exception {
 		rootPath = path;
 		return scanDirectoryWithEs();
