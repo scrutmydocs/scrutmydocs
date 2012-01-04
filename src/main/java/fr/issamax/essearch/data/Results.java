@@ -1,8 +1,9 @@
 package fr.issamax.essearch.data;
 
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
@@ -25,7 +26,10 @@ public class Results {
 			Result result = new Result(searchHit);
 			searchHit.getHighlightFields();
 			searchHit.getId();
-			result.setTitle(searchHit.getSource().get("name").toString());
+			
+			if (searchHit.getSource() != null && searchHit.getSource().containsKey(DOC_FIELD_NAME)) {
+				result.setTitle(searchHit.getSource().get(DOC_FIELD_NAME).toString());
+			}
 
 			if (searchHit.getHighlightFields() != null) {
 				for (HighlightField highlightField : searchHit
