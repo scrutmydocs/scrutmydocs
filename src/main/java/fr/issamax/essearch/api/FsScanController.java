@@ -38,7 +38,8 @@ import fr.issamax.dao.elastic.factory.ElasticsearchClientFactoryBean;
 public class FsScanController {
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	@Autowired Client esClient;
+	@Autowired
+	Client esClient;
 
 	public int nbDocScan = 0;
 	public int nbDocDeleted = 0;
@@ -47,7 +48,7 @@ public class FsScanController {
 
 	@GET
 	public Response scanDirectory() throws Exception {
-		rootPath = "D:\\TEST_ES_FS\\";
+		rootPath = "C:\\tests_es\\";
 		return scanDirectoryWithEs();
 	}
 
@@ -64,6 +65,9 @@ public class FsScanController {
 		nbDocScan = 0;
 
 		File directory = new File(rootPath);
+		
+		if (!directory.exists()) throw new APINotFoundException(rootPath + " doesn't exists.");
+		
 		rootPathId = ElasticsearchClientFactoryBean.sign(directory.getAbsolutePath());
 		indexDirectory(directory);
 

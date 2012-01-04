@@ -12,8 +12,8 @@ public class WelcomeWS {
 
 	@GET
 	public Response welcome() {
-
-		return Response.status(200).entity("Welcome to the es-search API")
+		String helloMsg = "Welcome to the es-search API.<br/>Use <a href=\"scan/\">/scan</a> to scan dirs.";
+		return Response.status(200).entity(helloMsg)
 				.build();
 
 	}
