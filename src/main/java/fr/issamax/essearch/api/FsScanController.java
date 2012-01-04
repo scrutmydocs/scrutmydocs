@@ -42,6 +42,7 @@ public class FsScanController {
 
 	public float nbDocScan = 0;
 
+
 	@GET
 	public Response scanDirectory() throws Exception {
 		return scanDirectoryWithEs("D:\\TEST_ES_FS");
@@ -97,10 +98,10 @@ public class FsScanController {
 		}
 
 		// TODO Optimize
-//		if (path.isDirectory() && path.lastModified() > lastScanDate
-//				&& lastScanDate != 0) {
-		
-		if (path.isDirectory()){
+		// if (path.isDirectory() && path.lastModified() > lastScanDate
+		// && lastScanDate != 0) {
+
+		if (path.isDirectory()) {
 			Collection<String> esFiles = getFileDirectory(path
 					.getAbsolutePath());
 
@@ -108,11 +109,12 @@ public class FsScanController {
 			for (String esfile : esFiles) {
 
 				if (!fsFiles.contains(esfile)) {
-					File file = new File(path.getAbsolutePath().concat("\\")
-							.concat(esfile));
+					File file = new File(path.getAbsolutePath()
+							.concat(File.separator).concat(esfile));
 					esDelete(ElasticsearchClientFactoryBean.INDEX_NAME,
-						ElasticsearchClientFactoryBean.INDEX_TYPE_DOC,
-						ElasticsearchClientFactoryBean.sign(file.getAbsolutePath()));
+							ElasticsearchClientFactoryBean.INDEX_TYPE_DOC,
+							ElasticsearchClientFactoryBean.sign(file
+									.getAbsolutePath()));
 					nbDocScan++;
 				}
 			}
@@ -125,14 +127,15 @@ public class FsScanController {
 
 				if (!fsFolders.contains(esfolder)) {
 
-					removeEsDirectoryRecursively(path.getAbsolutePath(), esfolder);
+					removeEsDirectoryRecursively(path.getAbsolutePath(),
+							esfolder);
 				}
 			}
 
 			// for the older files
 			for (String fsFile : fsFiles) {
 
-				File file = new File(path.getAbsolutePath().concat("\\")
+				File file = new File(path.getAbsolutePath().concat(File.separator)
 						.concat(fsFile));
 				if (!esFiles.contains(fsFile)
 						&& file.lastModified() < lastScanDate) {
@@ -214,37 +217,39 @@ public class FsScanController {
 						.field("name", file.getName())
 						.field("postDate", file.lastModified())
 						.field("path",
-								ElasticsearchClientFactoryBean
-										.sign(file.getParent()))
-						.startObject("file")
+								ElasticsearchClientFactoryBean.sign(file
+										.getParent())).startObject("file")
 						.field("_name", file.getName())
-						.field("content", Base64.encodeBytes(data))
-						.endObject().endObject());
+						.field("content", Base64.encodeBytes(data)).endObject()
+						.endObject());
 	}
 
 	public void indexDirectory(File file) throws Exception {
 		esIndex(ElasticsearchClientFactoryBean.INDEX_NAME,
-			ElasticsearchClientFactoryBean.INDEX_TYPE_FOLDER,
-			ElasticsearchClientFactoryBean.sign(file.getAbsolutePath()), jsonBuilder()
-								.startObject()
-								.field("name", file.getName())
-								.field("path",
-										ElasticsearchClientFactoryBean
-												.sign(file.getParent())));
+				ElasticsearchClientFactoryBean.INDEX_TYPE_FOLDER,
+				ElasticsearchClientFactoryBean.sign(file.getAbsolutePath()),
+				jsonBuilder()
+						.startObject()
+						.field("name", file.getName())
+						.field("path",
+								ElasticsearchClientFactoryBean.sign(file
+										.getParent())));
 	}
 
 	public void removeEsDirectoryRecursively(String path, String name)
 			throws Exception {
 
-		String fullPath = path.concat("\\").concat(name);
+		String fullPath = path.concat(File.separator).concat(name);
 
 		logger.debug("Delete folder " + fullPath);
 		Collection<String> listFile = getFileDirectory(fullPath);
 
 		for (String esfile : listFile) {
-			esDelete(ElasticsearchClientFactoryBean.INDEX_NAME,
+			esDelete(
+					ElasticsearchClientFactoryBean.INDEX_NAME,
 					ElasticsearchClientFactoryBean.INDEX_TYPE_DOC,
-					ElasticsearchClientFactoryBean.sign(fullPath.concat("\\").concat(esfile)));
+					ElasticsearchClientFactoryBean.sign(fullPath.concat(
+							File.separator).concat(esfile)));
 		}
 
 		Collection<String> listFolder = getFolderDirectory(fullPath);
@@ -282,18 +287,15 @@ public class FsScanController {
 			return 0;
 	}
 
-	private void esIndex(String index, String type, String id, XContentBuilder xb) {
+	private void esIndex(String index, String type, String id,
+			XContentBuilder xb) {
 		logger.debug("Indexing in ES " + index + ", " + type + ", " + id);
-		esClient.prepareIndex(index,type,id)
-			.setSource(xb)
-			.execute()
-			.actionGet();
+		esClient.prepareIndex(index, type, id).setSource(xb).execute()
+				.actionGet();
 	}
-	
+
 	private void esDelete(String index, String type, String id) {
 		logger.debug("Deleting from ES " + index + ", " + type + ", " + id);
-		esClient.prepareDelete(index,type,id)
-			.execute()
-			.actionGet();
+		esClient.prepareDelete(index, type, id).execute().actionGet();
 	}
 }
