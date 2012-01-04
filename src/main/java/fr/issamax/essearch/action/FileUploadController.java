@@ -1,6 +1,7 @@
 package fr.issamax.essearch.action;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.*;
 
 import java.util.Date;
 
@@ -13,8 +14,6 @@ import org.primefaces.event.FileUploadEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import fr.issamax.dao.elastic.factory.ElasticsearchClientFactoryBean;
 
 @Component("fileUploadController")
 @Scope("request")
@@ -29,7 +28,7 @@ public class FileUploadController {
 
 		try {
 			esClient
-					.prepareIndex(ElasticsearchClientFactoryBean.INDEX_NAME,ElasticsearchClientFactoryBean.INDEX_TYPE_DOC)
+					.prepareIndex(INDEX_NAME,INDEX_TYPE_DOC)
 					.setSource(
 						jsonBuilder()
 							.startObject()

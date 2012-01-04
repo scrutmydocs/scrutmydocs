@@ -1,6 +1,7 @@
 package fr.issamax.dao.elastic.factory;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.*;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -39,14 +40,6 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 	Node node;
 
 	private Client client;
-
-	public static final String INDEX_NAME = "docs";
-
-	public static final String INDEX_TYPE_DOC = "doc";
-
-	public static final String INDEX_TYPE_FOLDER = "folder";
-
-	public static final String INDEX_TYPE_FS = "fsRiver";
 
 	public static String sign(String toSign) throws NoSuchAlgorithmException {
 
@@ -112,9 +105,10 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 
 			XContentBuilder xbMapping = jsonBuilder().startObject()
 					.startObject(INDEX_TYPE_DOC).startObject("properties")
-					.startObject("name").field("type", "string").endObject()
-					.startObject("path").field("type", "string").endObject()
-					.startObject("postDate").field("type", "date").endObject()
+					.startObject(DOC_FIELD_NAME).field("type", "string").endObject()
+					.startObject(DOC_FIELD_PATH_ENCODED).field("type", "string").endObject()
+					.startObject(DOC_FIELD_PATH).field("type", "string").endObject()
+					.startObject(DOC_FIELD_DATE).field("type", "date").endObject()
 					.startObject("file").field("type", "attachment")
 					.startObject("fields").startObject("title")
 					.field("store", "yes").endObject().startObject("file")
@@ -136,7 +130,7 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 			client.admin()
 					.indices()
 					.preparePutMapping(
-							ElasticsearchClientFactoryBean.INDEX_NAME)
+							INDEX_NAME)
 					.setType(INDEX_TYPE_FS).setSource(xbMapping).execute()
 					.actionGet();
 
@@ -144,14 +138,15 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 
 			xbMapping = jsonBuilder().startObject()
 					.startObject(INDEX_TYPE_FOLDER).startObject("properties")
-					.startObject("name").field("type", "string").endObject()
-					.startObject("path").field("type", "string").endObject()
+					.startObject(DIR_FIELD_NAME).field("type", "string").endObject()
+					.startObject(DIR_FIELD_PATH_ENCODED).field("type", "string").endObject()
+					.startObject(DIR_FIELD_PATH).field("type", "string").endObject()
 					.endObject().endObject().endObject();
 
 			client.admin()
 					.indices()
 					.preparePutMapping(
-							ElasticsearchClientFactoryBean.INDEX_NAME)
+							INDEX_NAME)
 					.setType(INDEX_TYPE_FOLDER).setSource(xbMapping).execute()
 					.actionGet();
 

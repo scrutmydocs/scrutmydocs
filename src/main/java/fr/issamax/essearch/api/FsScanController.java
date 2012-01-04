@@ -1,5 +1,6 @@
 package fr.issamax.essearch.api;
 
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.*;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.File;
@@ -41,7 +42,6 @@ public class FsScanController {
 	Client esClient;
 
 	public float nbDocScan = 0;
-
 
 	@GET
 	public Response scanDirectory() throws Exception {
@@ -111,8 +111,8 @@ public class FsScanController {
 				if (!fsFiles.contains(esfile)) {
 					File file = new File(path.getAbsolutePath()
 							.concat(File.separator).concat(esfile));
-					esDelete(ElasticsearchClientFactoryBean.INDEX_NAME,
-							ElasticsearchClientFactoryBean.INDEX_TYPE_DOC,
+					esDelete(INDEX_NAME,
+							INDEX_TYPE_DOC,
 							ElasticsearchClientFactoryBean.sign(file
 									.getAbsolutePath()));
 					nbDocScan++;
@@ -135,8 +135,8 @@ public class FsScanController {
 			// for the older files
 			for (String fsFile : fsFiles) {
 
-				File file = new File(path.getAbsolutePath().concat(File.separator)
-						.concat(fsFile));
+				File file = new File(path.getAbsolutePath()
+						.concat(File.separator).concat(fsFile));
 				if (!esFiles.contains(fsFile)
 						&& file.lastModified() < lastScanDate) {
 					indexFile(file);
@@ -150,17 +150,17 @@ public class FsScanController {
 		Collection<String> files = new ArrayList<String>();
 
 		SearchResponse response = esClient
-				.prepareSearch(ElasticsearchClientFactoryBean.INDEX_NAME)
+				.prepareSearch(INDEX_NAME)
 				.setSearchType(SearchType.QUERY_AND_FETCH)
-				.setTypes(ElasticsearchClientFactoryBean.INDEX_TYPE_DOC)
+				.setTypes(INDEX_TYPE_DOC)
 				.setQuery(
-						QueryBuilders.termQuery("path",
+						QueryBuilders.termQuery(DOC_FIELD_PATH_ENCODED,
 								ElasticsearchClientFactoryBean.sign(path)))
 				.setFrom(0).setSize(50000).execute().actionGet();
 
 		if (response.getHits() != null && response.getHits().getHits() != null) {
 			for (SearchHit hit : response.getHits().getHits()) {
-				String name = hit.getSource().get("name").toString();
+				String name = hit.getSource().get(DOC_FIELD_NAME).toString();
 				files.add(name);
 			}
 		}
@@ -173,17 +173,17 @@ public class FsScanController {
 		Collection<String> files = new ArrayList<String>();
 
 		SearchResponse response = esClient
-				.prepareSearch(ElasticsearchClientFactoryBean.INDEX_NAME)
+				.prepareSearch(INDEX_NAME)
 				.setSearchType(SearchType.QUERY_AND_FETCH)
-				.setTypes(ElasticsearchClientFactoryBean.INDEX_TYPE_FOLDER)
+				.setTypes(INDEX_TYPE_FOLDER)
 				.setQuery(
-						QueryBuilders.termQuery("path",
+						QueryBuilders.termQuery(DIR_FIELD_PATH_ENCODED,
 								ElasticsearchClientFactoryBean.sign(path)))
 				.setFrom(0).setSize(50000).execute().actionGet();
 
 		if (response.getHits() != null && response.getHits().getHits() != null) {
 			for (SearchHit hit : response.getHits().getHits()) {
-				String name = hit.getSource().get("name").toString();
+				String name = hit.getSource().get(DIR_FIELD_NAME).toString();
 				files.add(name);
 			}
 		}
@@ -209,31 +209,32 @@ public class FsScanController {
 		fileReader.close();
 		bos.close();
 
-		esIndex(ElasticsearchClientFactoryBean.INDEX_NAME,
-				ElasticsearchClientFactoryBean.INDEX_TYPE_DOC,
+		esIndex(INDEX_NAME,
+				INDEX_TYPE_DOC,
 				ElasticsearchClientFactoryBean.sign(file.getAbsolutePath()),
 				jsonBuilder()
-						.startObject()
-						.field("name", file.getName())
-						.field("postDate", file.lastModified())
-						.field("path",
-								ElasticsearchClientFactoryBean.sign(file
-										.getParent())).startObject("file")
-						.field("_name", file.getName())
-						.field("content", Base64.encodeBytes(data)).endObject()
-						.endObject());
+					.startObject()
+						.field(DOC_FIELD_NAME, file.getName())
+						.field(DOC_FIELD_DATE, file.lastModified())
+						.field(DOC_FIELD_PATH_ENCODED, ElasticsearchClientFactoryBean.sign(file.getParent()))
+						.field(DOC_FIELD_PATH, file.getParent())
+						.startObject("file")
+							.field("_name", file.getName())
+							.field("content", Base64.encodeBytes(data))
+						.endObject()
+					.endObject());
 	}
 
 	public void indexDirectory(File file) throws Exception {
-		esIndex(ElasticsearchClientFactoryBean.INDEX_NAME,
-				ElasticsearchClientFactoryBean.INDEX_TYPE_FOLDER,
+		esIndex(INDEX_NAME,
+				INDEX_TYPE_FOLDER,
 				ElasticsearchClientFactoryBean.sign(file.getAbsolutePath()),
 				jsonBuilder()
-						.startObject()
-						.field("name", file.getName())
-						.field("path",
-								ElasticsearchClientFactoryBean.sign(file
-										.getParent())));
+					.startObject()
+						.field(DIR_FIELD_NAME, file.getName())
+						.field(DIR_FIELD_PATH, file.getParent())
+						.field(DIR_FIELD_PATH_ENCODED, ElasticsearchClientFactoryBean.sign(file.getParent()))
+					.endObject());
 	}
 
 	public void removeEsDirectoryRecursively(String path, String name)
@@ -246,8 +247,8 @@ public class FsScanController {
 
 		for (String esfile : listFile) {
 			esDelete(
-					ElasticsearchClientFactoryBean.INDEX_NAME,
-					ElasticsearchClientFactoryBean.INDEX_TYPE_DOC,
+					INDEX_NAME,
+					INDEX_TYPE_DOC,
 					ElasticsearchClientFactoryBean.sign(fullPath.concat(
 							File.separator).concat(esfile)));
 		}
@@ -258,16 +259,16 @@ public class FsScanController {
 			removeEsDirectoryRecursively(fullPath, esfolder);
 		}
 
-		esDelete(ElasticsearchClientFactoryBean.INDEX_NAME,
-				ElasticsearchClientFactoryBean.INDEX_TYPE_FOLDER,
+		esDelete(INDEX_NAME,
+				INDEX_TYPE_FOLDER,
 				ElasticsearchClientFactoryBean.sign(fullPath));
 
 	}
 
 	public void updateFsRiver(long scanDate) throws IOException,
 			InterruptedException, ElasticSearchException, ExecutionException {
-		esClient.prepareIndex(ElasticsearchClientFactoryBean.INDEX_NAME,
-				ElasticsearchClientFactoryBean.INDEX_TYPE_FS, "fsScan")
+		esClient.prepareIndex(INDEX_NAME,
+				INDEX_TYPE_FS, "fsScan")
 				.setSource(
 						jsonBuilder().startObject().field("scanDate", scanDate)
 								.endObject()).execute().actionGet();
@@ -276,8 +277,8 @@ public class FsScanController {
 	private long getScanDateFsRiver() {
 
 		GetResponse response = esClient
-				.prepareGet(ElasticsearchClientFactoryBean.INDEX_NAME,
-						ElasticsearchClientFactoryBean.INDEX_TYPE_FS, "fsScan")
+				.prepareGet(INDEX_NAME,
+						INDEX_TYPE_FS, "fsScan")
 				.setOperationThreaded(false).execute().actionGet();
 
 		if (response.getSource() != null) {

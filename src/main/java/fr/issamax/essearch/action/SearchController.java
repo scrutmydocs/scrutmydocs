@@ -2,6 +2,7 @@ package fr.issamax.essearch.action;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.queryString;
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.*;
 
 import java.io.Serializable;
 
@@ -17,12 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import fr.issamax.dao.elastic.factory.ElasticsearchClientFactoryBean;
 import fr.issamax.essearch.data.Results;
 
 @Component("searchController")
 @Scope("session")
-public class SearchController implements Serializable{
+public class SearchController implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	protected Client esClient;
@@ -41,7 +42,7 @@ public class SearchController implements Serializable{
 			}
 			
 			 SearchResponse searchHits = esClient.prepareSearch()
-					.setIndices(ElasticsearchClientFactoryBean.INDEX_NAME)
+					.setIndices(INDEX_NAME)
 					.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 					.setQuery(qb).setFrom(0).setSize(10)
 					.addHighlightedField("name").addHighlightedField("file")

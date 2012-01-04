@@ -1,5 +1,7 @@
 package fr.issamax.essearch.api;
- 
+
+import static fr.issamax.dao.elastic.factory.ESSearchProperties.*;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -14,8 +16,6 @@ import org.elasticsearch.common.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import fr.issamax.dao.elastic.factory.ElasticsearchClientFactoryBean;
- 
 @Component
 @Path("/download")
 public class DownloaderDefault {
@@ -29,7 +29,7 @@ public class DownloaderDefault {
 	@Path("/{id}")
 	public Response get(@PathParam(value = "id") final String id) throws IOException {
 		
-		GetResponse response = esClient.prepareGet(ElasticsearchClientFactoryBean.INDEX_NAME, ElasticsearchClientFactoryBean.INDEX_TYPE_DOC, id)
+		GetResponse response = esClient.prepareGet(INDEX_NAME, INDEX_TYPE_DOC, id)
         .setOperationThreaded(false)
         .execute()
         .actionGet();
