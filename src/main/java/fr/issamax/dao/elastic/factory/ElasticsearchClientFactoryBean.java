@@ -114,10 +114,10 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 
 			XContentBuilder xbMapping = jsonBuilder().startObject()
 					.startObject(INDEX_TYPE_DOC).startObject("properties")
-					.startObject(DOC_FIELD_NAME).field("type", "string").endObject()
-					.startObject(DOC_FIELD_PATH_ENCODED).field("type", "string").endObject()
-					.startObject(DOC_FIELD_ROOT_PATH).field("type", "string").endObject()
-					.startObject(DOC_FIELD_VIRTUAL_PATH).field("type", "string").endObject()
+					.startObject(DOC_FIELD_NAME).field("type", "string").field("analyzer","keyword").endObject()
+					.startObject(DOC_FIELD_PATH_ENCODED).field("type", "string").field("analyzer","keyword").endObject()
+					.startObject(DOC_FIELD_ROOT_PATH).field("type", "string").field("analyzer","keyword").endObject()
+					.startObject(DOC_FIELD_VIRTUAL_PATH).field("type", "string").field("analyzer","keyword").endObject()
 					.startObject(DOC_FIELD_DATE).field("type", "date").endObject()
 					.startObject("file").field("type", "attachment")
 					.startObject("fields").startObject("title")
@@ -148,10 +148,10 @@ public class ElasticsearchClientFactoryBean implements FactoryBean<Client>,
 
 			xbMapping = jsonBuilder().startObject()
 					.startObject(INDEX_TYPE_FOLDER).startObject("properties")
-					.startObject(DIR_FIELD_NAME).field("type", "string").endObject()
-					.startObject(DIR_FIELD_PATH_ENCODED).field("type", "string").endObject()
-					.startObject(DIR_FIELD_ROOT_PATH).field("type", "string").endObject()
-					.startObject(DIR_FIELD_VIRTUAL_PATH).field("type", "string").endObject()
+					.startObject(DIR_FIELD_NAME).field("type", "string").field("analyzer","keyword").endObject()
+					.startObject(DIR_FIELD_PATH_ENCODED).field("type", "string").field("analyzer","keyword").endObject()
+					.startObject(DIR_FIELD_ROOT_PATH).field("type", "string").field("analyzer","keyword").endObject()
+					.startObject(DIR_FIELD_VIRTUAL_PATH).field("type", "string").field("analyzer","keyword").endObject()
 					.endObject().endObject().endObject();
 
 			client.admin()

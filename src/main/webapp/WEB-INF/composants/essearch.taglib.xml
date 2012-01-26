@@ -10,9 +10,14 @@
 		<source>../taglibs/results.xhtml</source>
 	</tag>
 	
-		<tag>
+	<tag>
 		<tag-name>result</tag-name>
 		<source>../taglibs/result.xhtml</source>
+	</tag>
+	
+	<tag>
+		<tag-name>tree</tag-name>
+		<source>../taglibs/tree.xhtml</source>
 	</tag>
 	
 	

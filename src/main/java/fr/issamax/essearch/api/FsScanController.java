@@ -75,7 +75,7 @@ public class FsScanController {
 		if (!directory.exists()) throw new APINotFoundException(rootPath + " doesn't exists.");
 		
 		rootPathId = ElasticsearchClientFactoryBean.sign(directory.getAbsolutePath());
-		indexDirectory(directory);
+		indexRootDirectory(directory);
 
 		long scanDatenew = new Date().getTime();
 		long scanDate = getScanDateFsRiver();
@@ -264,6 +264,19 @@ public class FsScanController {
 					.endObject());
 	}
 
+	public void indexRootDirectory(File file) throws Exception {
+		esIndex(INDEX_NAME,
+				INDEX_TYPE_FOLDER,
+				ElasticsearchClientFactoryBean.sign(file.getAbsolutePath()),
+				jsonBuilder()
+					.startObject()
+						.field(DIR_FIELD_NAME, file.getName())
+						.field(DIR_FIELD_ROOT_PATH, rootPathId)
+						.field(DIR_FIELD_VIRTUAL_PATH, (String)null)
+						.field(DIR_FIELD_PATH_ENCODED, ElasticsearchClientFactoryBean.sign(file.getParent()))
+					.endObject());
+	}
+	
 	public void removeEsDirectoryRecursively(String path, String name)
 			throws Exception {
 
