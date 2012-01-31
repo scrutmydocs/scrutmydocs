@@ -34,8 +34,8 @@
 
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
-			<artifactId>south-street</artifactId>
-			<version>1.0.2</version>
+			<artifactId>rocket</artifactId>
+			<version>1.0.3</version>
 		</dependency>
 
 		<!-- Jersey -->
