@@ -11,7 +11,8 @@
 	<context:component-scan base-package="fr.issamax" />
 
 
-
+	<!-- When using embedded node -->
+	<!-- 
     <bean id="esNode"
         class="fr.issamax.dao.elastic.factory.ElasticsearchNodeFactoryBean">
         <property name="configLocation" value="classpath:es.properties" />
@@ -19,6 +20,11 @@
     
     <bean id="esClient"
         class="fr.issamax.dao.elastic.factory.ElasticsearchClientFactoryBean" />
+     -->
+     
+   	<!-- When using a simple transport client -->
+    <bean id="esClient"
+        class="fr.issamax.dao.elastic.factory.ElasticsearchTransportClientFactoryBean" />
     
 
 </beans>
