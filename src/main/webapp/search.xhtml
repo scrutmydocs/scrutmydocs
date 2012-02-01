@@ -13,71 +13,87 @@
 
 
 <p:growl id="messages" showDetail="true" life="1000" />
-	
+
 <h:form id="formlogin">
 	<p:toolbar id="menu">
-   		<p:toolbarGroup align="left" rendered="#{userController.logged}">
-   			<p:commandButton type="push" value="Add..." image="ui-icon-document" onclick="upload.show();" />
-   		</p:toolbarGroup>
-   		<p:toolbarGroup align="right" rendered="#{userController.logged}">
+		<p:toolbarGroup align="left" rendered="#{userController.logged}">
+			<p:commandButton type="push" value="Add..." image="ui-icon-document"
+				onclick="upload.show();" />
+		</p:toolbarGroup>
+		<p:toolbarGroup align="right" rendered="#{userController.logged}">
 			<p:menuButton value="#{userController.username}">
-				<p:menuitem icon="ui-icon-power" value="Logout" action="#{userController.logout}" update="formlogin,messages" />
-			</p:menuButton> 
-   		</p:toolbarGroup>
-   		<p:toolbarGroup align="right" rendered="#{!userController.logged}">
-   			<p:commandButton id="loginLink" type="push" value="Login..." image="ui-icon-power" onclick="login.show();" />
-   		</p:toolbarGroup>
+				<p:menuitem icon="ui-icon-power" value="Logout"
+					action="#{userController.logout}" update="formlogin,messages" />
+			</p:menuButton>
+		</p:toolbarGroup>
+		<p:toolbarGroup align="right" rendered="#{!userController.logged}">
+			<p:commandButton id="loginLink" type="push" value="Login..."
+				image="ui-icon-power" onclick="login.show();" />
+		</p:toolbarGroup>
 	</p:toolbar>
 </h:form>
-	
 
-<es:tree root="#{documentsController.root}" />
-	
-<h:form id="formsearch">
-	<center>
-		<h:panelGrid>
-			<f:facet name="header">
-		  		<h:graphicImage value="./img/logo-text.png" />
-			</f:facet>
-			<p:inputText value="#{searchController.search}" size="100" />
-			<f:facet name="footer">
-				<center>
-				<h:panelGrid columns="2">
-					<p:commandButton value="Search" update="results"
-						action="#{searchController.google}" />
-					<p:commandButton value="I'm lucky" action="#{searchController.imlucky}" />
+<p:layout style="min-width:400px;min-height:200px;" id="layout">
+	<p:layoutUnit position="west" resizable="true" size="300" minSize="40"
+		maxSize="600">
+		<es:tree root="#{documentsController.root}" />
+	</p:layoutUnit>
+
+	<p:layoutUnit position="center">
+
+		<h:form id="formsearch">
+			<center>
+				<h:panelGrid>
+					<f:facet name="header">
+						<h:graphicImage value="./img/logo-text.png" />
+					</f:facet>
+					<p:inputText value="#{searchController.search}" size="100" />
+					<f:facet name="footer">
+						<center>
+							<h:panelGrid columns="2">
+								<p:commandButton value="Search" update="results"
+									action="#{searchController.google}" />
+								<p:commandButton value="I'm lucky"
+									action="#{searchController.imlucky}" />
+							</h:panelGrid>
+						</center>
+					</f:facet>
 				</h:panelGrid>
-				</center>
-			</f:facet>
-		</h:panelGrid>
-	</center>
+			</center>
 
 
-	<center>
+			<center>
 
-	<es:results results="#{searchController.results}" />
-	
-	</center>
+				<es:results results="#{searchController.results}" />
 
-</h:form>
+			</center>
+
+		</h:form>
+	</p:layoutUnit>
+</p:layout>
+
 
 
 <h:form id="formadd" enctype="multipart/form-data">
-	
-	<p:dialog header="Upload your documents" widgetVar="upload" showEffect="explode"
-		modal="true" hideEffect="explode" height="300" width="500">
+
+	<p:dialog header="Upload your documents" widgetVar="upload"
+		showEffect="explode" modal="true" hideEffect="explode" height="300"
+		width="500">
 		<p:fileUpload
 			fileUploadListener="#{fileUploadController.handleFileUpload}"
-			mode="advanced" update="messages" multiple="true" oncomplete="upload.hide();"/>
+			mode="advanced" update="messages" multiple="true"
+			oncomplete="upload.hide();" />
 	</p:dialog>
 
 </h:form>
 
 <h:form id="loginlog">
-	<p:dialog header="Login" widgetVar="login" id="loginDialog" showEffect="explode"
-		modal="true" hideEffect="explode" height="300" width="500">
+	<p:dialog header="Login" widgetVar="login" id="loginDialog"
+		showEffect="explode" modal="true" hideEffect="explode" height="300"
+		width="500">
 		<p:inputText value="#{userController.username}" size="20" />
-		<p:password value="#{userController.password}" size="20" feedback="false" />
+		<p:password value="#{userController.password}" size="20"
+			feedback="false" />
 		<p:commandButton value="Login" update="formlogin,messages"
 			actionListener="#{userController.login}"
 			oncomplete="handleLoginRequest(xhr, status, args)" />
@@ -86,40 +102,48 @@
 </h:form>
 
 <h:form id="logincreate">
-	<p:dialog header="Create user" widgetVar="create" id="createDialog" showEffect="explode"
-		modal="true" hideEffect="explode" height="400" width="800">
-        <p:messages showDetail="true" autoUpdate="true"/>  
-  
-        <h:panelGrid columns="2" id="matchGrid">                     
-            <h:outputLabel for="login" value="Login&nbsp;:&nbsp;*" />  
-			<p:inputText id="login" value="#{userController.user.login}" size="20" required="true" />
-            
-            <h:outputLabel for="pwd1" value="Password&nbsp;:&nbsp;*" />  
-            <p:password id="pwd1" value="#{userController.user.password}" feedback="true" match="pwd2" label="Password 1" required="true" inline="true" />  
-  
-            <h:outputLabel for="pwd2" value="Again&nbsp;:&nbsp;*" />  
-            <p:password id="pwd2" value="#{userController.user.password}" feedback="false" label="Password 2" required="true"/>  
+	<p:dialog header="Create user" widgetVar="create" id="createDialog"
+		showEffect="explode" modal="true" hideEffect="explode" height="400"
+		width="800">
+		<p:messages showDetail="true" autoUpdate="true" />
 
-            <h:outputLabel for="email" value="Email&nbsp;:&nbsp;*" />  
-			<p:inputText id="email" value="#{userController.user.email}" size="50" required="true" />
-            
-        </h:panelGrid>  
-  
+		<h:panelGrid columns="2" id="matchGrid">
+			<h:outputLabel for="login" value="Login&nbsp;:&nbsp;*" />
+			<p:inputText id="login" value="#{userController.user.login}"
+				size="20" required="true" />
+
+			<h:outputLabel for="pwd1" value="Password&nbsp;:&nbsp;*" />
+			<p:password id="pwd1" value="#{userController.user.password}"
+				feedback="true" match="pwd2" label="Password 1" required="true"
+				inline="true" />
+
+			<h:outputLabel for="pwd2" value="Again&nbsp;:&nbsp;*" />
+			<p:password id="pwd2" value="#{userController.user.password}"
+				feedback="false" label="Password 2" required="true" />
+
+			<h:outputLabel for="email" value="Email&nbsp;:&nbsp;*" />
+			<p:inputText id="email" value="#{userController.user.email}"
+				size="50" required="true" />
+
+		</h:panelGrid>
+
 		<p:commandButton value="Create" update="matchGrid,formlogin,messages"
 			action="#{userController.push}" />
 	</p:dialog>
 
 </h:form>
 
-<script type="text/javascript">  
-    function handleLoginRequest(xhr, status, args) {  
-        if(args.validationFailed || !args.logged) {  
-            jQuery('#loginDialog').effect("shake", { times:3 }, 100);  
-        } else {   
-        	login.hide();  
-            jQuery('#loginLink').fadeOut();  
-        }  
-    }  
+<script type="text/javascript">
+	function handleLoginRequest(xhr, status, args) {
+		if (args.validationFailed || !args.logged) {
+			jQuery('#loginDialog').effect("shake", {
+				times : 3
+			}, 100);
+		} else {
+			login.hide();
+			jQuery('#loginLink').fadeOut();
+		}
+	}
 </script>
 
 
