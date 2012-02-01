@@ -44,7 +44,7 @@ import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import fr.issamax.dao.elastic.factory.ElasticsearchClientFactoryBean;
+import fr.issamax.essearch.util.SignTool;
 
 @Component
 @Path("/scan")
@@ -74,7 +74,7 @@ public class FsScanController {
 		
 		if (!directory.exists()) throw new APINotFoundException(rootPath + " doesn't exists.");
 		
-		rootPathId = ElasticsearchClientFactoryBean.sign(directory.getAbsolutePath());
+		rootPathId = SignTool.sign(directory.getAbsolutePath());
 		indexRootDirectory(directory);
 
 		long scanDatenew = new Date().getTime();
@@ -138,7 +138,7 @@ public class FsScanController {
 							.concat(File.separator).concat(esfile));
 					esDelete(INDEX_NAME,
 							INDEX_TYPE_DOC,
-							ElasticsearchClientFactoryBean.sign(file
+							SignTool.sign(file
 									.getAbsolutePath()));
 					nbDocDeleted++;
 				}
@@ -180,7 +180,7 @@ public class FsScanController {
 				.setTypes(INDEX_TYPE_DOC)
 				.setQuery(
 						QueryBuilders.termQuery(DOC_FIELD_PATH_ENCODED,
-								ElasticsearchClientFactoryBean.sign(path)))
+								SignTool.sign(path)))
 				.setFrom(0).setSize(50000).execute().actionGet();
 
 		if (response.getHits() != null && response.getHits().getHits() != null) {
@@ -203,7 +203,7 @@ public class FsScanController {
 				.setTypes(INDEX_TYPE_FOLDER)
 				.setQuery(
 						QueryBuilders.termQuery(DIR_FIELD_PATH_ENCODED,
-								ElasticsearchClientFactoryBean.sign(path)))
+								SignTool.sign(path)))
 				.setFrom(0).setSize(50000).execute().actionGet();
 
 		if (response.getHits() != null && response.getHits().getHits() != null) {
@@ -236,12 +236,12 @@ public class FsScanController {
 
 		esIndex(INDEX_NAME,
 				INDEX_TYPE_DOC,
-				ElasticsearchClientFactoryBean.sign(file.getAbsolutePath()),
+				SignTool.sign(file.getAbsolutePath()),
 				jsonBuilder()
 					.startObject()
 						.field(DOC_FIELD_NAME, file.getName())
 						.field(DOC_FIELD_DATE, file.lastModified())
-						.field(DOC_FIELD_PATH_ENCODED, ElasticsearchClientFactoryBean.sign(file.getParent()))
+						.field(DOC_FIELD_PATH_ENCODED, SignTool.sign(file.getParent()))
 						.field(DOC_FIELD_ROOT_PATH, rootPathId)
 						.field(DOC_FIELD_VIRTUAL_PATH, computeVirtualPathName(file.getParent()))
 						.startObject("file")
@@ -254,26 +254,26 @@ public class FsScanController {
 	public void indexDirectory(File file) throws Exception {
 		esIndex(INDEX_NAME,
 				INDEX_TYPE_FOLDER,
-				ElasticsearchClientFactoryBean.sign(file.getAbsolutePath()),
+				SignTool.sign(file.getAbsolutePath()),
 				jsonBuilder()
 					.startObject()
 						.field(DIR_FIELD_NAME, file.getName())
 						.field(DIR_FIELD_ROOT_PATH, rootPathId)
 						.field(DIR_FIELD_VIRTUAL_PATH, computeVirtualPathName(file.getParent()))
-						.field(DIR_FIELD_PATH_ENCODED, ElasticsearchClientFactoryBean.sign(file.getParent()))
+						.field(DIR_FIELD_PATH_ENCODED, SignTool.sign(file.getParent()))
 					.endObject());
 	}
 
 	public void indexRootDirectory(File file) throws Exception {
 		esIndex(INDEX_NAME,
 				INDEX_TYPE_FOLDER,
-				ElasticsearchClientFactoryBean.sign(file.getAbsolutePath()),
+				SignTool.sign(file.getAbsolutePath()),
 				jsonBuilder()
 					.startObject()
 						.field(DIR_FIELD_NAME, file.getName())
 						.field(DIR_FIELD_ROOT_PATH, rootPathId)
 						.field(DIR_FIELD_VIRTUAL_PATH, (String)null)
-						.field(DIR_FIELD_PATH_ENCODED, ElasticsearchClientFactoryBean.sign(file.getParent()))
+						.field(DIR_FIELD_PATH_ENCODED, SignTool.sign(file.getParent()))
 					.endObject());
 	}
 	
@@ -289,7 +289,7 @@ public class FsScanController {
 			esDelete(
 					INDEX_NAME,
 					INDEX_TYPE_DOC,
-					ElasticsearchClientFactoryBean.sign(fullPath.concat(
+					SignTool.sign(fullPath.concat(
 							File.separator).concat(esfile)));
 		}
 
@@ -301,7 +301,7 @@ public class FsScanController {
 
 		esDelete(INDEX_NAME,
 				INDEX_TYPE_FOLDER,
-				ElasticsearchClientFactoryBean.sign(fullPath));
+				SignTool.sign(fullPath));
 
 	}
 
