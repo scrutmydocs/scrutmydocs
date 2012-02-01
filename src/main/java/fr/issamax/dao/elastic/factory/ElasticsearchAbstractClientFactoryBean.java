@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.elasticsearch.ElasticSearchException;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.exists.IndicesExistsRequest;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -47,7 +48,22 @@ public abstract class ElasticsearchAbstractClientFactoryBean implements FactoryB
 
 	private Client client;
 
+	private boolean reinitMapping;
+
+	/**
+	 * Implement this method to build a client
+	 * @return ES Client
+	 * @throws Exception if something goes wrong
+	 */
 	abstract protected Client buildClient() throws Exception;
+	
+	public void setReinitMapping(boolean reinitMapping) {
+		this.reinitMapping = reinitMapping;
+	}
+	
+	public boolean isReinitMapping() {
+		return reinitMapping;
+	}
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -83,16 +99,25 @@ public abstract class ElasticsearchAbstractClientFactoryBean implements FactoryB
 		return true;
 	}
 
+	/**
+	 * Init mapping if needed.
+	 * <p>Note that you can force to reinit mapping using {@link #setReinitMapping(boolean)}
+	 * @throws IOException
+	 * @throws InterruptedException
+	 * @throws ElasticSearchException
+	 * @throws ExecutionException
+	 */
 	public void initMapping() throws IOException, InterruptedException,
 			ElasticSearchException, ExecutionException {
 
-//		// TODO Suppress it : tests purpose only : DELETE the index
-//		try {
-//			client.admin().indices().delete(new DeleteIndexRequest(INDEX_NAME)).actionGet();
-//		} catch (Exception e) {
-//			logger.warn("Can not delete index" + e.getMessage());
-//		}
-//
+		if (isReinitMapping()) {
+			try {
+				client.admin().indices().delete(new DeleteIndexRequest(INDEX_NAME)).actionGet();
+			} catch (Exception e) {
+				logger.warn("Can not delete index" + e.getMessage());
+			}
+		}
+
 		// Creating the index
 		if (!client.admin().indices()
 				.exists(new IndicesExistsRequest(INDEX_NAME)).get().exists()) {
