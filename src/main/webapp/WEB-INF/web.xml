@@ -53,7 +53,7 @@
   </context-param>
   <context-param>
     <param-name>primefaces.THEME</param-name>
-    <param-value>south-street</param-value>
+    <param-value>rocket</param-value>
   </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
