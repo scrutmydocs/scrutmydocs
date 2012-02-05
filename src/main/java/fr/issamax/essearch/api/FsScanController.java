@@ -26,8 +26,8 @@ import java.util.concurrent.ExecutionException;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.logging.Log;
@@ -56,13 +56,11 @@ public class FsScanController {
 	Client esClient;
 
 	@GET
-	public Response scanDirectory(@DefaultValue("c:\\tests_es\\") @QueryParam(value = "path") String path)
+	@Produces("application/json")
+	public ScanStatistic scanDirectory(@DefaultValue("c:\\tests_es\\") @QueryParam(value = "path") String path) 
 			throws Exception {
 		ScanStatistic stats = scanDirectoryWithEs(path);
-		return Response.status(200)
-				.entity(stats.getNbDocScan() + " added " + stats.getNbDocDeleted() + " deleted for path :" + stats.getRootPath())
-				.build();
-
+		return stats;
 	}
 
 	/**
