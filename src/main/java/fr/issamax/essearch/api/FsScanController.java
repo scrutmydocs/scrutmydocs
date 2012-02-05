@@ -171,7 +171,7 @@ public class FsScanController {
 		}
 	}
 
-	public Collection<String> getFileDirectory(String path) throws Exception {
+	private Collection<String> getFileDirectory(String path) throws Exception {
 		Collection<String> files = new ArrayList<String>();
 
 		SearchResponse response = esClient
@@ -194,7 +194,7 @@ public class FsScanController {
 
 	}
 
-	public Collection<String> getFolderDirectory(String path) throws Exception {
+	private Collection<String> getFolderDirectory(String path) throws Exception {
 		Collection<String> files = new ArrayList<String>();
 
 		SearchResponse response = esClient
@@ -217,7 +217,7 @@ public class FsScanController {
 
 	}
 
-	public void indexFile(File file) throws Exception {
+	private void indexFile(File file) throws Exception {
 
 		FileInputStream fileReader = new FileInputStream(file);
 
@@ -251,7 +251,7 @@ public class FsScanController {
 					.endObject());
 	}
 
-	public void indexDirectory(File file) throws Exception {
+	private void indexDirectory(File file) throws Exception {
 		esIndex(INDEX_NAME,
 				INDEX_TYPE_FOLDER,
 				SignTool.sign(file.getAbsolutePath()),
@@ -264,7 +264,7 @@ public class FsScanController {
 					.endObject());
 	}
 
-	public void indexRootDirectory(File file) throws Exception {
+	private void indexRootDirectory(File file) throws Exception {
 		esIndex(INDEX_NAME,
 				INDEX_TYPE_FOLDER,
 				SignTool.sign(file.getAbsolutePath()),
@@ -277,7 +277,7 @@ public class FsScanController {
 					.endObject());
 	}
 	
-	public void removeEsDirectoryRecursively(String path, String name)
+	private void removeEsDirectoryRecursively(String path, String name)
 			throws Exception {
 
 		String fullPath = path.concat(File.separator).concat(name);
@@ -305,7 +305,7 @@ public class FsScanController {
 
 	}
 
-	public void updateFsRiver(long scanDate) throws IOException,
+	private void updateFsRiver(long scanDate) throws IOException,
 			InterruptedException, ElasticSearchException, ExecutionException {
 		esClient.prepareIndex(INDEX_NAME,
 				INDEX_TYPE_FS, "fsScan")
