@@ -44,6 +44,7 @@ import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import fr.issamax.essearch.data.ScanStatistic;
 import fr.issamax.essearch.util.SignTool;
 
 @Component
@@ -54,49 +55,52 @@ public class FsScanController {
 	@Autowired
 	Client esClient;
 
-	public int nbDocScan = 0;
-	public int nbDocDeleted = 0;
-	private String rootPath;
-	private String rootPathId;
-
 	@GET
 	public Response scanDirectory(@DefaultValue("c:\\tests_es\\") @QueryParam(value = "path") String path)
 			throws Exception {
-		rootPath = path;
-		return scanDirectoryWithEs();
+		ScanStatistic stats = scanDirectoryWithEs(path);
+		return Response.status(200)
+				.entity(stats.getNbDocScan() + " added " + stats.getNbDocDeleted() + " deleted for path :" + stats.getRootPath())
+				.build();
+
 	}
 
-	private Response scanDirectoryWithEs() throws Exception {
+	/**
+	 * Index a directory
+	 * @param path Root path
+	 * @return
+	 * @throws Exception
+	 */
+	public ScanStatistic scanDirectoryWithEs(String path) throws Exception {
+		ScanStatistic stats = new ScanStatistic(path);
 
-		nbDocScan = 0;
-
-		File directory = new File(rootPath);
+		File directory = new File(path);
 		
-		if (!directory.exists()) throw new APINotFoundException(rootPath + " doesn't exists.");
+		if (!directory.exists()) throw new APINotFoundException(path + " doesn't exists.");
 		
-		rootPathId = SignTool.sign(directory.getAbsolutePath());
-		indexRootDirectory(directory);
+		String rootPathId = SignTool.sign(directory.getAbsolutePath());
+		stats.setRootPathId(rootPathId);
+		
+		indexRootDirectory(stats, directory);
 
 		long scanDatenew = new Date().getTime();
 		long scanDate = getScanDateFsRiver();
-		addFilesRecursively(directory, scanDate);
+		addFilesRecursively(stats, directory, scanDate);
 
 		updateFsRiver(scanDatenew);
 
-		return Response.status(200)
-				.entity(nbDocScan + " added " + nbDocDeleted + " deleted for path :" + rootPath)
-				.build();
+		return stats;
 	}
 
-	private String computeVirtualPathName(String realPath) {
+	private String computeVirtualPathName(ScanStatistic stats, String realPath) {
 		if (realPath == null) return null;
 		
-		if (realPath.length() < rootPath.length()) return "/";
+		if (realPath.length() < stats.getRootPath().length()) return "/";
 		
-		return realPath.substring(rootPath.length()-1).replace(File.separator, "/");
+		return realPath.substring(stats.getRootPath().length()-1).replace(File.separator, "/");
 	}
 	
-	private void addFilesRecursively(File path, long lastScanDate)
+	private void addFilesRecursively(ScanStatistic stats, File path, long lastScanDate)
 			throws Exception {
 
 		final File[] children = path.listFiles();
@@ -111,13 +115,13 @@ public class FsScanController {
 					fsFiles.add(child.getName());
 					if ((lastScanDate == 0 || child.lastModified() > lastScanDate)
 							&& child.isFile()) {
-						indexFile(child);
-						nbDocScan++;
+						indexFile(stats, child);
+						stats.addFile();
 					}
 				} else if (child.isDirectory()) {
 					fsFolders.add(child.getName());
-					indexDirectory(child);
-					addFilesRecursively(child, lastScanDate);
+					indexDirectory(stats, child);
+					addFilesRecursively(stats, child, lastScanDate);
 				}
 			}
 		}
@@ -140,7 +144,7 @@ public class FsScanController {
 							INDEX_TYPE_DOC,
 							SignTool.sign(file
 									.getAbsolutePath()));
-					nbDocDeleted++;
+					stats.removeFile();
 				}
 			}
 
@@ -164,8 +168,8 @@ public class FsScanController {
 						.concat(File.separator).concat(fsFile));
 				if (!esFiles.contains(fsFile)
 						&& file.lastModified() < lastScanDate) {
-					indexFile(file);
-					nbDocScan++;
+					indexFile(stats, file);
+					stats.addFile();
 				}
 			}
 		}
@@ -217,7 +221,7 @@ public class FsScanController {
 
 	}
 
-	private void indexFile(File file) throws Exception {
+	private void indexFile(ScanStatistic stats, File file) throws Exception {
 
 		FileInputStream fileReader = new FileInputStream(file);
 
@@ -242,8 +246,8 @@ public class FsScanController {
 						.field(DOC_FIELD_NAME, file.getName())
 						.field(DOC_FIELD_DATE, file.lastModified())
 						.field(DOC_FIELD_PATH_ENCODED, SignTool.sign(file.getParent()))
-						.field(DOC_FIELD_ROOT_PATH, rootPathId)
-						.field(DOC_FIELD_VIRTUAL_PATH, computeVirtualPathName(file.getParent()))
+						.field(DOC_FIELD_ROOT_PATH, stats.getRootPathId())
+						.field(DOC_FIELD_VIRTUAL_PATH, computeVirtualPathName(stats, file.getParent()))
 						.startObject("file")
 							.field("_name", file.getName())
 							.field("content", Base64.encodeBytes(data))
@@ -251,27 +255,27 @@ public class FsScanController {
 					.endObject());
 	}
 
-	private void indexDirectory(File file) throws Exception {
+	private void indexDirectory(ScanStatistic stats, File file) throws Exception {
 		esIndex(INDEX_NAME,
 				INDEX_TYPE_FOLDER,
 				SignTool.sign(file.getAbsolutePath()),
 				jsonBuilder()
 					.startObject()
 						.field(DIR_FIELD_NAME, file.getName())
-						.field(DIR_FIELD_ROOT_PATH, rootPathId)
-						.field(DIR_FIELD_VIRTUAL_PATH, computeVirtualPathName(file.getParent()))
+						.field(DIR_FIELD_ROOT_PATH, stats.getRootPathId())
+						.field(DIR_FIELD_VIRTUAL_PATH, computeVirtualPathName(stats, file.getParent()))
 						.field(DIR_FIELD_PATH_ENCODED, SignTool.sign(file.getParent()))
 					.endObject());
 	}
 
-	private void indexRootDirectory(File file) throws Exception {
+	private void indexRootDirectory(ScanStatistic stats, File file) throws Exception {
 		esIndex(INDEX_NAME,
 				INDEX_TYPE_FOLDER,
 				SignTool.sign(file.getAbsolutePath()),
 				jsonBuilder()
 					.startObject()
 						.field(DIR_FIELD_NAME, file.getName())
-						.field(DIR_FIELD_ROOT_PATH, rootPathId)
+						.field(DIR_FIELD_ROOT_PATH, stats.getRootPathId())
 						.field(DIR_FIELD_VIRTUAL_PATH, (String)null)
 						.field(DIR_FIELD_PATH_ENCODED, SignTool.sign(file.getParent()))
 					.endObject());
