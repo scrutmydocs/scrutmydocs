@@ -43,7 +43,8 @@ public class FileUploadController {
 							.endObject())
 					.execute().actionGet();
 		} catch (Exception e) {
-			e.printStackTrace();
+			msg = new FacesMessage("Error", "Something went wrong with " + event.getFile()
+					.getFileName() + ". " + e.getMessage());
 		}
 
 		FacesContext.getCurrentInstance().addMessage(null, msg);
