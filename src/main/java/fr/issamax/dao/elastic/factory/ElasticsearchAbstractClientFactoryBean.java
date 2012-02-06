@@ -144,21 +144,21 @@ public abstract class ElasticsearchAbstractClientFactoryBean implements FactoryB
 					.actionGet();
 
 			/*** FS RIVER ***/
-
-			xbMapping = jsonBuilder().startObject().startObject(INDEX_TYPE_FS)
-					.startObject("properties").startObject("scanDate")
-					.field("type", "long").endObject().endObject().endObject()
-					.endObject();
+			xbMapping = jsonBuilder().startObject()
+					.startObject(INDEX_TYPE_FS).startObject("properties")
+					.startObject("scanDate").field("type", "long").endObject()
+					.startObject("folders").startObject("properties")
+						.startObject("url").field("type", "string").endObject()
+					.endObject().endObject()
+					.endObject().endObject().endObject();
 
 			client.admin()
 					.indices()
-					.preparePutMapping(
-							INDEX_NAME)
+					.preparePutMapping(INDEX_NAME)
 					.setType(INDEX_TYPE_FS).setSource(xbMapping).execute()
 					.actionGet();
 
 			/*** FOLDER ***/
-
 			xbMapping = jsonBuilder().startObject()
 					.startObject(INDEX_TYPE_FOLDER).startObject("properties")
 					.startObject(DIR_FIELD_NAME).field("type", "string").field("analyzer","keyword").endObject()

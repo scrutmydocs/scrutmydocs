@@ -20,6 +20,10 @@
 			<p:commandButton type="push" value="Add..." image="ui-icon-document"
 				onclick="upload.show();" />
 		</p:toolbarGroup>
+		<p:toolbarGroup align="right">
+			<p:commandButton id="AdminLink" type="push" value="Admin..."
+				image="ui-icon-right" onclick="admin.show();" />
+		</p:toolbarGroup>
 		<p:toolbarGroup align="right" rendered="#{userController.logged}">
 			<p:menuButton value="#{userController.username}">
 				<p:menuitem icon="ui-icon-power" value="Logout"
@@ -146,6 +150,17 @@
 	}
 </script>
 
+<h:form id="formAdmin">
+	<p:dialog header="Admin" widgetVar="admin" id="AdminDialog"
+		showEffect="explode" modal="true" hideEffect="explode" height="300"
+		width="500">
+		
+		<p:commandButton value="Save..." update="formAdmin,messages"
+			actionListener="#{fileSystemScannerController.saveScanners}" />
+		<p:commandButton value="Load..." update="formAdmin,messages"
+		 actionListener="#{fileSystemScannerController.loadScanners}" />
+	</p:dialog>
+</h:form>
 
 <h:body>
 
