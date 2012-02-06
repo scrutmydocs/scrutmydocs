@@ -43,6 +43,7 @@ public class SearchController implements Serializable {
 			
 			 SearchResponse searchHits = esClient.prepareSearch()
 					.setIndices(INDEX_NAME)
+					.setTypes(INDEX_TYPE_DOC)
 					.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 					.setQuery(qb).setFrom(0).setSize(10)
 					.addHighlightedField("name").addHighlightedField("file")
