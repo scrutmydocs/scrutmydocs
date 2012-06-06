@@ -37,46 +37,34 @@
 	</p:toolbar>
 </h:form>
 
-<p:layout style="min-width:400px;min-height:200px;" id="layout">
-	<p:layoutUnit position="west" resizable="true" size="300" minSize="40"
-		maxSize="600">
-		<es:tree root="#{documentsController.root}" />
-	</p:layoutUnit>
-
-	<p:layoutUnit position="center">
-
-		<h:form id="formsearch">
-			<center>
-				<h:panelGrid>
-					<f:facet name="header">
-						<h:graphicImage value="./img/logo-text.png" />
-					</f:facet>
-					<p:inputText value="#{searchController.search}" size="100" />
-					<f:facet name="footer">
-						<center>
-							<h:panelGrid columns="2">
-								<p:commandButton value="Search" update="results"
-									action="#{searchController.google}" />
-								<p:commandButton value="I'm lucky"
-									action="#{searchController.imlucky}" />
-							</h:panelGrid>
-						</center>
-					</f:facet>
-				</h:panelGrid>
-			</center>
+<h:form id="formsearch">
+	<center>
+		<h:panelGrid>
+			<f:facet name="header">
+				<h:graphicImage value="./img/logo-text.png" />
+			</f:facet>
+			<p:inputText value="#{searchController.search}" size="100" />
+			<f:facet name="footer">
+				<center>
+					<h:panelGrid columns="2">
+						<p:commandButton value="Search" update="results"
+							action="#{searchController.google}" />
+						<p:commandButton value="I'm lucky"
+							action="#{searchController.imlucky}" />
+					</h:panelGrid>
+				</center>
+			</f:facet>
+		</h:panelGrid>
+	</center>
 
 
-			<center>
+	<center>
 
-				<es:results results="#{searchController.results}" />
+		<es:results results="#{searchController.results}" />
 
-			</center>
+	</center>
 
-		</h:form>
-	</p:layoutUnit>
-</p:layout>
-
-
+</h:form>
 
 <h:form id="formadd" enctype="multipart/form-data">
 
@@ -154,11 +142,11 @@
 	<p:dialog header="Admin" widgetVar="admin" id="AdminDialog"
 		showEffect="explode" modal="true" hideEffect="explode" height="300"
 		width="500">
-		
+
 		<p:commandButton value="Save..." update="formAdmin,messages"
 			actionListener="#{fileSystemScannerController.saveScanners}" />
 		<p:commandButton value="Load..." update="formAdmin,messages"
-		 actionListener="#{fileSystemScannerController.loadScanners}" />
+			actionListener="#{fileSystemScannerController.loadScanners}" />
 	</p:dialog>
 </h:form>
 
