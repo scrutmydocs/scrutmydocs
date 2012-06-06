@@ -41,7 +41,9 @@
 	<center>
 		<h:panelGrid>
 			<f:facet name="header">
-				<h:graphicImage value="./img/logo-text.png" />
+				<h:outputLink id="essearch-site-link" value="http://issamax.github.com/esearch-site">
+					<h:graphicImage value="./img/logo-text.png" />
+				</h:outputLink>
 			</f:facet>
 			<p:inputText value="#{searchController.search}" size="100" />
 			<f:facet name="footer">
