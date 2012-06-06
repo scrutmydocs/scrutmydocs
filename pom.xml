@@ -173,6 +173,10 @@
 			<id>sonatype</id>
 			<url>http://oss.sonatype.org/content/repositories/releases/</url>
 		</repository>
+		<repository>
+			<id>primefaces</id>
+			<url>http://repository.primefaces.org/</url>
+		</repository>
 	</repositories>
 
 </project>
