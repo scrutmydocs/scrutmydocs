@@ -32,12 +32,6 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>fr.pilato.spring</groupId>
-			<artifactId>spring-elasticsearch</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		
-		<dependency>
 			<groupId>org.primefaces.themes</groupId>
 			<artifactId>rocket</artifactId>
 			<version>1.0.3</version>
