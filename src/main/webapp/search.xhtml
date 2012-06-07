@@ -11,10 +11,10 @@
 	<link rel="shortcut icon" type="image/x-icon" href="./img/logo.png" />
 </h:head>
 
-
 <p:growl id="messages" showDetail="true" life="1000" />
 
 <h:form id="formlogin">
+
 	<p:toolbar id="menu">
 		<p:toolbarGroup align="left" rendered="#{userController.logged}">
 			<p:commandButton type="push" value="Add..." image="ui-icon-document"
@@ -27,21 +27,21 @@
 		<p:toolbarGroup align="right" rendered="#{userController.logged}">
 			<p:menuButton value="#{userController.username}">
 				<p:menuitem icon="ui-icon-power" value="Logout"
-					action="#{userController.logout}" update="formlogin,messages" />
+					action="#{userController.logout}" update=":messages,menu" />
 			</p:menuButton>
 		</p:toolbarGroup>
 		<p:toolbarGroup align="right" rendered="#{!userController.logged}">
 			<p:commandButton id="loginLink" type="push" value="Login..."
-				image="ui-icon-power" onclick="login.show();" />
+				image="ui-icon-power" onclick="login.show();"
+				update=":messages,menu" />
 		</p:toolbarGroup>
 	</p:toolbar>
-</h:form>
 
-<h:form id="formsearch">
 	<center>
 		<h:panelGrid>
 			<f:facet name="header">
-				<h:outputLink id="essearch-site-link" value="http://issamax.github.com/esearch-site">
+				<h:outputLink id="essearch-site-link"
+					value="http://issamax.github.com/esearch-site">
 					<h:graphicImage value="./img/logo-text.png" />
 				</h:outputLink>
 			</f:facet>
@@ -69,14 +69,12 @@
 </h:form>
 
 <h:form id="formadd" enctype="multipart/form-data">
-
 	<p:dialog header="Upload your documents" widgetVar="upload"
 		showEffect="explode" modal="true" hideEffect="explode" height="300"
 		width="500">
 		<p:fileUpload
 			fileUploadListener="#{fileUploadController.handleFileUpload}"
-			mode="advanced" update="messages" multiple="true"
-			oncomplete="upload.hide();" />
+			mode="advanced" multiple="true" oncomplete="upload.hide();" />
 	</p:dialog>
 
 </h:form>
@@ -88,12 +86,13 @@
 		<p:inputText value="#{userController.username}" size="20" />
 		<p:password value="#{userController.password}" size="20"
 			feedback="false" />
-		<p:commandButton value="Login" update="formlogin,messages"
+		<p:commandButton value="Login"
 			actionListener="#{userController.login}"
-			oncomplete="handleLoginRequest(xhr, status, args)" />
+			update=":messages,:formlogin:menu" />
 		<p:commandButton value="Create" onclick="login.hide();create.show();" />
 	</p:dialog>
 </h:form>
+
 
 <h:form id="logincreate">
 	<p:dialog header="Create user" widgetVar="create" id="createDialog"
@@ -121,36 +120,12 @@
 
 		</h:panelGrid>
 
-		<p:commandButton value="Create" update="matchGrid,formlogin,messages"
+		<p:commandButton value="Create" update="matchGrid"
 			action="#{userController.push}" />
 	</p:dialog>
 
 </h:form>
 
-<script type="text/javascript">
-	function handleLoginRequest(xhr, status, args) {
-		if (args.validationFailed || !args.logged) {
-			jQuery('#loginDialog').effect("shake", {
-				times : 3
-			}, 100);
-		} else {
-			login.hide();
-			jQuery('#loginLink').fadeOut();
-		}
-	}
-</script>
-
-<h:form id="formAdmin">
-	<p:dialog header="Admin" widgetVar="admin" id="AdminDialog"
-		showEffect="explode" modal="true" hideEffect="explode" height="300"
-		width="500">
-
-		<p:commandButton value="Save..." update="formAdmin,messages"
-			actionListener="#{fileSystemScannerController.saveScanners}" />
-		<p:commandButton value="Load..." update="formAdmin,messages"
-			actionListener="#{fileSystemScannerController.loadScanners}" />
-	</p:dialog>
-</h:form>
 
 <h:body>
 
