@@ -1,6 +1,6 @@
 package fr.issamax.essearch.data;
 
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.*;
+import static fr.issamax.essearch.constant.ESSearchProperties.*;
 
 import java.util.ArrayList;
 import java.util.Collection;

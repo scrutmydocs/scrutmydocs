@@ -1,18 +1,18 @@
 package fr.issamax.essearch.api;
 
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DIR_FIELD_NAME;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DIR_FIELD_PATH_ENCODED;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DIR_FIELD_ROOT_PATH;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DIR_FIELD_VIRTUAL_PATH;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DOC_FIELD_DATE;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DOC_FIELD_NAME;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DOC_FIELD_PATH_ENCODED;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DOC_FIELD_ROOT_PATH;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DOC_FIELD_VIRTUAL_PATH;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_NAME;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_TYPE_DOC;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_TYPE_FOLDER;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_TYPE_FS;
+import static fr.issamax.essearch.constant.ESSearchProperties.DIR_FIELD_NAME;
+import static fr.issamax.essearch.constant.ESSearchProperties.DIR_FIELD_PATH_ENCODED;
+import static fr.issamax.essearch.constant.ESSearchProperties.DIR_FIELD_ROOT_PATH;
+import static fr.issamax.essearch.constant.ESSearchProperties.DIR_FIELD_VIRTUAL_PATH;
+import static fr.issamax.essearch.constant.ESSearchProperties.DOC_FIELD_DATE;
+import static fr.issamax.essearch.constant.ESSearchProperties.DOC_FIELD_NAME;
+import static fr.issamax.essearch.constant.ESSearchProperties.DOC_FIELD_PATH_ENCODED;
+import static fr.issamax.essearch.constant.ESSearchProperties.DOC_FIELD_ROOT_PATH;
+import static fr.issamax.essearch.constant.ESSearchProperties.DOC_FIELD_VIRTUAL_PATH;
+import static fr.issamax.essearch.constant.ESSearchProperties.INDEX_NAME;
+import static fr.issamax.essearch.constant.ESSearchProperties.INDEX_TYPE_DOC;
+import static fr.issamax.essearch.constant.ESSearchProperties.INDEX_TYPE_FOLDER;
+import static fr.issamax.essearch.constant.ESSearchProperties.INDEX_TYPE_FS;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.File;
@@ -22,12 +22,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
-
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.logging.Log;
@@ -42,22 +36,24 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import fr.issamax.essearch.data.ScanStatistic;
 import fr.issamax.essearch.util.SignTool;
 
-@Component
-@Path("/scan")
+@Controller
+@RequestMapping("/scan")
 public class FsScanController {
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	@Autowired
 	Client esClient;
 
-	@GET
-	@Produces("application/json")
-	public ScanStatistic scanDirectory(@DefaultValue("c:\\tests_es\\") @QueryParam(value = "path") String path) 
+	@RequestMapping(value = "{path}", method = RequestMethod.GET)
+	public ScanStatistic scanDirectory(@PathVariable final String path)
 			throws Exception {
 		ScanStatistic stats = scanDirectoryWithEs(path);
 		return stats;
@@ -65,7 +61,9 @@ public class FsScanController {
 
 	/**
 	 * Index a directory
-	 * @param path Root path
+	 * 
+	 * @param path
+	 *            Root path
 	 * @return
 	 * @throws Exception
 	 */
@@ -73,12 +71,13 @@ public class FsScanController {
 		ScanStatistic stats = new ScanStatistic(path);
 
 		File directory = new File(path);
-		
-		if (!directory.exists()) throw new APINotFoundException(path + " doesn't exists.");
-		
+
+//		if (!directory.exists())
+//			throw new APINotFoundException(path + " doesn't exists.");
+
 		String rootPathId = SignTool.sign(directory.getAbsolutePath());
 		stats.setRootPathId(rootPathId);
-		
+
 		indexRootDirectory(stats, directory);
 
 		long scanDatenew = new Date().getTime();
@@ -91,15 +90,18 @@ public class FsScanController {
 	}
 
 	private String computeVirtualPathName(ScanStatistic stats, String realPath) {
-		if (realPath == null) return null;
-		
-		if (realPath.length() < stats.getRootPath().length()) return "/";
-		
-		return realPath.substring(stats.getRootPath().length()-1).replace(File.separator, "/");
+		if (realPath == null)
+			return null;
+
+		if (realPath.length() < stats.getRootPath().length())
+			return "/";
+
+		return realPath.substring(stats.getRootPath().length() - 1).replace(
+				File.separator, "/");
 	}
-	
-	private void addFilesRecursively(ScanStatistic stats, File path, long lastScanDate)
-			throws Exception {
+
+	private void addFilesRecursively(ScanStatistic stats, File path,
+			long lastScanDate) throws Exception {
 
 		final File[] children = path.listFiles();
 		Collection<String> fsFiles = new ArrayList<String>();
@@ -138,10 +140,8 @@ public class FsScanController {
 				if (!fsFiles.contains(esfile)) {
 					File file = new File(path.getAbsolutePath()
 							.concat(File.separator).concat(esfile));
-					esDelete(INDEX_NAME,
-							INDEX_TYPE_DOC,
-							SignTool.sign(file
-									.getAbsolutePath()));
+					esDelete(INDEX_NAME, INDEX_TYPE_DOC,
+							SignTool.sign(file.getAbsolutePath()));
 					stats.removeFile();
 				}
 			}
@@ -182,8 +182,8 @@ public class FsScanController {
 				.setTypes(INDEX_TYPE_DOC)
 				.setQuery(
 						QueryBuilders.termQuery(DOC_FIELD_PATH_ENCODED,
-								SignTool.sign(path)))
-				.setFrom(0).setSize(50000).execute().actionGet();
+								SignTool.sign(path))).setFrom(0).setSize(50000)
+				.execute().actionGet();
 
 		if (response.getHits() != null && response.getHits().getHits() != null) {
 			for (SearchHit hit : response.getHits().getHits()) {
@@ -205,8 +205,8 @@ public class FsScanController {
 				.setTypes(INDEX_TYPE_FOLDER)
 				.setQuery(
 						QueryBuilders.termQuery(DIR_FIELD_PATH_ENCODED,
-								SignTool.sign(path)))
-				.setFrom(0).setSize(50000).execute().actionGet();
+								SignTool.sign(path))).setFrom(0).setSize(50000)
+				.execute().actionGet();
 
 		if (response.getHits() != null && response.getHits().getHits() != null) {
 			for (SearchHit hit : response.getHits().getHits()) {
@@ -240,45 +240,48 @@ public class FsScanController {
 				INDEX_TYPE_DOC,
 				SignTool.sign(file.getAbsolutePath()),
 				jsonBuilder()
-					.startObject()
+						.startObject()
 						.field(DOC_FIELD_NAME, file.getName())
 						.field(DOC_FIELD_DATE, file.lastModified())
-						.field(DOC_FIELD_PATH_ENCODED, SignTool.sign(file.getParent()))
+						.field(DOC_FIELD_PATH_ENCODED,
+								SignTool.sign(file.getParent()))
 						.field(DOC_FIELD_ROOT_PATH, stats.getRootPathId())
-						.field(DOC_FIELD_VIRTUAL_PATH, computeVirtualPathName(stats, file.getParent()))
-						.startObject("file")
-							.field("_name", file.getName())
-							.field("content", Base64.encodeBytes(data))
-						.endObject()
-					.endObject());
+						.field(DOC_FIELD_VIRTUAL_PATH,
+								computeVirtualPathName(stats, file.getParent()))
+						.startObject("file").field("_name", file.getName())
+						.field("content", Base64.encodeBytes(data)).endObject()
+						.endObject());
 	}
 
-	private void indexDirectory(ScanStatistic stats, File file) throws Exception {
+	private void indexDirectory(ScanStatistic stats, File file)
+			throws Exception {
 		esIndex(INDEX_NAME,
 				INDEX_TYPE_FOLDER,
 				SignTool.sign(file.getAbsolutePath()),
 				jsonBuilder()
-					.startObject()
+						.startObject()
 						.field(DIR_FIELD_NAME, file.getName())
 						.field(DIR_FIELD_ROOT_PATH, stats.getRootPathId())
-						.field(DIR_FIELD_VIRTUAL_PATH, computeVirtualPathName(stats, file.getParent()))
-						.field(DIR_FIELD_PATH_ENCODED, SignTool.sign(file.getParent()))
-					.endObject());
+						.field(DIR_FIELD_VIRTUAL_PATH,
+								computeVirtualPathName(stats, file.getParent()))
+						.field(DIR_FIELD_PATH_ENCODED,
+								SignTool.sign(file.getParent())).endObject());
 	}
 
-	private void indexRootDirectory(ScanStatistic stats, File file) throws Exception {
+	private void indexRootDirectory(ScanStatistic stats, File file)
+			throws Exception {
 		esIndex(INDEX_NAME,
 				INDEX_TYPE_FOLDER,
 				SignTool.sign(file.getAbsolutePath()),
 				jsonBuilder()
-					.startObject()
+						.startObject()
 						.field(DIR_FIELD_NAME, file.getName())
 						.field(DIR_FIELD_ROOT_PATH, stats.getRootPathId())
-						.field(DIR_FIELD_VIRTUAL_PATH, (String)null)
-						.field(DIR_FIELD_PATH_ENCODED, SignTool.sign(file.getParent()))
-					.endObject());
+						.field(DIR_FIELD_VIRTUAL_PATH, (String) null)
+						.field(DIR_FIELD_PATH_ENCODED,
+								SignTool.sign(file.getParent())).endObject());
 	}
-	
+
 	private void removeEsDirectoryRecursively(String path, String name)
 			throws Exception {
 
@@ -288,11 +291,8 @@ public class FsScanController {
 		Collection<String> listFile = getFileDirectory(fullPath);
 
 		for (String esfile : listFile) {
-			esDelete(
-					INDEX_NAME,
-					INDEX_TYPE_DOC,
-					SignTool.sign(fullPath.concat(
-							File.separator).concat(esfile)));
+			esDelete(INDEX_NAME, INDEX_TYPE_DOC, SignTool.sign(fullPath.concat(
+					File.separator).concat(esfile)));
 		}
 
 		Collection<String> listFolder = getFolderDirectory(fullPath);
@@ -301,16 +301,13 @@ public class FsScanController {
 			removeEsDirectoryRecursively(fullPath, esfolder);
 		}
 
-		esDelete(INDEX_NAME,
-				INDEX_TYPE_FOLDER,
-				SignTool.sign(fullPath));
+		esDelete(INDEX_NAME, INDEX_TYPE_FOLDER, SignTool.sign(fullPath));
 
 	}
 
 	private void updateFsRiver(long scanDate) throws IOException,
 			InterruptedException, ElasticSearchException, ExecutionException {
-		esClient.prepareIndex(INDEX_NAME,
-				INDEX_TYPE_FS, "fsScan")
+		esClient.prepareIndex(INDEX_NAME, INDEX_TYPE_FS, "fsScan")
 				.setSource(
 						jsonBuilder().startObject().field("scanDate", scanDate)
 								.endObject()).execute().actionGet();
@@ -319,8 +316,7 @@ public class FsScanController {
 	private long getScanDateFsRiver() {
 
 		GetResponse response = esClient
-				.prepareGet(INDEX_NAME,
-						INDEX_TYPE_FS, "fsScan")
+				.prepareGet(INDEX_NAME, INDEX_TYPE_FS, "fsScan")
 				.setOperationThreaded(false).execute().actionGet();
 
 		if (response.getSource() != null) {

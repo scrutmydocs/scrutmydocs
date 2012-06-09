@@ -1,49 +1,49 @@
 package fr.issamax.essearch.api;
 
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.*;
-
 import java.io.IOException;
 import java.util.Map;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
+import static fr.issamax.essearch.constant.ESSearchProperties.*;
 
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-@Component
-@Path("/download")
+@Controller
+@RequestMapping("/download")
 public class DownloaderDefault {
- 
+
 	@Autowired
 	protected Client esClient;
 
+	@RequestMapping(value = "{id}", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> get(@PathVariable final String id)
+			throws IOException {
 
-	
-	@GET
-	@Path("/{id}")
-	public Response get(@PathParam(value = "id") final String id) throws IOException {
-		
-		GetResponse response = esClient.prepareGet(INDEX_NAME, INDEX_TYPE_DOC, id)
-        .setOperationThreaded(false)
-        .execute()
-        .actionGet();
-		
-		Map<String, Object> attachment = (Map<String, Object>) response.getSource().get("file");
-		
+		GetResponse response = esClient
+				.prepareGet(INDEX_NAME, INDEX_TYPE_DOC, id)
+				.setOperationThreaded(false).execute().actionGet();
+
+		@SuppressWarnings("unchecked")
+		Map<String, Object> attachment = (Map<String, Object>) response
+				.getSource().get("file");
+
 		byte[] file = Base64.decode((String) attachment.get("content"));
 		String name = (String) attachment.get("_name");
 		String contentType = (String) attachment.get("_content_type");
 
-		return Response
-			.ok(file,contentType)
-			.header("content-disposition","attachment; filename = " + name)
-			.build();
+		final HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(new MediaType(contentType));
+
+		return new ResponseEntity<byte[]>(file, headers, HttpStatus.CREATED);
 
 	}
 }

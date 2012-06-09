@@ -1,21 +1,18 @@
 package fr.issamax.essearch.api;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.springframework.stereotype.Component;
-
-@Component
-@Path("/")
+@Controller
+@RequestMapping("/")
 public class WelcomeWS {
 
-	@GET
-	public Response welcome() {
+	@RequestMapping(method = RequestMethod.GET)
+	public @ResponseBody
+	String welcome() {
 		String helloMsg = "Welcome to the es-search API.<br/>Use <a href=\"scan/\">/scan</a> to scan dirs.";
-		return Response.status(200).entity(helloMsg)
-				.build();
-
+		return helloMsg;
 	}
-
 }

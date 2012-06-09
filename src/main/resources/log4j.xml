@@ -36,20 +36,20 @@
    <!-- ================ -->
 
    <category name="fr.issamax">
-     <priority value="INFO" />
+     <priority value="DEBUG" />
    </category>
    
    <category name="org.elasticsearch">
-     <priority value="INFO" />
+     <priority value="ERROR" />
    </category>
    
    <category name="org.springframework">
-     <priority value="DEBUG" />
+     <priority value="ERROR" />
    </category>
    
    <!-- Limit the org.apache category to INFO as its DEBUG is verbose -->
    <category name="org.apache">
-      <priority value="INFO"/>
+      <priority value="ERROR"/>
    </category>
    
    <!-- ======================= -->

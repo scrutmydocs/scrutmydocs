@@ -1,14 +1,8 @@
 package fr.issamax.essearch.api;
 
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_NAME;
+import static fr.issamax.essearch.constant.ESSearchProperties.INDEX_NAME;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.queryString;
-
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,22 +11,23 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import fr.issamax.essearch.data.Results;
 
-@Component
-@Path("/search")
+@Controller
+@RequestMapping("/search")
 public class SearchApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	@Autowired
 	Client esClient;
 
-	@GET
-	@Produces("application/json")
-	public Results search(@DefaultValue("") @QueryParam(value = "term") String term)
-			throws Exception {
+	@RequestMapping(value = "{term}", method = RequestMethod.GET)
+	public Results search(@PathVariable final String term) throws Exception {
 
 		try {
 			QueryBuilder qb;
@@ -41,8 +36,8 @@ public class SearchApi {
 			} else {
 				qb = queryString(term);
 			}
-			
-			 SearchResponse searchHits = esClient.prepareSearch()
+
+			SearchResponse searchHits = esClient.prepareSearch()
 					.setIndices(INDEX_NAME)
 					.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 					.setQuery(qb).setFrom(0).setSize(10)
@@ -50,13 +45,13 @@ public class SearchApi {
 					.setHighlighterPreTags("<b>")
 					.setHighlighterPostTags("</b>").execute().actionGet();
 
-			 Results results = new Results(searchHits);
-			 return results;
+			Results results = new Results(searchHits);
+			return results;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		throw new APINotFoundException("Problem executing search...");
-	}
 
+		// throw new APINotFoundException("Problem executing search...");
+		throw new Exception("Problem executing search...");
+	}
 }

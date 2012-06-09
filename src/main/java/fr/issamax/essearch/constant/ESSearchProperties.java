@@ -1,4 +1,4 @@
-package fr.issamax.dao.elastic.factory;
+package fr.issamax.essearch.constant;
 
 public interface ESSearchProperties {
 

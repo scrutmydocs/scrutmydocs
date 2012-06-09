@@ -2,7 +2,7 @@ package fr.issamax.essearch.action;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.queryString;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.*;
+import static fr.issamax.essearch.constant.ESSearchProperties.*;
 
 import java.io.Serializable;
 

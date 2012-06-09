@@ -1,7 +1,7 @@
 package fr.issamax.essearch.action;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.*;
+import static fr.issamax.essearch.constant.ESSearchProperties.*;
 
 import java.util.Date;
 

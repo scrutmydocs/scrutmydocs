@@ -1,0 +1,22 @@
+{
+   "folder":{
+      "properties":{
+         "name":{
+            "type":"string",
+            "analyzer":"keyword"
+         },
+         "pathEncoded":{
+            "type":"string",
+            "analyzer":"keyword"
+         },
+         "rootpath":{
+            "type":"string",
+            "analyzer":"keyword"
+         },
+         "virtualpath":{
+            "type":"string",
+            "analyzer":"keyword"
+         }
+      }
+   }
+}

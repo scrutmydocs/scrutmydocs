@@ -1,7 +1,7 @@
 package fr.issamax.essearch.action;
 
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_NAME;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_TYPE_FS;
+import static fr.issamax.essearch.constant.ESSearchProperties.INDEX_NAME;
+import static fr.issamax.essearch.constant.ESSearchProperties.INDEX_TYPE_FS;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;

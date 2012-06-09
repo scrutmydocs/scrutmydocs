@@ -1,11 +1,11 @@
 package fr.issamax.essearch.action;
 
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DIR_FIELD_NAME;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DIR_FIELD_VIRTUAL_PATH;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DOC_FIELD_NAME;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.DOC_FIELD_VIRTUAL_PATH;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_NAME;
-import static fr.issamax.dao.elastic.factory.ESSearchProperties.INDEX_TYPE_FOLDER;
+import static fr.issamax.essearch.constant.ESSearchProperties.DIR_FIELD_NAME;
+import static fr.issamax.essearch.constant.ESSearchProperties.DIR_FIELD_VIRTUAL_PATH;
+import static fr.issamax.essearch.constant.ESSearchProperties.DOC_FIELD_NAME;
+import static fr.issamax.essearch.constant.ESSearchProperties.DOC_FIELD_VIRTUAL_PATH;
+import static fr.issamax.essearch.constant.ESSearchProperties.INDEX_NAME;
+import static fr.issamax.essearch.constant.ESSearchProperties.INDEX_TYPE_FOLDER;
 
 import java.io.Serializable;
 import java.util.ArrayList;
