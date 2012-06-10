@@ -30,18 +30,22 @@ public class DownloaderDefault {
 
 		GetResponse response = esClient
 				.prepareGet(INDEX_NAME, INDEX_TYPE_DOC, id)
-				.setOperationThreaded(false).execute().actionGet();
-
+				.execute().actionGet();
+		if(!response.isExists() )  {
+			//TODO return a standard page who show a message like : this document is not available
+			return null;
+		}
+		
 		@SuppressWarnings("unchecked")
 		Map<String, Object> attachment = (Map<String, Object>) response
 				.getSource().get("file");
 
 		byte[] file = Base64.decode((String) attachment.get("content"));
 		String name = (String) attachment.get("_name");
-		String contentType = (String) attachment.get("_content_type");
+//		String contentType = (String) attachment.get("_content_type");
 
 		final HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(new MediaType(contentType));
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 
 		return new ResponseEntity<byte[]>(file, headers, HttpStatus.CREATED);
 

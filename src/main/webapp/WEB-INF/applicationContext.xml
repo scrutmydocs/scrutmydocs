@@ -9,5 +9,20 @@
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+	<context:annotation-config />
+	<task:annotation-driven />
+	<context:component-scan base-package="fr.issamax" />
+
+	<mvc:annotation-driven />
+	<!-- When using embedded node -->
+	
+	<bean id="esNode"
+        class="fr.pilato.spring.elasticsearch.ElasticsearchNodeFactoryBean">
+    </bean>
+    
+    <bean id="esClient"
+        class="fr.pilato.spring.elasticsearch.ElasticsearchClientFactoryBean" >
+    </bean>
+
 
 </beans>

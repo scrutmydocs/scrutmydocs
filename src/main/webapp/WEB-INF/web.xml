@@ -32,10 +32,10 @@
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 	
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/search-es-api-servlet.xml</param-value>
-	</context-param>
+<!-- 	<context-param> -->
+<!-- 		<param-name>contextConfigLocation</param-name> -->
+<!-- 		<param-value>/WEB-INF/search-es-api-servlet.xml</param-value> -->
+<!-- 	</context-param> -->
 	<context-param>
 		<param-name>javax.faces.FACELETS_LIBRARIES</param-name>
 		<param-value>/WEB-INF/composants/essearch.taglib.xml</param-value>
