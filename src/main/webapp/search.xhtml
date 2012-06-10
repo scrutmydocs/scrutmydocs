@@ -40,7 +40,8 @@
 	<center>
 		<h:panelGrid>
 			<f:facet name="header">
-				<h:outputLink id="essearch-site-link" value="http://essearch.pilato.fr">
+				<h:outputLink id="essearch-site-link"
+					value="http://essearch.pilato.fr">
 					<h:graphicImage value="./img/logo-text.png" />
 				</h:outputLink>
 			</f:facet>
@@ -50,8 +51,10 @@
 					<h:panelGrid columns="2">
 						<p:commandButton value="Search" update="results"
 							action="#{searchController.google}" />
-						<p:commandButton value="I'm lucky"
-							action="#{searchController.imlucky}" />
+						<p:commandButton target="blank_" value="I'm lucky" ajax="false"
+							action="#{searchController.imlucky}">
+						</p:commandButton>
+
 					</h:panelGrid>
 				</center>
 			</f:facet>
@@ -73,7 +76,7 @@
 		width="500">
 		<p:fileUpload
 			fileUploadListener="#{fileUploadController.handleFileUpload}"
-			 multiple="false" oncomplete="upload.hide();" />
+			multiple="false" oncomplete="upload.hide();" />
 	</p:dialog>
 
 </h:form>
@@ -124,6 +127,7 @@
 	</p:dialog>
 
 </h:form>
+
 
 
 <h:body>

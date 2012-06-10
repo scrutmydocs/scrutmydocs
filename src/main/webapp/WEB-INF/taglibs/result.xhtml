@@ -7,7 +7,7 @@
 
 	<h:dataTable var="fragment" value="#{result.fragments}">
 		<f:facet name="header">
-			<h:commandLink target="newPopup" id="exportPDF"
+			<h:commandLink  id="exportPDF"
 				action="#{fileUploadController.exportFile}" value="#{result.title}">
 				<f:setPropertyActionListener value="#{result.searchHit.id}"
 					target="#{fileUploadController.idDoc}" />
