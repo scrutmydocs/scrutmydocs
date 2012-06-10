@@ -14,15 +14,5 @@
 	<context:component-scan base-package="fr.issamax" />
 
 	<mvc:annotation-driven />
-	<!-- When using embedded node -->
-	
-	<bean id="esNode"
-        class="fr.pilato.spring.elasticsearch.ElasticsearchNodeFactoryBean">
-    </bean>
-    
-    <bean id="esClient"
-        class="fr.pilato.spring.elasticsearch.ElasticsearchClientFactoryBean" >
-    </bean>
-
 
 </beans>
