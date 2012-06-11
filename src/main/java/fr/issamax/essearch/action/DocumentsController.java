@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 import fr.issamax.essearch.data.Result;
 
 @Component("documentsController")
-@Scope("session")
+@Scope("request")
 public class DocumentsController implements Serializable {
 
 	private static final long serialVersionUID = 8765323975883945040L;

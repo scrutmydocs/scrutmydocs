@@ -32,11 +32,11 @@
 					<h:graphicImage value="./img/logo-text.png" />
 				</h:outputLink>
 			</f:facet>
-			<p:inputText value="#{searchController.search}" size="100" />
+			<p:inputText value="#{searchController.search}" size="100" tabindex="1" />
 			<f:facet name="footer">
 				<center>
 					<h:panelGrid columns="2">
-						<p:commandButton value="Search" update="results"
+						<p:commandButton   value="Search" update="results"
 							action="#{searchController.google}" />
 						<p:commandButton target="blank_" value="I'm lucky" ajax="false"
 							action="#{searchController.imlucky}">

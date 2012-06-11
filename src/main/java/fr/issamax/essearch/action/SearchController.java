@@ -20,12 +20,14 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import fr.issamax.essearch.data.Results;
 
 @Component("searchController")
-@Scope("session")
+@Scope("request")
 public class SearchController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -88,27 +90,29 @@ public class SearchController implements Serializable {
 				GetResponse esResponse = esClient
 						.prepareGet(INDEX_NAME, INDEX_TYPE_DOC, hit.getId())
 						.execute().actionGet();
+
+				if (!esResponse.isExists()) {
+					// TODO return a standard page who show a message like :
+					// this document is not available
+					return;
+				}
+
 				@SuppressWarnings("unchecked")
 				Map<String, Object> attachment = (Map<String, Object>) esResponse
 						.getSource().get("file");
 
+				byte[] file = Base64.decode((String) attachment.get("content"));
+				String name = (String) attachment.get("_name");
 				String contentType = (String) attachment.get("_content_type");
 
-				byte[] file;
+				final HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 				file = Base64.decode((String) attachment.get("content"));
-
 				response.setContentType(contentType);
-				// response.setHeader("Content-disposition",
-				// "inline=filename=file.pdf");
-
 				response.getOutputStream().write(file);
 				response.getOutputStream().flush();
 				response.getOutputStream().close();
 				context.responseComplete();
-
-//				FacesContext.getCurrentInstance().getExternalContext()
-//						.redirect("api/download/" + hit.getId());
-
 			}
 
 		} catch (Exception e) {
