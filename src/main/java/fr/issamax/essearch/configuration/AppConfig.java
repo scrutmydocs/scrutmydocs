@@ -35,7 +35,7 @@ public class AppConfig {
 						.startArray("fs")
 							.startObject()
 								.field("name", "tmp")
-								.field("url", "/tmp")
+								.field("url", "/tmp_es")
 								.field("update_rate", 30 * 1000)
 							.endObject()
 						.endArray()
