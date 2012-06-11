@@ -16,21 +16,13 @@
 <h:form id="formlogin">
 
 	<p:toolbar id="menu">
+		
 		<p:toolbarGroup align="left" rendered="#{userController.logged}">
 			<p:commandButton type="push" value="Add..." image="ui-icon-document"
 				onclick="upload.show();" />
 		</p:toolbarGroup>
+		
 		<p:toolbarGroup align="right">
-			<p:commandButton id="AdminLink" type="push" value="Admin..."
-				image="ui-icon-right" onclick="admin.show();" />
-		</p:toolbarGroup>
-		<p:toolbarGroup align="right" rendered="#{userController.logged}">
-			<p:menuButton value="#{userController.username}">
-				<p:menuitem icon="ui-icon-power" value="Logout"
-					action="#{userController.logout}" update=":messages,menu" />
-			</p:menuButton>
-		</p:toolbarGroup>
-		<p:toolbarGroup align="right" rendered="#{!userController.logged}">
 			<p:commandButton id="loginLink" type="push" value="Login..."
 				image="ui-icon-power" onclick="login.show();"
 				update=":messages,menu" />
