@@ -12,9 +12,10 @@
 	<link rel="shortcut icon" type="image/x-icon" href="./img/logo.png" />
 </h:head>
 
+
 <p:growl id="messages" showDetail="true" life="1000" />
 
-<h:form id="formuHome">
+<h:form id="formHome">
 	<p:toolbar id="menuSetting">
 
 		<p:toolbarGroup align="left">
@@ -33,19 +34,17 @@
 <br></br>
 
 
-<h:form id="formsettings">
-	<center>
-		<p:tabView orientation="left" style="width:1500px;">
-			<p:tab title="File System River" icon="ui-icon-home">
+<center>
+	<p:tabView id="tabRiver" orientation="left" style="width:1500px;">
+		<p:tab title="File System River" icon="ui-icon-home">
 			<ui:include src="fsRiver.xhtml" />
-			</p:tab>
-			<p:tab title="BDD River" disabled="true">
+		</p:tab>
+		<p:tab title="BDD River" disabled="true">
 
-			</p:tab>
+		</p:tab>
 
-		</p:tabView>
-	</center>
-</h:form>
+	</p:tabView>
+</center>
 
 
 

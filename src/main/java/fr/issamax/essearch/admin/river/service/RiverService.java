@@ -54,6 +54,16 @@ public class RiverService {
 	 * @param river
 	 */
 	public void update(FSRiver river) {
+		//TODO
+		System.out.println(river.toString());
+	}
+	
+	/**
+	 * Remove river
+	 * @param river
+	 */
+	public void remove(FSRiver river) {
+		//TODO
 		System.out.println(river.toString());
 	}
 

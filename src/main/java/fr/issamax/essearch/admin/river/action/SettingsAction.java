@@ -28,20 +28,27 @@ public class SettingsAction {
 		riverService.update(fsRiverSelect);
 		fsRivers.add(fsRiverSelect);
 		fsRiverSelect = new FSRiver("", "", "", null);
-		
-		
+
 	}
 
 	public String init() {
-		
+
 		fsRivers = riverService.get();
 		return "settings";
 	}
 
-	
-	public void update(RowEditEvent rowEditEvent){
-		riverService.update((FSRiver) rowEditEvent.getObject());
+	public void resetFsRiverSelect() {
+		fsRiverSelect = new FSRiver();
 	}
+
+	public void update() {
+		riverService.update(fsRiverSelect);
+	}
+
+	public void reomove() {
+		riverService.remove(fsRiverSelect);
+	}
+
 	public List<FSRiver> getFsRivers() {
 		return fsRivers;
 	}

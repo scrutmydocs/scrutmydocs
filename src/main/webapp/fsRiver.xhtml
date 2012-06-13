@@ -6,7 +6,7 @@
 	xmlns:es="http://essearch.fr/taglibs">
 
 
-	<h:form id="formFsrivers">
+	<h:form id="formFsRiver">
 
 		<p:growl id="messages" showDetail="true" />
 
@@ -14,73 +14,82 @@
 			value="#{settingsAction.fsRivers}" editable="true">
 
 			<p:ajax event="rowEdit" listener="#{settingsAction.update}" />
-			
+
 			<f:facet name="header">FsRivers</f:facet>
 
 			<p:column headerText="Name" style="width:125px">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{fsriver.name}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{fsriver.name}" style="width:100%" />
-					</f:facet>
-				</p:cellEditor>
-				<f:facet name="footer">
-
-					<p:inputText value="#{settingsAction.fsRiverSelect.name}"
-						style="width:100%" />
-				</f:facet>
+				<h:outputText value="#{fsriver.name}" />
 			</p:column>
 
 			<p:column headerText="url" style="width:125px">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{fsriver.url}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{fsriver.url}" style="width:100%"
-							label="Year" />
-					</f:facet>
-				</p:cellEditor>
-
-				<f:facet name="footer">
-					<p:inputText value="#{settingsAction.fsRiverSelect.url}"
-						style="width:100%" label="Year" />
-				</f:facet>
+				<h:outputText value="#{fsriver.url}" />
 			</p:column>
 
 			<p:column headerText="updateRate" style="width:125px">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{fsriver.updateRate}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{fsriver.updateRate}" style="width:100%"
-							label="Year" />
-					</f:facet>
-				</p:cellEditor>
-				<f:facet name="footer">
-					<p:inputText value="#{settingsAction.fsRiverSelect.updateRate}"
-						style="width:100%" label="Year" />
-
-				</f:facet>
-
+				<h:outputText value="#{fsriver.updateRate}" />
 			</p:column>
 
-			<p:column headerText="Options" style="width:50px">
-				<p:rowEditor />
-
-				<f:facet name="footer">
-					<p:commandButton type="push" value="Add .." icon="ui-icon-power"
-						update="fsriversT" action="#{settingsAction.add}" />
-				</f:facet>
+			<p:column style="width:20px">
+				<h:panelGrid columns="3" styleClass="actions" cellpadding="2">
+					<p:commandButton id="selectButton"
+						oncomplete="fsRiverDialog.show()" icon="ui-icon-search"
+						update=":tabRiver:formFsRiver:display" title="View">
+						<f:setPropertyActionListener value="#{fsriver}"
+							target="#{settingsAction.fsRiverSelect}" />
+					</p:commandButton>
+				</h:panelGrid>
 			</p:column>
 
-
+			<f:facet name="footer">
+				<p:commandButton type="push" value="Add" icon="ui-icon-search"
+					action="#{settingsAction.resetFsRiverSelect}"
+					oncomplete="fsRiverDialog.show()"
+					update=":tabRiver:formFsRiver:display" />
+			</f:facet>
 
 		</p:dataTable>
 
+
+
+
+		<p:dialog header="New FS River" widgetVar="fsRiverDialog" id="display"
+			resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+
+			<h:panelGrid columns="2" cellpadding="4" style="margin:0 auto;">
+
+
+
+				<h:outputText value="Name :" />
+				<p:inputText value="#{settingsAction.fsRiverSelect.name}"
+					style="width:100%" />
+
+
+				<h:outputText value="Url : " />
+				<p:inputText value="#{settingsAction.fsRiverSelect.url}"
+					style="width:100%" label="Year" />
+
+				<h:outputText value="Year:" />
+				<p:inputText value="#{settingsAction.fsRiverSelect.updateRate}"
+					style="width:100%" label="Year" id="updateRate" />
+				<p:slider for="updateRate" />
+
+
+				<f:facet name="footer">
+					<h:panelGrid columns="2">
+						<p:commandButton type="push" value="Update" icon="ui-icon-home"
+							action="#{settingsAction.update}"
+							rendered="#{settingsAction.fsRiverSelect.updateRate != null}" />
+						<p:commandButton type="push" value="Remove" icon="ui-icon-home"
+							action="#{settingsAction.remove}"
+							rendered="#{settingsAction.fsRiverSelect.updateRate != null}" />
+						<p:commandButton type="push" value="Add.." icon="ui-icon-home"
+							action="#{settingsAction.remove}"
+							rendered="#{settingsAction.fsRiverSelect.updateRate == null}" />
+					</h:panelGrid>
+				</f:facet>
+			</h:panelGrid>
+
+		</p:dialog>
 	</h:form>
 
 
