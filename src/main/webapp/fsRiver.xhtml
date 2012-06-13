@@ -6,14 +6,15 @@
 	xmlns:es="http://essearch.fr/taglibs">
 
 
-<<<<<<< HEAD
 	<h:form id="formFsrivers">
 
 		<p:growl id="messages" showDetail="true" />
 
-		<p:dataTable id="fsriversT" var="fsriver" value="#{settingsAction.fsRivers}"
-			editable="true">
+		<p:dataTable id="fsriversT" var="fsriver"
+			value="#{settingsAction.fsRivers}" editable="true">
 
+			<p:ajax event="rowEdit" listener="#{settingsAction.update}" />
+			
 			<f:facet name="header">FsRivers</f:facet>
 
 			<p:column headerText="Name" style="width:125px">
@@ -25,6 +26,11 @@
 						<p:inputText value="#{fsriver.name}" style="width:100%" />
 					</f:facet>
 				</p:cellEditor>
+				<f:facet name="footer">
+
+					<p:inputText value="#{settingsAction.fsRiverSelect.name}"
+						style="width:100%" />
+				</f:facet>
 			</p:column>
 
 			<p:column headerText="url" style="width:125px">
@@ -37,6 +43,11 @@
 							label="Year" />
 					</f:facet>
 				</p:cellEditor>
+
+				<f:facet name="footer">
+					<p:inputText value="#{settingsAction.fsRiverSelect.url}"
+						style="width:100%" label="Year" />
+				</f:facet>
 			</p:column>
 
 			<p:column headerText="updateRate" style="width:125px">
@@ -49,40 +60,28 @@
 							label="Year" />
 					</f:facet>
 				</p:cellEditor>
+				<f:facet name="footer">
+					<p:inputText value="#{settingsAction.fsRiverSelect.updateRate}"
+						style="width:100%" label="Year" />
+
+				</f:facet>
+
 			</p:column>
 
 			<p:column headerText="Options" style="width:50px">
 				<p:rowEditor />
 
+				<f:facet name="footer">
+					<p:commandButton type="push" value="Add .." icon="ui-icon-power"
+						update="fsriversT" action="#{settingsAction.add}" />
+				</f:facet>
 			</p:column>
 
-		</p:dataTable>
 
-		<p:commandButton type="push" value="Add .." icon="ui-icon-power" update= "formFsrivers:fsriversT" 
-			action="#{settingsAction.ajoueter}" />
+
+		</p:dataTable>
 
 	</h:form>
 
 
-=======
-
-	<p:panel header="Masks">
-		<h:panelGrid columns="2" cellpadding="5">
-
-			<h:outputText value="Name : " />
-			<p:inputMask value="" />
-
-			<h:outputText value="url : " />
-			<p:inputMask value="" />
-
-			<h:outputText value="updateRate :  " />
-			<p:inputMask value="" />
-
-
-			<p:commandButton value="Submit"/>
-
-
-		</h:panelGrid>
-	</p:panel>
->>>>>>> refs/remotes/origin/master
 </ui:composition>

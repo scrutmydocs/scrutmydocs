@@ -2,6 +2,7 @@ package fr.issamax.essearch.admin.river.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.elasticsearch.action.admin.indices.status.IndicesStatusRequestBuilder;
 import org.elasticsearch.action.admin.indices.status.IndicesStatusResponse;
@@ -30,8 +31,8 @@ public class RiverService {
 	 * Get all active rivers
 	 * @return
 	 */
-	public Collection<FSRiver> get() {
-		Collection<FSRiver> rivers = new ArrayList<FSRiver>();
+	public List<FSRiver> get() {
+		List<FSRiver> rivers = new ArrayList<FSRiver>();
 		
 		IndicesStatusRequestBuilder rb = new IndicesStatusRequestBuilder(client.admin().indices()).setIndices("_river");
 
@@ -53,7 +54,7 @@ public class RiverService {
 	 * @param river
 	 */
 	public void update(FSRiver river) {
-		// TODO DPI Implement here
+		System.out.println(river.toString());
 	}
 
 
