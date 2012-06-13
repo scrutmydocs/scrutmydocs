@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:es="http://essearch.fr/taglibs">
+
+
+	<h:form id="formFsrivers">
+
+		<p:growl id="messages" showDetail="true" />
+
+		<p:dataTable id="fsriversT" var="fsriver" value="#{settingsAction.fsRivers}"
+			editable="true">
+
+			<f:facet name="header">FsRivers</f:facet>
+
+			<p:column headerText="Name" style="width:125px">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{fsriver.name}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{fsriver.name}" style="width:100%" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="url" style="width:125px">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{fsriver.url}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{fsriver.url}" style="width:100%"
+							label="Year" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="updateRate" style="width:125px">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{fsriver.updateRate}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{fsriver.updateRate}" style="width:100%"
+							label="Year" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Options" style="width:50px">
+				<p:rowEditor />
+
+			</p:column>
+
+		</p:dataTable>
+
+		<p:commandButton type="push" value="Add .." icon="ui-icon-power" update= "formFsrivers:fsriversT" 
+			action="#{settingsAction.ajoueter}" />
+
+	</h:form>
+
+
+</ui:composition>

@@ -11,4 +11,25 @@
 		<!-- FIN SPRING <locale-config> <default-locale>fr</default-locale> <supported-locale>fr</supported-locale> 
 			</locale-config> <message-bundle>ApplicationResources</message-bundle> -->
 	</application>
+	
+	<navigation-rule>
+		<display-name>*</display-name>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>settings</from-outcome>
+			<to-view-id>/settings.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<display-name>*</display-name>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/search.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
 </faces-config>

@@ -21,6 +21,11 @@
 				onclick="upload.show();" />
 		</p:toolbarGroup>
 
+		<p:toolbarGroup align="right">
+			<p:commandButton type="push" value="Setting" icon="ui-icon-power"
+				action="settings" />
+		</p:toolbarGroup>
+
 	</p:toolbar>
 </h:form>
 
@@ -39,7 +44,7 @@
 			<h:panelGrid columns="2">
 				<p:inputText value="#{searchController.search}" size="60"
 					tabindex="1" />
-				<p:commandButton value="Search" update="results"
+				<p:commandButton value="Search" update="results" icon="ui-icon-search"
 					action="#{searchController.google}" />
 			</h:panelGrid>
 		</h:panelGrid>
