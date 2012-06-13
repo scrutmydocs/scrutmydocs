@@ -11,7 +11,7 @@
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 	<context:annotation-config />
 	<task:annotation-driven />
-	<context:component-scan base-package="fr.issamax" />
+	<context:component-scan base-package="fr.issamax.essearch" />
 
 	<mvc:annotation-driven />
 
