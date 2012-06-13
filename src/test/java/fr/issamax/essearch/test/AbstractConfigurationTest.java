@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {
 		"classpath:annotation-context.xml"
 		})
-public class AbstractConfigurationTest {
+public abstract class AbstractConfigurationTest {
 	
 	@Autowired Node node;
 
