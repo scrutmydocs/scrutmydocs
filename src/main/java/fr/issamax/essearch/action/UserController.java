@@ -37,7 +37,7 @@ public class UserController implements Serializable{
 	public void login(ActionEvent actionEvent) {
         RequestContext context = RequestContext.getCurrentInstance();  
         FacesMessage msg = null;  
-
+          // TODO REMOVE ME
         if(username != null  && username.equals("admin") && password != null  && password.equals("admin")) {  
         	logged = true;  
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome", username);  
