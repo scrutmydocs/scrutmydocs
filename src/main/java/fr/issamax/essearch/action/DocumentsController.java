@@ -1,3 +1,4 @@
+
 package fr.issamax.essearch.action;
 
 import static fr.issamax.essearch.constant.ESSearchProperties.DIR_FIELD_NAME;

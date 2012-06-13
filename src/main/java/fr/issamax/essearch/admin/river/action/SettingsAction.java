@@ -1,10 +1,9 @@
 package fr.issamax.essearch.admin.river.action;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.primefaces.event.RowEditEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,9 @@ import fr.issamax.essearch.admin.river.service.RiverService;
 
 @Component("settingsAction")
 @Scope("session")
-public class SettingsAction {
+public class SettingsAction implements Serializable{
+
+	private static final long serialVersionUID = -582985573033101693L;
 
 	@Autowired
 	RiverService riverService;

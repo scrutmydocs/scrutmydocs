@@ -5,6 +5,7 @@ import static fr.issamax.essearch.constant.ESSearchProperties.INDEX_TYPE_DOC;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
@@ -22,7 +23,10 @@ import org.springframework.stereotype.Component;
 
 @Component("fileUploadController")
 @Scope("request")
-public class FileUploadController {
+public class FileUploadController implements Serializable {
+
+	private static final long serialVersionUID = 1610009986295677939L;
+
 
 	@Autowired
 	Client esClient;
