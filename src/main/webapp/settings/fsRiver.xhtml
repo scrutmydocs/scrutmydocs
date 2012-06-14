@@ -75,10 +75,7 @@
 						<f:setPropertyActionListener value="#{fsriver}"
 							target="#{settingsAction.fsRiverSelect}" />
 					</p:commandButton>
-			</p:column>
 
-			<p:column style="width:10%" id="stateColumn" >
-				<h:panelGrid columns="3" styleClass="actions" cellpadding="0">
 					<p:commandButton  action="#{settingsAction.stop}" rendered="#{fsriver.start}" 
 						 icon="ui-icon-stop"
 						update=":tabRiver:formFsRiver" title="View">
@@ -92,7 +89,7 @@
 						<f:setPropertyActionListener value="#{fsriver}"
 							target="#{settingsAction.fsRiverSelect}" />
 					</p:commandButton>
-				</h:panelGrid>
+
 			</p:column>
 
 			<f:facet name="footer">
@@ -110,9 +107,9 @@
 		<p:dialog header="New FS River" widgetVar="fsRiverDialog" id="display"
 			resizable="false" showEffect="fade" hideEffect="explode" modal="true">
 
-			<p:tabView>
+			<p:tabView style="width:800px;height:300px">
 				<p:tab title="General">
-					<h:panelGrid columns="2" cellpadding="4" style="margin:0 auto;">
+					<h:panelGrid columns="3" cellpadding="4" style="margin:0 auto;">
 
 						<h:outputText value="Id :" />
 						<p:inputText value="#{settingsAction.fsRiverSelect.id}"
@@ -120,17 +117,22 @@
 
 						<h:outputText value="Name :" />
 						<p:inputText value="#{settingsAction.fsRiverSelect.name}"
-							style="width:100%" />
+							style="width:100%" id="name" />
+						<p:message for="name" />
 
 
 						<h:outputText value="Url : " />
 						<p:inputText value="#{settingsAction.fsRiverSelect.url}"
-							style="width:100%" label="Url" />
+							style="width:100%" label="Url" id="url" />
+						<p:message for="url" />
+
+
 
 						<h:outputText value="Rate (s):" />
 						<p:inputText value="#{settingsAction.fsRiverSelect.updateRate}"
 							style="width:100%" label="Rate" id="updateRate" />
-						<p:slider for="updateRate" />
+							<p:message for="updateRate" />
+							<p:slider for="updateRate" />
 
 
 
@@ -151,10 +153,13 @@
 					</h:panelGrid>
 				</p:tab>
 
+				<p:tab title="Statistics">
+				</p:tab>
+
 			</p:tabView>
 			<f:facet name="footer">
-				<h:panelGrid columns="2">
-					<p:commandButton type="push" value="Update" icon="ui-icon-check"
+				<h:panelGrid columns="1" style="margin:0 auto;">
+					<p:commandButton type="push" value="Save" icon="ui-icon-check"
 						update=":tabRiver:formFsRiver:fsriversT"
 						action="#{settingsAction.update}"
 						oncomplete="fsRiverDialog.hide()"
