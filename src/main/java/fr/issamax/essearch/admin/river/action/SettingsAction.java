@@ -39,7 +39,8 @@ public class SettingsAction implements Serializable {
 	}
 
 	public void resetFsRiverSelect() {
-		fsRiverSelect = new FSRiver();
+		fsRiverSelect = new FSRiver(ESSearchProperties.INDEX_NAME,
+				ESSearchProperties.INDEX_TYPE_DOC, null, null, null, null);
 	}
 
 	public void update() {
