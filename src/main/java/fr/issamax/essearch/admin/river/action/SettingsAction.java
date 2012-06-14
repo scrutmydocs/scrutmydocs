@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import fr.issamax.essearch.admin.river.data.FSRiver;
 import fr.issamax.essearch.admin.river.service.RiverService;
+import fr.issamax.essearch.constant.ESSearchProperties;
 
 @Component("settingsAction")
 @Scope("session")
@@ -22,13 +23,15 @@ public class SettingsAction implements Serializable{
 
 	List<FSRiver> fsRivers = new ArrayList<FSRiver>();
 
-	FSRiver fsRiverSelect = new FSRiver("", "", "", null);
+	FSRiver fsRiverSelect = new FSRiver(ESSearchProperties.INDEX_NAME, 
+			ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null);
 
 	public void add() {
 
 		riverService.update(fsRiverSelect);
 		fsRivers.add(fsRiverSelect);
-		fsRiverSelect = new FSRiver("", "", "", null);
+		fsRiverSelect = new FSRiver(ESSearchProperties.INDEX_NAME, 
+				ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null);
 
 	}
 

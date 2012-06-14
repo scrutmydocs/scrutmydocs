@@ -1,64 +1,47 @@
 package fr.issamax.essearch.admin.river.data;
 
-import java.io.Serializable;
 
 /**
  * Manage Filesystem Rivers metadata
  * @author PILATO
  *
  */
-public class FSRiver implements Serializable {
+public class FSRiver extends AbstractRiver {
 	private static final long serialVersionUID = 1L;
 	
-	private String type;
-	private String name;
 	private String url;
 	private Long updateRate;
 	
 	public FSRiver() {
+		this("/tmp", 60L);
 	}
 	
 	/**
+	 * @param url
+	 * @param updateRate
+	 */
+	public FSRiver(String url, Long updateRate) {
+		super();
+		this.url = url;
+		this.updateRate = updateRate;
+	}
+
+
+	/**
+	 * @param indexname The ES index where we store our docs
+	 * @param typename The ES type we use to store docs
 	 * @param type The river type
 	 * @param name The human readable name for this river
 	 * @param url URL where to fetch content
 	 * @param updateRate Update Rate (in seconds)
 	 */
-	public FSRiver(String type, String name, String url, Long updateRate) {
-		this.type = type;
-		this.name = name;
+	public FSRiver(String indexname, String typename, String type, String name,
+			String url, Long updateRate) {
+		super(indexname, typename, type, name);
 		this.url = url;
 		this.updateRate = updateRate;
 	}
 
-	/**
-	 * @return The river type
-	 */
-	public String getType() {
-		return type;
-	}
-	
-	/**
-	 * @param type The river type
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
-	
-	/**
-	 * @return The human readable name for this river
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * @param name The human readable name for this river
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 	/**
 	 * @return URL where to fetch content
 	 */

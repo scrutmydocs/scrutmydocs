@@ -20,9 +20,8 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 		Assert.assertNotNull(riverService);
 
 		XContentBuilder xb = FSRiverHelper.toXContent(
-				ESSearchProperties.INDEX_NAME, 
-				ESSearchProperties.INDEX_TYPE_DOC, 
-				new FSRiver("fs", "tmp", "/tmp_es", 30L));		
+				new FSRiver(ESSearchProperties.INDEX_NAME, 
+						ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L));		
 		
 		client.prepareIndex("_river", "mytestriver", "_meta").setSource(xb)
 				.execute().actionGet();
@@ -38,9 +37,8 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 		Assert.assertNotNull(riverService);
 
 		XContentBuilder xb = FSRiverHelper.toXContent(
-				ESSearchProperties.INDEX_NAME, 
-				ESSearchProperties.INDEX_TYPE_DOC, 
-				new FSRiver("fs", "tmp", "/tmp_es", 30L));		
+				new FSRiver(ESSearchProperties.INDEX_NAME, 
+						ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L));		
 		
 		client.prepareIndex("_river", "mytestriver", "_meta").setSource(xb)
 				.execute().actionGet();

@@ -1,5 +1,6 @@
 package fr.issamax.essearch.admin.river.service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +23,9 @@ import fr.issamax.essearch.admin.river.data.FSRiver;
 import fr.issamax.essearch.admin.river.data.FSRiverHelper;
 
 @Component
-public class RiverService {
+public class RiverService implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Autowired Client client;
 
 	/**

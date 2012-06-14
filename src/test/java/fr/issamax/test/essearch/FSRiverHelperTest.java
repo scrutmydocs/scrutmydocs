@@ -32,12 +32,10 @@ public class FSRiverHelperTest {
 	 * @throws IOException 
 	 */
 	@Test public void test_tofsriver() throws IOException {
-		FSRiver model = new FSRiver("fs", "tmp", "/tmp_es", 30L);
+		FSRiver model = new FSRiver(ESSearchProperties.INDEX_NAME, 
+				ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L);
 		
-		XContentBuilder xb = FSRiverHelper.toXContent(
-				ESSearchProperties.INDEX_NAME, 
-				ESSearchProperties.INDEX_TYPE_DOC, 
-				model);		
+		XContentBuilder xb = FSRiverHelper.toXContent(model);		
 		String jsonContent = xb.string();
 
 		Map<String, Object> map = XContentHelper.convertToMap(jsonContent.getBytes(), 0, jsonContent.length(), false).v2();
@@ -48,5 +46,9 @@ public class FSRiverHelperTest {
 		Assert.assertEquals(model.getType(), fsriver.getType());
 		Assert.assertEquals(model.getUrl(), fsriver.getUrl());
 		Assert.assertEquals(model.getUpdateRate(), fsriver.getUpdateRate());
+
+		Assert.assertEquals(model.getIndexname(), fsriver.getIndexname());
+		Assert.assertEquals(model.getTypename(), fsriver.getTypename());
+
 	}
 }

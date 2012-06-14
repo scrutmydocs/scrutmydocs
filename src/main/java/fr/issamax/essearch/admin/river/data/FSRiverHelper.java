@@ -18,7 +18,7 @@ public class FSRiverHelper {
 	 * @param fsriver The river definition
 	 * @return An ES xcontent
 	 */
-	public static XContentBuilder toXContent(String index, String type, FSRiver fsriver) {
+	public static XContentBuilder toXContent(FSRiver fsriver) {
 		XContentBuilder xb = null;
 		try {
 			xb = jsonBuilder()
@@ -30,8 +30,8 @@ public class FSRiverHelper {
 							.field("update_rate", fsriver.getUpdateRate() * 1000)
 						.endObject()
 						.startObject("index")
-							.field("index", index)
-							.field("type", type)
+							.field("index", fsriver.getIndexname())
+							.field("type", fsriver.getTypename())
 						.endObject()
 					.endObject();
 		} catch (IOException e) {
@@ -71,14 +71,20 @@ public class FSRiverHelper {
 				throw new RuntimeException("Your FSRiver object should be a river and contain \"type\":\"fs\"");
 			fsriver.setType("fs");
 			
-			// Then we dig into fs.fs[0]
+			// Then we dig into fs
 			if (!content.containsKey("fs")) 
 				throw new RuntimeException("A FSRiver must contain \"fs\":{...}");
 
 			fsriver.setName(getSingleStringValue("fs.name", content));
 			fsriver.setUrl(getSingleStringValue("fs.url", content));
 			fsriver.setUpdateRate(getSingleLongValue("fs.update_rate", content) / 1000);
-			
+
+			// Then we dig into fs
+			if (content.containsKey("index")) {
+				fsriver.setIndexname(getSingleStringValue("index.index", content));
+				fsriver.setTypename(getSingleStringValue("index.type", content));
+				// TODO Add support for fancy river name ???
+			}
 		} catch (Exception e) {
 			// TODO Log when error
 		}		

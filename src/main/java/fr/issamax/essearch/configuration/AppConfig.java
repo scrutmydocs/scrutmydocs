@@ -31,17 +31,16 @@ public class AppConfig {
 		
 		
 		// We are going to create the filesystem river if needed
-		XContentBuilder xb = FSRiverHelper.toXContent(ESSearchProperties.INDEX_NAME,
-				ESSearchProperties.INDEX_TYPE_DOC,
-				new FSRiver("fs", "tmp", "/tmp_es", 30L));		
+		XContentBuilder xb = FSRiverHelper.toXContent(
+				new FSRiver(ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L));		
 		
 		factory.getObject().prepareIndex("_river", "myfirstriver", "_meta").setSource(xb)
 				.execute().actionGet();
 
 		// We are going to create a second filesystem river to test multiple feeds
-		xb = FSRiverHelper.toXContent(ESSearchProperties.INDEX_NAME,
-				ESSearchProperties.INDEX_TYPE_DOC,
-				new FSRiver("fs", "mysecondriver", "/tmp_es_second", 30L));		
+		xb = FSRiverHelper.toXContent(
+				new FSRiver(ESSearchProperties.INDEX_NAME,
+						ESSearchProperties.INDEX_TYPE_DOC, "fs", "mysecondriver", "/tmp_es_second", 30L));		
 		
 		factory.getObject().prepareIndex("_river", "mysecondriver", "_meta").setSource(xb)
 				.execute().actionGet();
