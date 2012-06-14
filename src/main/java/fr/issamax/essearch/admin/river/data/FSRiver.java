@@ -1,11 +1,15 @@
 package fr.issamax.essearch.admin.river.data;
 
+import java.io.Serializable;
+
 /**
  * Manage Filesystem Rivers metadata
  * @author PILATO
  *
  */
-public class FSRiver {
+public class FSRiver implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private String type;
 	private String name;
 	private String url;

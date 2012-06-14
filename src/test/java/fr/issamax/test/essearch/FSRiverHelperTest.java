@@ -18,17 +18,13 @@ public class FSRiverHelperTest {
 	 * We want to check the parsing of <pre>
 {
   "index" : {
-    "fs" : [ {
-      "index" : "docs",
-      "type" : "doc"
-    } ]
+	  "index" : "docs",
+	  "type" : "doc"
   },
   "fs" : {
-    "fs" : [ {
       "update_rate" : 30000,
       "name" : "tmp",
       "url" : "/tmp_es"
-    } ]
   },
   "type" : "fs"
 }

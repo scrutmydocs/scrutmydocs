@@ -25,21 +25,13 @@ public class FSRiverHelper {
 					.startObject()
 						.field("type", "fs")
 						.startObject("fs")
-							.startArray(fsriver.getType())
-								.startObject()
-									.field("name", fsriver.getName())
-									.field("url", fsriver.getUrl())
-									.field("update_rate", fsriver.getUpdateRate() * 1000)
-								.endObject()
-							.endArray()
+							.field("name", fsriver.getName())
+							.field("url", fsriver.getUrl())
+							.field("update_rate", fsriver.getUpdateRate() * 1000)
 						.endObject()
 						.startObject("index")
-							.startArray(fsriver.getType())
-								.startObject()
-									.field("index", index)
-									.field("type", type)
-								.endObject()
-							.endArray()
+							.field("index", index)
+							.field("type", type)
 						.endObject()
 					.endObject();
 		} catch (IOException e) {
@@ -54,17 +46,13 @@ public class FSRiverHelper {
 {
   "type" : "fs",
   "fs" : {
-    "fs" : [ {
-      "update_rate" : 30000,
-      "name" : "tmp",
-      "url" : "/tmp_es"
-    } ]
+	  "update_rate" : 30000,
+	  "name" : "tmp",
+	  "url" : "/tmp_es"
   },
   "index" : {
-    "fs" : [ {
-      "index" : "docs",
-      "type" : "doc"
-    } ]
+	  "index" : "docs",
+	  "type" : "doc"
   }
 }
 </pre>
@@ -87,9 +75,9 @@ public class FSRiverHelper {
 			if (!content.containsKey("fs")) 
 				throw new RuntimeException("A FSRiver must contain \"fs\":{...}");
 
-			fsriver.setName(getSingleStringValue("fs.fs.name", content));
-			fsriver.setUrl(getSingleStringValue("fs.fs.url", content));
-			fsriver.setUpdateRate(getSingleLongValue("fs.fs.update_rate", content) / 1000);
+			fsriver.setName(getSingleStringValue("fs.name", content));
+			fsriver.setUrl(getSingleStringValue("fs.url", content));
+			fsriver.setUpdateRate(getSingleLongValue("fs.update_rate", content) / 1000);
 			
 		} catch (Exception e) {
 			// TODO Log when error
