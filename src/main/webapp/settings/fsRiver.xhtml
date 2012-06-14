@@ -17,31 +17,47 @@
 
 			<f:facet name="header">FsRivers</f:facet>
 
-			<p:column headerText="Name" style="width:30%">
+			<p:column headerText="Name">
 				<h:outputText value="#{fsriver.name}" />
 			</p:column>
 
-			<p:column headerText="url" style="width:30%">
+			<p:column headerText="url">
 				<h:outputText value="#{fsriver.url}" />
 			</p:column>
 
-			<p:column headerText="updateRate" style="width:30%">
+			<p:column headerText="updateRate">
 				<h:outputText value="#{fsriver.updateRate}" />
 			</p:column>
 
-			<p:column style="width:10%">
-				<h:panelGrid columns="3" styleClass="actions" cellpadding="0">
+			<p:column>
 					<p:commandButton id="selectButton"
-						oncomplete="fsRiverDialog.show()" icon="ui-icon-search"
-						update=":tabRiver:formFsRiver:display" title="View">
+						oncomplete="fsRiverDialog.show()" icon="ui-icon-wrench"
+						update=":tabRiver:formFsRiver:display" title="Settings">
 						<f:setPropertyActionListener value="#{fsriver}"
 							target="#{settingsAction.fsRiverSelect}" />
 					</p:commandButton>
-				</h:panelGrid>
+					<p:commandButton id="suspendButton"
+						icon="ui-icon-pause"
+						update=":tabRiver:formFsRiver:display" title="Suspend">
+						<f:setPropertyActionListener value="#{fsriver}"
+							target="#{settingsAction.fsRiverSelect}" />
+					</p:commandButton>
+					<p:commandButton id="playButton" rendered="false" 
+						icon="ui-icon-play"
+						update=":tabRiver:formFsRiver:display" title="Restart">
+						<f:setPropertyActionListener value="#{fsriver}"
+							target="#{settingsAction.fsRiverSelect}" />
+					</p:commandButton>
+					<p:commandButton id="deleteButton"
+						icon="ui-icon-trash"
+						update=":tabRiver:formFsRiver:display" title="Delete">
+						<f:setPropertyActionListener value="#{fsriver}"
+							target="#{settingsAction.fsRiverSelect}" />
+					</p:commandButton>
 			</p:column>
 
 			<f:facet name="footer">
-				<p:commandButton type="push" value="Add" icon="ui-icon-search"
+				<p:commandButton type="push" value="Add" icon="ui-icon-plus"
 					action="#{settingsAction.resetFsRiverSelect}"
 					oncomplete="fsRiverDialog.show()"
 					update=":tabRiver:formFsRiver:display" />
