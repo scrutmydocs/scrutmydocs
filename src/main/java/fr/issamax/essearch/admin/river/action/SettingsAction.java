@@ -27,16 +27,13 @@ public class SettingsAction implements Serializable {
 			ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null);
 
 	public void add() {
-
 		riverService.update(fsRiverSelect);
 		fsRivers.add(fsRiverSelect);
 		fsRiverSelect = new FSRiver(ESSearchProperties.INDEX_NAME,
 				ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null);
-
 	}
 
 	public String init() {
-
 		fsRivers = riverService.get();
 		return "settings";
 	}
@@ -49,7 +46,7 @@ public class SettingsAction implements Serializable {
 		riverService.update(fsRiverSelect);
 	}
 
-	public void reomove() {
+	public void remove() {
 		riverService.remove(fsRiverSelect);
 	}
 
