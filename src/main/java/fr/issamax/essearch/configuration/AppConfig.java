@@ -38,6 +38,14 @@ public class AppConfig {
 		factory.getObject().prepareIndex("_river", "myfirstriver", "_meta").setSource(xb)
 				.execute().actionGet();
 
+		// We are going to create a second filesystem river to test multiple feeds
+		xb = FSRiverHelper.toXContent(ESSearchProperties.INDEX_NAME,
+				ESSearchProperties.INDEX_TYPE_DOC,
+				new FSRiver("fs", "mysecondriver", "/tmp_es_second", 30L));		
+		
+		factory.getObject().prepareIndex("_river", "mysecondriver", "_meta").setSource(xb)
+				.execute().actionGet();
+
 		// We add a dummy river to test
 		xb = jsonBuilder()
 			.startObject()
