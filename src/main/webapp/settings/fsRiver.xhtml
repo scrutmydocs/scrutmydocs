@@ -75,24 +75,30 @@
 		<p:dialog header="New FS River" widgetVar="fsRiverDialog" id="display"
 			resizable="false" showEffect="fade" hideEffect="explode" modal="true">
 
-			<p:tabView>
+			<p:tabView style="width:800px;height:300px">
 				<p:tab title="General">
-					<h:panelGrid columns="2" cellpadding="4" style="margin:0 auto;">
+					<h:panelGrid columns="3" cellpadding="4" style="margin:0 auto;">
 
 						<h:outputText value="Name :" />
 						<p:inputText value="#{settingsAction.fsRiverSelect.name}"
-							style="width:100%" />
+							style="width:100%" id="name" />
+						<p:message for="name" />
 
 
 						<h:outputText value="Url : " />
 						<p:inputText value="#{settingsAction.fsRiverSelect.url}"
-							style="width:100%" label="Url" />
+							style="width:100%" label="Url" id="url" />
+						<p:message for="url" />
+
+
 
 						<h:outputText value="Rate (s):" />
 						<p:inputText value="#{settingsAction.fsRiverSelect.updateRate}"
 							style="width:100%" label="Rate" id="updateRate" />
-						<p:slider for="updateRate" />
-
+<!-- 						<h:panelGrid columns="1" cellpadding="4" style="margin:0 auto;"> -->
+							<p:message for="updateRate" />
+							<p:slider for="updateRate" />
+<!-- 						</h:panelGrid> -->
 
 
 					</h:panelGrid>
@@ -117,11 +123,13 @@
 
 			</p:tabView>
 			<f:facet name="footer">
+				<h:panelGrid columns="1" style="margin:0 auto;">
 
-				<p:commandButton type="push" value="Record" icon="ui-icon-home"
-					update=":tabRiver:formFsRiver:fsriversT"
-					action="#{settingsAction.update}" oncomplete="fsRiverDialog.hide()" />
-
+					<p:commandButton type="push" value="Record" icon="ui-icon-home"
+						update=":tabRiver:formFsRiver:fsriversT"
+						action="#{settingsAction.update}"
+						oncomplete="fsRiverDialog.hide()" />
+				</h:panelGrid>
 			</f:facet>
 		</p:dialog>
 	</h:form>
