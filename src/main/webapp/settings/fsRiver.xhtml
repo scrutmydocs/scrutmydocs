@@ -15,21 +15,23 @@
 
 			<p:ajax event="rowEdit" listener="#{settingsAction.update}" />
 
-			<f:facet name="header">FsRivers</f:facet>
+			<f:facet name="header">File System Rivers</f:facet>
 
 			<p:column headerText="Name">
 				<h:outputText value="#{fsriver.name}" />
 			</p:column>
 
-			<p:column headerText="url">
+			<p:column headerText="Local dir">
 				<h:outputText value="#{fsriver.url}" />
 			</p:column>
 
-			<p:column headerText="updateRate">
-				<h:outputText value="#{fsriver.updateRate}" />
+			<p:column headerText="Rate">
+				<h:outputText value="#{fsriver.updateRate}">
+					<f:convertNumber groupingUsed="#{true}" type="number" />
+  				</h:outputText>
 			</p:column>
 
-			<p:column>
+			<p:column >
 					<p:commandButton id="selectButton"
 						oncomplete="fsRiverDialog.show()" icon="ui-icon-wrench"
 						update=":tabRiver:formFsRiver:display" title="Settings">
@@ -51,6 +53,12 @@
 					<p:commandButton id="deleteButton"
 						icon="ui-icon-trash"
 						update=":tabRiver:formFsRiver:display" title="Delete">
+						<f:setPropertyActionListener value="#{fsriver}"
+							target="#{settingsAction.fsRiverSelect}" />
+					</p:commandButton>
+					<p:commandButton id="statButton"
+						icon="ui-icon-image"
+						update=":tabRiver:formFsRiver:display" title="Statistics">
 						<f:setPropertyActionListener value="#{fsriver}"
 							target="#{settingsAction.fsRiverSelect}" />
 					</p:commandButton>
