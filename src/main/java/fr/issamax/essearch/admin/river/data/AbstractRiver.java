@@ -12,6 +12,7 @@ import fr.issamax.essearch.constant.ESSearchProperties;
 public abstract class AbstractRiver implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private String id;
 	private String name;
 	private String indexname;
 	private String typename;
@@ -23,20 +24,32 @@ public abstract class AbstractRiver implements Serializable {
 	 * index/type : docs/doc
 	 */
 	public AbstractRiver() {
-		this(ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, "dummy", "My Dummy River",true);
+		this("dummy");
 	}
 	
 	/**
+	 * Default constructor using a dummy name and defaults to
+	 * index/type : docs/doc
+	 */
+	public AbstractRiver(String id) {
+		this(id, ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, "dummy", "My Dummy River", false);
+	}
+	
+	/**
+	 * @param id The unique id of this river
 	 * @param indexname The ES index where we store our docs
 	 * @param typename The ES type we use to store docs
 	 * @param type The technical type of the river
 	 * @param name The human readable name for this river
+	 * @param start Started ?
 	 */
-	public AbstractRiver(String indexname, String typename, String type, String name, boolean start) {
+	public AbstractRiver(String id, String indexname, String typename, String type, String name, boolean start) {
+		this.id = id;
 		this.indexname = indexname;
 		this.typename = typename;
 		this.type = type;
 		this.name = name;
+		this.start = start;
 	}
 
 	/**
@@ -108,5 +121,21 @@ public abstract class AbstractRiver implements Serializable {
 	public boolean isStart() {
 		return start;
 	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	
 	 
 }

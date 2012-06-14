@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import fr.issamax.essearch.admin.river.data.FSRiver;
+import fr.issamax.essearch.admin.river.service.AdminService;
 import fr.issamax.essearch.admin.river.service.RiverService;
 import fr.issamax.essearch.constant.ESSearchProperties;
 
@@ -18,47 +19,52 @@ public class SettingsAction implements Serializable {
 
 	private static final long serialVersionUID = -582985573033101693L;
 
-	@Autowired
-	RiverService riverService;
+	@Autowired RiverService riverService;
+	@Autowired AdminService adminService;
 
 	List<FSRiver> fsRivers = new ArrayList<FSRiver>();
 
-	FSRiver fsRiverSelect = new FSRiver(ESSearchProperties.INDEX_NAME,
-			ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null);
+	FSRiver fsRiverSelect = new FSRiver("", ESSearchProperties.INDEX_NAME,
+			ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null, false);
 
 	public void add() {
-		riverService.update(fsRiverSelect);
+		riverService.add(fsRiverSelect);
 		fsRivers.add(fsRiverSelect);
-		fsRiverSelect = new FSRiver(ESSearchProperties.INDEX_NAME,
-				ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null);
+		fsRiverSelect = new FSRiver("", ESSearchProperties.INDEX_NAME,
+				ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null, false);
 	}
 
 	public String init() {
-		fsRivers = riverService.get();
+		fsRivers = adminService.get();
 		return "settings";
 	}
 
 	public void resetFsRiverSelect() {
-		fsRiverSelect = new FSRiver(ESSearchProperties.INDEX_NAME,
-				ESSearchProperties.INDEX_TYPE_DOC, null, null, null, null);
+		fsRiverSelect = new FSRiver();
 	}
 
 	public void update() {
-		riverService.update(fsRiverSelect);
+		adminService.update(fsRiverSelect);
+		riverService.add(fsRiverSelect);
+		fsRivers = adminService.get();
 	}
 
 	public void remove() {
-		riverService.remove(fsRiverSelect);
+		riverService.delete(fsRiverSelect);
+		adminService.remove(fsRiverSelect);
+		fsRivers = adminService.get();
 	}
 
 	public void stop() {
 		fsRiverSelect.setStart(false);
-//		riverService.stop();
+		adminService.update(fsRiverSelect);
+		riverService.delete(fsRiverSelect);
 	}
 
 	public void start() {
 		fsRiverSelect.setStart(true);
-//		riverService.start();
+		adminService.update(fsRiverSelect);
+		riverService.add(fsRiverSelect);
 	}
 
 	public List<FSRiver> getFsRivers() {

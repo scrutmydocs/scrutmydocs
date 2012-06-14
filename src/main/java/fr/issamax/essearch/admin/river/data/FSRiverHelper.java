@@ -25,7 +25,7 @@ public class FSRiverHelper {
 					.startObject()
 						.field("type", "fs")
 						.startObject("fs")
-							.field("name", fsriver.getName())
+							.field("name", fsriver.getId())
 							.field("url", fsriver.getUrl())
 							.field("update_rate", fsriver.getUpdateRate() * 1000)
 						.endObject()
@@ -75,7 +75,7 @@ public class FSRiverHelper {
 			if (!content.containsKey("fs")) 
 				throw new RuntimeException("A FSRiver must contain \"fs\":{...}");
 
-			fsriver.setName(getSingleStringValue("fs.name", content));
+			fsriver.setId(getSingleStringValue("fs.name", content));
 			fsriver.setUrl(getSingleStringValue("fs.url", content));
 			fsriver.setUpdateRate(getSingleLongValue("fs.update_rate", content) / 1000);
 
