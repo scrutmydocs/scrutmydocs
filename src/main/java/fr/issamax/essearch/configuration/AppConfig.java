@@ -1,5 +1,7 @@
 package fr.issamax.essearch.configuration;
 
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.node.Node;
@@ -29,10 +31,23 @@ public class AppConfig {
 		
 		
 		// We are going to create the filesystem river if needed
-		XContentBuilder xb = FSRiverHelper.toXContent(new FSRiver("fs", "tmp", "/tmp_es", 30L));		
+		XContentBuilder xb = FSRiverHelper.toXContent(ESSearchProperties.INDEX_NAME,
+				ESSearchProperties.INDEX_TYPE_DOC,
+				new FSRiver("fs", "tmp", "/tmp_es", 30L));		
 		
-		factory.getObject().prepareIndex("_river", ESSearchProperties.INDEX_NAME, "_meta").setSource(xb)
+		factory.getObject().prepareIndex("_river", "myfirstriver", "_meta").setSource(xb)
 				.execute().actionGet();
+
+		// We add a dummy river to test
+		xb = jsonBuilder()
+			.startObject()
+				.field("type", "dummy")
+			.endObject();
+		
+		
+		factory.getObject().prepareIndex("_river", "dummy", "_meta").setSource(xb)
+				.execute().actionGet();
+
 		
 		return factory.getObject();
 	}

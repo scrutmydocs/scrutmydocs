@@ -1,17 +1,21 @@
 package fr.issamax.essearch.admin.river.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import org.elasticsearch.action.admin.indices.status.IndicesStatusRequestBuilder;
-import org.elasticsearch.action.admin.indices.status.IndicesStatusResponse;
+import org.elasticsearch.action.search.SearchRequestBuilder;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.index.query.IdsQueryBuilder;
 import org.elasticsearch.indices.IndexMissingException;
+import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.issamax.essearch.admin.river.data.FSRiver;
+import fr.issamax.essearch.admin.river.data.FSRiverHelper;
 
 @Component
 public class RiverService {
@@ -23,8 +27,17 @@ public class RiverService {
 	 * @return
 	 */
 	public FSRiver get(String name) {
-		// TODO DPI Implement here
-		return new FSRiver("fs", "dummy", "/dummy", 1000L);
+		if (name == null) return null;
+		
+		// TODO Be a little more fancy
+		List<FSRiver> rivers = get();
+		
+		for (Iterator<FSRiver> iterator = rivers.iterator(); iterator.hasNext();) {
+			FSRiver fsRiver = iterator.next();
+			if (name.equals(fsRiver.getName())) return fsRiver;
+		}
+		
+		return null;
 	}
 
 	/**
@@ -34,17 +47,33 @@ public class RiverService {
 	public List<FSRiver> get() {
 		List<FSRiver> rivers = new ArrayList<FSRiver>();
 		
-		IndicesStatusRequestBuilder rb = new IndicesStatusRequestBuilder(client.admin().indices()).setIndices("_river");
+		SearchRequestBuilder srb = new SearchRequestBuilder(client);
 
 		try {
-			IndicesStatusResponse response =  rb.execute().actionGet();
-			// System.out.println(response.indices());
+			IdsQueryBuilder iqb = new IdsQueryBuilder((String[]) null);
+			iqb.addIds("_meta");
+			srb.setIndices("_river");
+			srb.setQuery(iqb);
+			
+			SearchResponse response = srb.execute().actionGet();
+			
+			if (response.hits().totalHits() > 0) {
+				
+				for (int i = 0; i < response.hits().hits().length; i++) {
+					SearchHit hit = response.hits().hits()[i];
+
+					Map<String, Object> meta = (Map<String, Object>) hit.sourceAsMap();
+					if (meta.containsKey("fs")) {
+						// We only manage FS rivers
+						FSRiver fsriver = FSRiverHelper.toFSRiver(meta);
+						rivers.add(fsriver);
+					}
+				}
+			}
+			
 		} catch (IndexMissingException e) {
 			// That's a common use case. We started with an empty index
 		}
-		
-		// TODO DPI Implement here
-		if (rivers.size() == 0) rivers.add(get(""));
 		
 		return rivers;
 	}
@@ -55,7 +84,7 @@ public class RiverService {
 	 */
 	public void update(FSRiver river) {
 		//TODO
-		System.out.println(river.toString());
+		System.out.println("TODO DPI Update ES River : " + river.toString());
 	}
 	
 	/**
@@ -64,7 +93,7 @@ public class RiverService {
 	 */
 	public void remove(FSRiver river) {
 		//TODO
-		System.out.println(river.toString());
+		System.out.println("TODO DPI Remove ES River : " + river.toString());
 	}
 
 

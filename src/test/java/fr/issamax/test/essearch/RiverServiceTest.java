@@ -16,16 +16,47 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 
 	@Autowired RiverService riverService;
 	
-	@Test public void test_add_river() {
+	@Test public void test_add_river() throws InterruptedException {
 		Assert.assertNotNull(riverService);
 
-		XContentBuilder xb = FSRiverHelper.toXContent(new FSRiver("fs", "tmp", "/tmp_es", 30L));		
+		XContentBuilder xb = FSRiverHelper.toXContent(
+				ESSearchProperties.INDEX_NAME, 
+				ESSearchProperties.INDEX_TYPE_DOC, 
+				new FSRiver("fs", "tmp", "/tmp_es", 30L));		
 		
-		client.prepareIndex("_river", ESSearchProperties.INDEX_NAME, "_meta").setSource(xb)
+		client.prepareIndex("_river", "mytestriver", "_meta").setSource(xb)
 				.execute().actionGet();
 		
-		// When starting this test, we should not have any river
+		// We have to wait for 1s
+		Thread.sleep(1000);
+		
 		Collection<FSRiver> rivers = riverService.get();
-		Assert.assertEquals("Rivers should be empty when starting tests", 0, rivers.size());
+		Assert.assertEquals("Rivers should not be empty", 1, rivers.size());
 	}
+	
+	@Test public void test_get_one_river() throws InterruptedException {
+		Assert.assertNotNull(riverService);
+
+		XContentBuilder xb = FSRiverHelper.toXContent(
+				ESSearchProperties.INDEX_NAME, 
+				ESSearchProperties.INDEX_TYPE_DOC, 
+				new FSRiver("fs", "tmp", "/tmp_es", 30L));		
+		
+		client.prepareIndex("_river", "mytestriver", "_meta").setSource(xb)
+				.execute().actionGet();
+		
+		// We have to wait for 1s
+		Thread.sleep(1000);
+		
+		FSRiver fsriver = riverService.get("tmp");
+		Assert.assertNotNull("Rivers should exist", fsriver);
+	}
+
+	@Test public void test_get_nonexisting_river() throws InterruptedException {
+		Assert.assertNotNull(riverService);
+
+		FSRiver fsriver = riverService.get("iamariverthatdoesntexist");
+		Assert.assertNull("Rivers should not exist", fsriver);
+	}
+
 }
