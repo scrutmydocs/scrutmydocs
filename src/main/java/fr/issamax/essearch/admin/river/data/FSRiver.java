@@ -37,7 +37,7 @@ public class FSRiver extends AbstractRiver {
 	 */
 	public FSRiver(String indexname, String typename, String type, String name,
 			String url, Long updateRate) {
-		super(indexname, typename, type, name);
+		super(indexname, typename, type, name,true);
 		this.url = url;
 		this.updateRate = updateRate;
 	}

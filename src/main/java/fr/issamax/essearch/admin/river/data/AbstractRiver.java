@@ -16,13 +16,14 @@ public abstract class AbstractRiver implements Serializable {
 	private String indexname;
 	private String typename;
 	private String type;
+	private boolean start;
 	
 	/**
 	 * Default constructor using a dummy name and defaults to
 	 * index/type : docs/doc
 	 */
 	public AbstractRiver() {
-		this(ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, "dummy", "My Dummy River");
+		this(ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, "dummy", "My Dummy River",true);
 	}
 	
 	/**
@@ -31,7 +32,7 @@ public abstract class AbstractRiver implements Serializable {
 	 * @param type The technical type of the river
 	 * @param name The human readable name for this river
 	 */
-	public AbstractRiver(String indexname, String typename, String type, String name) {
+	public AbstractRiver(String indexname, String typename, String type, String name, boolean start) {
 		this.indexname = indexname;
 		this.typename = typename;
 		this.type = type;
@@ -93,4 +94,19 @@ public abstract class AbstractRiver implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
+	
+	/**
+	 * @param start The river state
+	 */
+	public void setStart(boolean start) {
+		this.start = start;
+	}
+	
+	/**
+	 * @param start The river state
+	 */
+	public boolean isStart() {
+		return start;
+	}
+	 
 }

@@ -14,7 +14,7 @@ import fr.issamax.essearch.constant.ESSearchProperties;
 
 @Component("settingsAction")
 @Scope("session")
-public class SettingsAction implements Serializable{
+public class SettingsAction implements Serializable {
 
 	private static final long serialVersionUID = -582985573033101693L;
 
@@ -23,14 +23,14 @@ public class SettingsAction implements Serializable{
 
 	List<FSRiver> fsRivers = new ArrayList<FSRiver>();
 
-	FSRiver fsRiverSelect = new FSRiver(ESSearchProperties.INDEX_NAME, 
+	FSRiver fsRiverSelect = new FSRiver(ESSearchProperties.INDEX_NAME,
 			ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null);
 
 	public void add() {
 
 		riverService.update(fsRiverSelect);
 		fsRivers.add(fsRiverSelect);
-		fsRiverSelect = new FSRiver(ESSearchProperties.INDEX_NAME, 
+		fsRiverSelect = new FSRiver(ESSearchProperties.INDEX_NAME,
 				ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null);
 
 	}
@@ -51,6 +51,16 @@ public class SettingsAction implements Serializable{
 
 	public void reomove() {
 		riverService.remove(fsRiverSelect);
+	}
+
+	public void stop() {
+		fsRiverSelect.setStart(false);
+//		riverService.stop();
+	}
+
+	public void start() {
+		fsRiverSelect.setStart(true);
+//		riverService.start();
 	}
 
 	public List<FSRiver> getFsRivers() {

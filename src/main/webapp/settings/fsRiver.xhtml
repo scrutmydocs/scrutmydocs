@@ -40,6 +40,24 @@
 				</h:panelGrid>
 			</p:column>
 
+			<p:column style="width:10%" id="stateColumn" >
+				<h:panelGrid columns="3" styleClass="actions" cellpadding="0">
+					<p:commandButton  action="#{settingsAction.stop}" rendered="#{fsriver.start}" 
+						 icon="ui-icon-stop"
+						update=":tabRiver:formFsRiver" title="View">
+						<f:setPropertyActionListener value="#{fsriver}"
+							target="#{settingsAction.fsRiverSelect}" />
+					</p:commandButton>
+					
+					<p:commandButton  action="#{settingsAction.start}" rendered="#{!fsriver.start}" 
+						 icon="ui-icon-play"
+						update=":tabRiver:formFsRiver" title="View">
+						<f:setPropertyActionListener value="#{fsriver}"
+							target="#{settingsAction.fsRiverSelect}" />
+					</p:commandButton>
+				</h:panelGrid>
+			</p:column>
+
 			<f:facet name="footer">
 				<p:commandButton type="push" value="Add" icon="ui-icon-search"
 					action="#{settingsAction.resetFsRiverSelect}"
