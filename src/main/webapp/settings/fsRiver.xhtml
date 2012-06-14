@@ -28,53 +28,33 @@
 			<p:column headerText="Rate">
 				<h:outputText value="#{fsriver.updateRate}">
 					<f:convertNumber groupingUsed="#{true}" type="number" />
-  				</h:outputText>
+				</h:outputText>
 			</p:column>
 
-			<p:column >
+
+			<p:column style="width:10%" id="stateColumn">
+				<h:panelGrid columns="3" styleClass="actions" cellpadding="0">
 					<p:commandButton id="selectButton"
 						oncomplete="fsRiverDialog.show()" icon="ui-icon-wrench"
 						update=":tabRiver:formFsRiver:display" title="Settings">
 						<f:setPropertyActionListener value="#{fsriver}"
 							target="#{settingsAction.fsRiverSelect}" />
 					</p:commandButton>
-					<p:commandButton id="suspendButton"
-						icon="ui-icon-pause"
-						update=":tabRiver:formFsRiver:display" title="Suspend">
-						<f:setPropertyActionListener value="#{fsriver}"
-							target="#{settingsAction.fsRiverSelect}" />
-					</p:commandButton>
-					<p:commandButton id="playButton" rendered="false" 
-						icon="ui-icon-play"
-						update=":tabRiver:formFsRiver:display" title="Restart">
-						<f:setPropertyActionListener value="#{fsriver}"
-							target="#{settingsAction.fsRiverSelect}" />
-					</p:commandButton>
-					<p:commandButton id="deleteButton"
-						icon="ui-icon-trash"
+					<p:commandButton id="deleteButton" icon="ui-icon-trash"
+						action="#{settingsAction.remove}"
 						update=":tabRiver:formFsRiver:display" title="Delete">
 						<f:setPropertyActionListener value="#{fsriver}"
 							target="#{settingsAction.fsRiverSelect}" />
 					</p:commandButton>
-					<p:commandButton id="statButton"
-						icon="ui-icon-image"
-						update=":tabRiver:formFsRiver:display" title="Statistics">
-						<f:setPropertyActionListener value="#{fsriver}"
-							target="#{settingsAction.fsRiverSelect}" />
-					</p:commandButton>
-			</p:column>
-
-			<p:column style="width:10%" id="stateColumn" >
-				<h:panelGrid columns="3" styleClass="actions" cellpadding="0">
-					<p:commandButton  action="#{settingsAction.stop}" rendered="#{fsriver.start}" 
-						 icon="ui-icon-stop"
+					<p:commandButton action="#{settingsAction.stop}"
+						rendered="#{fsriver.start}" icon="ui-icon-stop"
 						update=":tabRiver:formFsRiver" title="View">
 						<f:setPropertyActionListener value="#{fsriver}"
 							target="#{settingsAction.fsRiverSelect}" />
 					</p:commandButton>
-					
-					<p:commandButton  action="#{settingsAction.start}" rendered="#{!fsriver.start}" 
-						 icon="ui-icon-play"
+
+					<p:commandButton action="#{settingsAction.start}"
+						rendered="#{!fsriver.start}" icon="ui-icon-play"
 						update=":tabRiver:formFsRiver" title="View">
 						<f:setPropertyActionListener value="#{fsriver}"
 							target="#{settingsAction.fsRiverSelect}" />
@@ -90,8 +70,6 @@
 			</f:facet>
 
 		</p:dataTable>
-
-
 
 
 		<p:dialog header="New FS River" widgetVar="fsRiverDialog" id="display"
@@ -134,25 +112,16 @@
 					</h:panelGrid>
 				</p:tab>
 
+				<p:tab title="Statistics">
+				</p:tab>
+
 			</p:tabView>
 			<f:facet name="footer">
-				<h:panelGrid columns="2">
-					<p:commandButton type="push" value="Update" icon="ui-icon-home"
-						update=":tabRiver:formFsRiver:fsriversT"
-						action="#{settingsAction.update}"
-						oncomplete="fsRiverDialog.hide()"
-						rendered="#{settingsAction.fsRiverSelect.updateRate != null}" />
-					<p:commandButton type="push" value="Remove" icon="ui-icon-home"
-						update=":tabRiver:formFsRiver:fsriversT"
-						action="#{settingsAction.remove}"
-						oncomplete="fsRiverDialog.hide()"
-						rendered="#{settingsAction.fsRiverSelect.updateRate != null}" />
-					<p:commandButton type="push" value="Add.." icon="ui-icon-home"
-						update=":tabRiver:formFsRiver:fsriversT"
-						action="#{settingsAction.update}"
-						oncomplete="fsRiverDialog.hide()"
-						rendered="#{settingsAction.fsRiverSelect.updateRate == null}" />
-				</h:panelGrid>
+
+				<p:commandButton type="push" value="Record" icon="ui-icon-home"
+					update=":tabRiver:formFsRiver:fsriversT"
+					action="#{settingsAction.update}" oncomplete="fsRiverDialog.hide()" />
+
 			</f:facet>
 		</p:dialog>
 	</h:form>
