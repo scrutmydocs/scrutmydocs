@@ -13,21 +13,22 @@ public class FSRiver extends AbstractRiver {
 	private Long updateRate;
 	
 	public FSRiver() {
-		this("/tmp", 60L);
+		this("tmp", "/tmp", 60L);
 	}
 	
 	/**
 	 * @param url
 	 * @param updateRate
 	 */
-	public FSRiver(String url, Long updateRate) {
-		super();
+	public FSRiver(String id, String url, Long updateRate) {
+		super(id);
 		this.url = url;
 		this.updateRate = updateRate;
 	}
 
 
 	/**
+	 * @param id The unique id of this river
 	 * @param indexname The ES index where we store our docs
 	 * @param typename The ES type we use to store docs
 	 * @param type The river type
@@ -35,9 +36,9 @@ public class FSRiver extends AbstractRiver {
 	 * @param url URL where to fetch content
 	 * @param updateRate Update Rate (in seconds)
 	 */
-	public FSRiver(String indexname, String typename, String type, String name,
-			String url, Long updateRate) {
-		super(indexname, typename, type, name,true);
+	public FSRiver(String id, String indexname, String typename, String type, String name,
+			String url, Long updateRate, boolean started) {
+		super(id, indexname, typename, type, name, started);
 		this.url = url;
 		this.updateRate = updateRate;
 	}

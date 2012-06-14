@@ -1,7 +1,6 @@
 package fr.issamax.essearch.configuration;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-
+import org.elasticsearch.ElasticSearchException;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.node.Node;
@@ -29,32 +28,25 @@ public class AppConfig {
 		factory.setNode(esNode());
 		factory.afterPropertiesSet();
 		
+		try {
+			// We are going to create the filesystem river if needed
+			XContentBuilder xb = FSRiverHelper.toXContent(
+					new FSRiver("myfirstriver", ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, "fs", "Scan tmp dir", "/tmp_es", 30L, false));		
 		
-		// We are going to create the filesystem river if needed
-		XContentBuilder xb = FSRiverHelper.toXContent(
-				new FSRiver(ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L));		
-		
-		factory.getObject().prepareIndex("_river", "myfirstriver", "_meta").setSource(xb)
-				.execute().actionGet();
+			factory.getObject().prepareIndex(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, "myfirstriver").setSource(xb)
+					.execute().actionGet();
 
-		// We are going to create a second filesystem river to test multiple feeds
-		xb = FSRiverHelper.toXContent(
-				new FSRiver(ESSearchProperties.INDEX_NAME,
-						ESSearchProperties.INDEX_TYPE_DOC, "fs", "mysecondriver", "/tmp_es_second", 30L));		
-		
-		factory.getObject().prepareIndex("_river", "mysecondriver", "_meta").setSource(xb)
-				.execute().actionGet();
+			// We are going to create a second filesystem river to test multiple feeds
+			xb = FSRiverHelper.toXContent(
+					new FSRiver("mysecondriver", ESSearchProperties.INDEX_NAME,
+							ESSearchProperties.INDEX_TYPE_DOC, "fs", "Scan second dir", "/tmp_es_second", 30L, false));		
+			
+			factory.getObject().prepareIndex(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, "mysecondriver").setSource(xb)
+					.execute().actionGet();
 
-		// We add a dummy river to test
-		xb = jsonBuilder()
-			.startObject()
-				.field("type", "dummy")
-			.endObject();
-		
-		
-		factory.getObject().prepareIndex("_river", "dummy", "_meta").setSource(xb)
-				.execute().actionGet();
-
+		} catch (ElasticSearchException e) {
+			// TODO log.debug("Index is closed");
+		}
 		
 		return factory.getObject();
 	}
