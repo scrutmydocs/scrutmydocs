@@ -5,6 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.action.admin.indices.close.CloseIndexRequestBuilder;
+import org.elasticsearch.action.admin.indices.close.CloseIndexResponse;
+import org.elasticsearch.action.admin.indices.open.OpenIndexRequestBuilder;
+import org.elasticsearch.action.admin.indices.open.OpenIndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
@@ -96,5 +100,33 @@ public class RiverService {
 		System.out.println("TODO DPI Remove ES River : " + river.toString());
 	}
 
+	/**
+	 * Stop all rivers
+	 */
+	public void stop() {
+		CloseIndexRequestBuilder irb = new CloseIndexRequestBuilder(client.admin().indices());
+
+		irb.setIndex("_river");
+		CloseIndexResponse response = irb.execute().actionGet();
+		
+		if (!response.acknowledged()) {
+			System.err.println("Pb when clausing rivers.");
+		}
+	}
+	
+	/**
+	 * (Re)Start all rivers
+	 */
+	public void start() {
+		OpenIndexRequestBuilder irb = new OpenIndexRequestBuilder(client.admin().indices());
+
+		irb.setIndex("_river");
+		OpenIndexResponse response = irb.execute().actionGet();
+		
+		if (!response.acknowledged()) {
+			System.err.println("Pb when clausing rivers.");
+		}
+	}
+	
 
 }
