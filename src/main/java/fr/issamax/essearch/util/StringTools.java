@@ -95,13 +95,11 @@ public class StringTools {
 	 * @return The generated String
 	 */
 	public static String toString(Object obj) {
-		// Pour démarrer, on se met en indentation = 0
 		StringBuffer out = new StringBuffer();
 		try {
 			toString(out, obj, 0);
 		}
 		catch (Exception e) {
-			// On ne fait rien
 			return null;
 		}
 
@@ -202,7 +200,6 @@ public class StringTools {
 
 	private static Object invoquerMethode(Object targetObject, String nomMethode, Class<?>[] parametersClass, Object[] parametres)
 			throws IllegalAccessException, InvocationTargetException {
-		// On essaye de trouver si il y a un getter
 		String propName = nomMethode.substring(0, 1).toUpperCase() + nomMethode.substring(1);
 		String methodName = "get" + propName;
 		
