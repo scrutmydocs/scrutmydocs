@@ -1,10 +1,13 @@
 package fr.issamax.essearch.action;
 
-import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
-import static org.elasticsearch.index.query.QueryBuilders.queryString;
+import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.FilterBuilders.*;
+import static org.elasticsearch.search.facet.FacetBuilders.*;
 import static fr.issamax.essearch.constant.ESSearchProperties.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
@@ -15,9 +18,14 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.Base64;
+import org.elasticsearch.common.logging.ESLogger;
+import org.elasticsearch.common.logging.Loggers;
+import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.facet.terms.TermsFacet;
+import org.elasticsearch.search.facet.terms.TermsFacet.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +39,8 @@ import fr.issamax.essearch.data.Results;
 public class SearchController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private ESLogger logger = Loggers.getLogger(getClass().getName());
+	
 	@Autowired
 	protected Client esClient;
 
@@ -39,6 +49,7 @@ public class SearchController implements Serializable {
 	protected Results results;
 
 	public void google() {
+		if (logger.isDebugEnabled()) logger.debug("google() : {}", search);
 		try {
 			QueryBuilder qb;
 			if (search == null || search.trim().length() <= 0) {
@@ -61,8 +72,42 @@ public class SearchController implements Serializable {
 			e.printStackTrace();
 		}
 
+		if (logger.isDebugEnabled()) logger.debug("/google() : {}", search);
 	}
 
+	/**
+	 * Autocomplete
+	 * TODO Create multifield mapping with edge n gram
+	 * TODO Search and create facets
+	 * @param query
+	 * @return
+	 */
+	public List<String> complete(String query) {  
+        List<String> results = new ArrayList<String>();  
+          
+		try {
+			QueryBuilder qb = matchAllQuery();
+			FilterBuilder fb = prefixFilter("file", query);
+			
+			SearchResponse searchHits = esClient.prepareSearch()
+					.setIndices(INDEX_NAME)
+					.setTypes(INDEX_TYPE_DOC)
+					.addFacet(termsFacet("autocomplete").field("file").facetFilter(fb))
+					
+					.execute().actionGet();
+			
+			TermsFacet terms = searchHits.getFacets().facet("autocomplete");
+			for (Entry entry : terms.entries()) {
+				results.add(entry.getTerm());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+          
+        return results;  
+    }  
+	
 	public void imlucky() {
 		try {
 			QueryBuilder qb;

@@ -42,8 +42,7 @@
 				</h:outputLink>
 			</f:facet>
 			<h:panelGrid columns="2">
-				<p:inputText value="#{searchController.search}" size="60"
-					tabindex="1" />
+				<p:autoComplete value="#{searchController.search}" completeMethod="#{searchController.complete}" multiple="false" size="60" tabindex="1"/>
 				<p:commandButton value="Search" update="results" icon="ui-icon-search"
 					action="#{searchController.google}" />
 			</h:panelGrid>
