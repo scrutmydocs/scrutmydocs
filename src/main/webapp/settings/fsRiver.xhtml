@@ -109,49 +109,58 @@
 
 			<p:tabView style="width:800px;height:300px">
 				<p:tab title="General">
-					<h:panelGrid columns="3" cellpadding="4" style="margin:0 auto;">
+					<p:panelGrid>
 
-						<h:outputText value="Id :" />
-						<p:inputText value="#{settingsAction.fsRiverSelect.id}"
-							style="width:100%" id="id" />
-						<p:message for="id" />
+    					<p:row>
+    						<p:column><h:outputText value="Id :" /></p:column>
+							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.id}"
+								style="width:100%" id="id" /></p:column>
+							<p:column><p:message for="id" /></p:column>
+						</p:row>
 
-						<h:outputText value="Name :" />
-						<p:inputText value="#{settingsAction.fsRiverSelect.name}"
-							style="width:100%" id="name" />
-						<p:message for="name" />
+    					<p:row>
+							<p:column><h:outputText value="Name :" /></p:column>
+							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.name}"
+								style="width:100%" id="name" /></p:column>
+							<p:column><p:message for="name" /></p:column>
+						</p:row>
 
+    					<p:row>
+							<p:column><h:outputText value="Url : " /></p:column>
+							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.url}"
+								style="width:100%" label="Url" id="url" /></p:column>
+							<p:column><p:message for="url" /></p:column>
+						</p:row>
 
-						<h:outputText value="Url : " />
-						<p:inputText value="#{settingsAction.fsRiverSelect.url}"
-							style="width:100%" label="Url" id="url" />
-						<p:message for="url" />
+    					<p:row>
+							<p:column><h:outputText value="Rate (s):" /></p:column>
+							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.updateRate}"
+								style="width:100%" label="Rate" id="updateRate" /></p:column>
+							<p:column><p:message for="updateRate" /></p:column>
+						</p:row>
 
+    					<p:row>
+							<p:column colspan="3"><p:slider for="updateRate" 
+								minValue="10" maxValue="3600" step="10" /></p:column>
+						</p:row>
 
-
-						<h:outputText value="Rate (s):" />
-						<p:inputText value="#{settingsAction.fsRiverSelect.updateRate}"
-							style="width:100%" label="Rate" id="updateRate" />
-							<p:message for="updateRate" />
-							<p:slider for="updateRate" />
-
-
-
-					</h:panelGrid>
+					</p:panelGrid>
 				</p:tab>
 
 				<p:tab title="Advance">
-					<h:panelGrid columns="2" cellpadding="4" style="margin:0 auto;">
+					<p:panelGrid>
+    					<p:row>
+							<p:column><h:outputText value="Index :" /></p:column>
+							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.indexname}"
+								style="width:100%" /></p:column>
+						</p:row>
 
-						<h:outputText value="Index :" />
-						<p:inputText value="#{settingsAction.fsRiverSelect.indexname}"
-							style="width:100%" />
-
-
-						<h:outputText value="Type : " />
-						<p:inputText value="#{settingsAction.fsRiverSelect.typename}"
-							style="width:100%" label="Year" />
-					</h:panelGrid>
+    					<p:row>
+							<p:column><h:outputText value="Type : " /></p:column>
+							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.typename}"
+								style="width:100%" label="Type" /></p:column>
+						</p:row>	
+					</p:panelGrid>
 				</p:tab>
 
 				<p:tab title="Statistics">
