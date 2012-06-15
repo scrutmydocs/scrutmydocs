@@ -1,5 +1,8 @@
 package fr.issamax.essearch.admin.river.data;
 
+import fr.issamax.essearch.util.StringTools;
+
+
 
 
 /**
@@ -122,6 +125,9 @@ public class FSRiver extends AbstractRiver {
 	public void setExcludes(String excludes) {
 		this.excludes = excludes;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return StringTools.toString(this);
+	}
 }

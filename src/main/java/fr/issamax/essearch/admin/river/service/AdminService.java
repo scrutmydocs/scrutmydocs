@@ -9,6 +9,8 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.logging.ESLogger;
+import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
@@ -23,6 +25,8 @@ import fr.issamax.essearch.constant.ESSearchProperties;
 public class AdminService implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private ESLogger logger = Loggers.getLogger(getClass().getName());
+	
 	@Autowired Client client;
 
 	/**
@@ -31,19 +35,23 @@ public class AdminService implements Serializable {
 	 * @return
 	 */
 	public FSRiver get(String name) {
-		if (name == null) return null;
-
-		GetRequestBuilder rb = new GetRequestBuilder(client, ESSearchProperties.ES_META_INDEX);
-		rb.setType(ESSearchProperties.ES_META_RIVERS);
-		rb.setId(name);
+		if (logger.isDebugEnabled()) logger.debug("get({})", name);
 		
-		GetResponse response = rb.execute().actionGet();
-		if (response.exists()) {
-			FSRiver fsriver = FSRiverHelper.toFSRiver(response.sourceAsMap());
-			return fsriver;
+		FSRiver fsriver = null;
+		
+		if (name != null) {
+			GetRequestBuilder rb = new GetRequestBuilder(client, ESSearchProperties.ES_META_INDEX);
+			rb.setType(ESSearchProperties.ES_META_RIVERS);
+			rb.setId(name);
+			
+			GetResponse response = rb.execute().actionGet();
+			if (response.exists()) {
+				fsriver = FSRiverHelper.toFSRiver(response.sourceAsMap());
+			}
 		}
-		
-		return null;
+
+		if (logger.isDebugEnabled()) logger.debug("/get({})={}", name, fsriver);
+		return fsriver;
 	}
 
 	/**
@@ -51,6 +59,7 @@ public class AdminService implements Serializable {
 	 * @return
 	 */
 	public List<FSRiver> get() {
+		if (logger.isDebugEnabled()) logger.debug("get()");
 		List<FSRiver> rivers = new ArrayList<FSRiver>();
 		
 		SearchRequestBuilder srb = new SearchRequestBuilder(client);
@@ -76,6 +85,7 @@ public class AdminService implements Serializable {
 			// That's a common use case. We started with an empty index
 		}
 		
+		if (logger.isDebugEnabled()) logger.debug("/get()={}", rivers);
 		return rivers;
 	}
 
@@ -84,6 +94,7 @@ public class AdminService implements Serializable {
 	 * @param river
 	 */
 	public void update(FSRiver river) {
+		if (logger.isDebugEnabled()) logger.debug("update({})", river);
 		XContentBuilder xb = FSRiverHelper.toXContent(river);		
 		
 		try {
@@ -93,6 +104,7 @@ public class AdminService implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if (logger.isDebugEnabled()) logger.debug("/update({})", river);
 	}
 	
 	/**
@@ -100,12 +112,14 @@ public class AdminService implements Serializable {
 	 * @param river
 	 */
 	public void remove(FSRiver river) {
+		if (logger.isDebugEnabled()) logger.debug("remove({})", river);
 		try {
 			client.prepareDelete(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, river.getId()).execute().actionGet();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if (logger.isDebugEnabled()) logger.debug("/remove({})", river);
 	}
 
 }
