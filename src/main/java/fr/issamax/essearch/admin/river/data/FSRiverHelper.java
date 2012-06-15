@@ -80,6 +80,7 @@ public class FSRiverHelper {
 				throw new RuntimeException("A FSRiver must contain \"fs\":{...}");
 
 			fsriver.setId(getSingleStringValue("fs.name", content));
+			fsriver.setName(getSingleStringValue("fs.name", content));
 			fsriver.setUrl(getSingleStringValue("fs.url", content));
 			fsriver.setUpdateRate(getSingleLongValue("fs.update_rate", content) / 1000);
 

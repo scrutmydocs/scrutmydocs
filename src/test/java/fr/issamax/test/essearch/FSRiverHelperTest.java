@@ -50,7 +50,7 @@ public class FSRiverHelperTest {
 		Assert.assertEquals(model.getIncludes(), fsriver.getIncludes());
 		Assert.assertEquals(model.getExcludes(), fsriver.getExcludes());
 
-		Assert.assertEquals(model.getIncludes(), fsriver.getTypename());
+		Assert.assertEquals(model.getName(), fsriver.getName());
 		Assert.assertEquals(model.getTypename(), fsriver.getTypename());
 	}
 }
