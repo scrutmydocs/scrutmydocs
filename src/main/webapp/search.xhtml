@@ -6,7 +6,7 @@
 	xmlns:es="http://essearch.fr/taglibs">
 
 <h:head>
-	<link rel="stylesheet" type="text/css" media="all" />
+	<link rel="stylesheet" type="text/css" media="all"  />
 	<title>Es Search</title>
 	<link rel="shortcut icon" type="image/x-icon" href="./img/logo.png" />
 </h:head>
@@ -63,9 +63,15 @@
 	<p:dialog header="Upload your documents" widgetVar="upload"
 		showEffect="explode" modal="true" hideEffect="explode" height="300"
 		width="500">
-		<p:fileUpload
-			fileUploadListener="#{fileUploadController.handleFileUpload}"
-			multiple="false" oncomplete="upload.hide();" />
+
+		<p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"  
+            mode="advanced"   
+            update=":messages"  
+            auto="true"
+            multiple="true"
+            dragDropSupport="true"
+            oncomplete="upload.hide();" />  
+			
 	</p:dialog>
 
 </h:form>
