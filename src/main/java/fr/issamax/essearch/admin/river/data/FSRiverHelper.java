@@ -28,6 +28,8 @@ public class FSRiverHelper {
 							.field("name", fsriver.getId())
 							.field("url", fsriver.getUrl())
 							.field("update_rate", fsriver.getUpdateRate() * 1000)
+							.field("includes", fsriver.getIncludes())
+							.field("excludes", fsriver.getExcludes())
 						.endObject()
 						.startObject("index")
 							.field("index", fsriver.getIndexname())
@@ -48,7 +50,9 @@ public class FSRiverHelper {
   "fs" : {
 	  "update_rate" : 30000,
 	  "name" : "tmp",
-	  "url" : "/tmp_es"
+	  "url" : "/tmp_es",
+	  "includes" : "*.doc,*.pdf",
+	  "excludes" : "resume.*",
   },
   "index" : {
 	  "index" : "docs",
@@ -79,6 +83,11 @@ public class FSRiverHelper {
 			fsriver.setUrl(getSingleStringValue("fs.url", content));
 			fsriver.setUpdateRate(getSingleLongValue("fs.update_rate", content) / 1000);
 
+			// TODO Manage includes/excludes when arrays
+			fsriver.setIncludes(getSingleStringValue("fs.includes", content));
+			fsriver.setExcludes(getSingleStringValue("fs.excludes", content));
+			
+			
 			// Then we dig into fs
 			if (content.containsKey("index")) {
 				fsriver.setIndexname(getSingleStringValue("index.index", content));
