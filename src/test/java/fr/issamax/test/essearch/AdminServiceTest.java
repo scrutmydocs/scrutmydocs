@@ -21,7 +21,7 @@ public class AdminServiceTest extends AbstractConfigurationTest {
 
 		XContentBuilder xb = FSRiverHelper.toXContent(
 				new FSRiver("mytestriver", ESSearchProperties.INDEX_NAME, 
-						ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L, false));		
+						ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L, "standard", false));		
 		
 		client.prepareIndex(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, "mytestriver").setSource(xb)
 				.execute().actionGet();
@@ -38,7 +38,7 @@ public class AdminServiceTest extends AbstractConfigurationTest {
 
 		XContentBuilder xb = FSRiverHelper.toXContent(
 				new FSRiver("mytestriver", ESSearchProperties.INDEX_NAME, 
-						ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L, false));		
+						ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L, "standard", false));		
 		
 		client.prepareIndex(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, "mytestriver").setSource(xb)
 				.execute().actionGet();

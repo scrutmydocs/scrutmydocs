@@ -56,18 +56,6 @@
 						<f:setPropertyActionListener value="#{fsriver}"
 							target="#{settingsAction.fsRiverSelect}" />
 					</p:commandButton>
-					<p:commandButton id="suspendButton"
-						icon="ui-icon-pause"
-						update=":tabRiver:formFsRiver:display" title="Suspend">
-						<f:setPropertyActionListener value="#{fsriver}"
-							target="#{settingsAction.fsRiverSelect}" />
-					</p:commandButton>
-					<p:commandButton id="playButton" rendered="false" 
-						icon="ui-icon-play"
-						update=":tabRiver:formFsRiver:display" title="Restart">
-						<f:setPropertyActionListener value="#{fsriver}"
-							target="#{settingsAction.fsRiverSelect}" />
-					</p:commandButton>
 					<p:commandButton id="deleteButton"
 						icon="ui-icon-trash"
 						update=":tabRiver:formFsRiver:display" title="Delete"
@@ -78,14 +66,14 @@
 
 					<p:commandButton  action="#{settingsAction.stop}" rendered="#{fsriver.start}" 
 						 icon="ui-icon-stop"
-						update=":tabRiver:formFsRiver" title="View">
+						update=":tabRiver:formFsRiver" title="Stop">
 						<f:setPropertyActionListener value="#{fsriver}"
 							target="#{settingsAction.fsRiverSelect}" />
 					</p:commandButton>
 					
 					<p:commandButton  action="#{settingsAction.start}" rendered="#{!fsriver.start}" 
 						 icon="ui-icon-play"
-						update=":tabRiver:formFsRiver" title="View">
+						update=":tabRiver:formFsRiver" title="Start">
 						<f:setPropertyActionListener value="#{fsriver}"
 							target="#{settingsAction.fsRiverSelect}" />
 					</p:commandButton>
@@ -159,6 +147,16 @@
 							<p:column><h:outputText value="Type : " /></p:column>
 							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.typename}"
 								style="width:100%" label="Type" /></p:column>
+						</p:row>	
+
+    					<p:row>
+							<p:column><h:outputText value="Analyzer : " /></p:column>
+							<p:column>
+								<p:selectOneMenu value="#{settingsAction.fsRiverSelect.analyzer}" effect="fold" editable="true">  
+						            <f:selectItem itemLabel="Standard" itemValue="standard" />  
+						            <f:selectItem itemLabel="French" itemValue="francais" />  
+						        </p:selectOneMenu>  
+							</p:column>
 						</p:row>	
 					</p:panelGrid>
 				</p:tab>

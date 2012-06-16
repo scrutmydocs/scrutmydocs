@@ -25,13 +25,13 @@ public class SettingsAction implements Serializable {
 	List<FSRiver> fsRivers = new ArrayList<FSRiver>();
 
 	FSRiver fsRiverSelect = new FSRiver("", ESSearchProperties.INDEX_NAME,
-			ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null, false);
+			ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null, "standard", false);
 
 	public void add() {
 		riverService.add(fsRiverSelect);
 		fsRivers.add(fsRiverSelect);
 		fsRiverSelect = new FSRiver("", ESSearchProperties.INDEX_NAME,
-				ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null, false);
+				ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null, "standard", false);
 	}
 
 	public String init() {

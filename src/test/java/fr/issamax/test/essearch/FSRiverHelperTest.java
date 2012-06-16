@@ -19,12 +19,15 @@ public class FSRiverHelperTest {
 {
   "index" : {
 	  "index" : "docs",
-	  "type" : "doc"
+	  "type" : "doc",
+	  "analyzer" : "standard"
   },
   "fs" : {
       "update_rate" : 30000,
       "name" : "tmp",
       "url" : "/tmp_es"
+      "includes" : "*.doc,*.pdf"
+      "excludes" : "resume.*"
   },
   "type" : "fs"
 }
@@ -33,7 +36,7 @@ public class FSRiverHelperTest {
 	 */
 	@Test public void test_tofsriver() throws IOException {
 		FSRiver model = new FSRiver("tmp", ESSearchProperties.INDEX_NAME, 
-				ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", false);
+				ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
 		
 		XContentBuilder xb = FSRiverHelper.toXContent(model);		
 		String jsonContent = xb.string();
@@ -52,5 +55,6 @@ public class FSRiverHelperTest {
 
 		Assert.assertEquals(model.getName(), fsriver.getName());
 		Assert.assertEquals(model.getTypename(), fsriver.getTypename());
+		Assert.assertEquals(model.getAnalyzer(), fsriver.getAnalyzer());
 	}
 }

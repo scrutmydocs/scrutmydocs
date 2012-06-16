@@ -34,6 +34,7 @@ public class FSRiverHelper {
 						.startObject("index")
 							.field("index", fsriver.getIndexname())
 							.field("type", fsriver.getTypename())
+							.field("analyzer", fsriver.getAnalyzer())
 						.endObject()
 					.endObject();
 		} catch (IOException e) {
@@ -56,7 +57,8 @@ public class FSRiverHelper {
   },
   "index" : {
 	  "index" : "docs",
-	  "type" : "doc"
+	  "type" : "doc",
+	  "analyzer" : "standard"
   }
 }
 </pre>
@@ -88,6 +90,7 @@ public class FSRiverHelper {
 			fsriver.setIncludes(getSingleStringValue("fs.includes", content));
 			fsriver.setExcludes(getSingleStringValue("fs.excludes", content));
 			
+			fsriver.setAnalyzer(getSingleStringValue("fs.analyzer", content));
 			
 			// Then we dig into fs
 			if (content.containsKey("index")) {
@@ -100,6 +103,51 @@ public class FSRiverHelper {
 		}		
 		return fsriver;
 	}
+	
+	/**
+	 * Build a river mapping for FS
+	 * @param fsriver FSRiver used to generate mapping
+	 * @return An ES xcontent
+	 */
+	public static XContentBuilder toRiverMapping(FSRiver fsriver) {
+		XContentBuilder xb = null;
+		try {
+			xb = jsonBuilder()
+					.startObject()
+						.startObject(fsriver.getTypename())
+							.startObject("properties")
+								.startObject("file")
+									.field("type", "attachment")
+									.field("path", "full")
+									.startObject("fields")
+										.startObject("file")
+											.field("type", "string")
+											.field("store", "yes")
+											.field("term_vector", "with_positions_offsets")
+											.field("analyzer", fsriver.getAnalyzer())
+										.endObject()
+										.startObject("author").field("type", "string").endObject()
+										.startObject("title").field("type", "string").field("store", "yes").endObject()
+										.startObject("name").field("type", "string").endObject()
+										.startObject("date").field("type", "date").field("format", "dateOptionalTime").endObject()
+										.startObject("keywords").field("type", "string").endObject()
+										.startObject("content_type").field("type", "string").endObject()
+									.endObject()
+								.endObject()
+								.startObject("name").field("type", "string").field("analyzer", "keyword").endObject()
+								.startObject("pathEncoded").field("type", "string").field("analyzer", "keyword").endObject()
+								.startObject("postDate").field("type", "date").field("format", "dateOptionalTime").endObject()
+								.startObject("rootpath").field("type", "string").field("analyzer", "keyword").endObject()
+								.startObject("virtualpath").field("type", "string").field("analyzer", "keyword").endObject()
+							.endObject()
+						.endObject()
+					.endObject();
+		} catch (IOException e) {
+			// TODO Log when error
+		}		
+		return xb;
+	}
+
 	
 	private static String getSingleStringValue(String path, Map<String, Object> content) {
 		List<Object> obj = XContentMapValues.extractRawValues(path, content);
