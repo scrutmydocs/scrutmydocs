@@ -92,7 +92,7 @@
 
 
 
-		<p:dialog header="New FS River" widgetVar="fsRiverDialog" id="display"
+		<p:dialog header="Modify river #{settingsAction.fsRiverSelect.name}" widgetVar="fsRiverDialog" id="display"
 			resizable="false" showEffect="fade" hideEffect="explode" modal="true">
 
 			<p:tabView style="width:800px;height:300px">
@@ -101,7 +101,7 @@
 
     					<p:row>
     						<p:column><h:outputText value="Id :" /></p:column>
-							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.id}"
+							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.id}" disabled="#{settingsAction.fsRiverSelect.id != null}"
 								style="width:100%" id="id" /></p:column>
 							<p:column><p:message for="id" /></p:column>
 						</p:row>

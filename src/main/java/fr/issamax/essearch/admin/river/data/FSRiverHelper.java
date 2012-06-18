@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.support.XContentMapValues;
 
@@ -99,7 +100,7 @@ public class FSRiverHelper {
 				// TODO Add support for fancy river name ???
 			}
 		} catch (Exception e) {
-			// TODO Log when error
+			e.printStackTrace();
 		}		
 		return fsriver;
 	}
@@ -151,7 +152,10 @@ public class FSRiverHelper {
 	
 	private static String getSingleStringValue(String path, Map<String, Object> content) {
 		List<Object> obj = XContentMapValues.extractRawValues(path, content);
-		return ((String) obj.get(0));
+		if(obj.isEmpty()) 
+			return null;
+		else 
+			return ((String) obj.get(0));
 	}
 	
 	private static Long getSingleLongValue(String path, Map<String, Object> content) {
