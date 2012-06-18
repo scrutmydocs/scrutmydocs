@@ -98,7 +98,7 @@ public class AdminService implements Serializable {
 		XContentBuilder xb = FSRiverHelper.toXContent(river);		
 		
 		try {
-			client.prepareIndex(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, river.getId()).setSource(xb)
+			client.prepareIndex(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, river.getId()).setSource(xb).setRefresh(true)
 					.execute().actionGet();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
