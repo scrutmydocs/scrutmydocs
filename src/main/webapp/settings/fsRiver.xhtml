@@ -50,7 +50,7 @@
 			</p:column>
 
 			<p:column >
-					<p:commandButton id="selectButton"
+					<p:commandButton id="selectButton" rendered="#{!fsriver.start}" 
 						oncomplete="fsRiverDialog.show()" icon="ui-icon-wrench"
 						update=":tabRiver:formFsRiver:display" title="Settings">
 						<f:setPropertyActionListener value="#{fsriver}"
