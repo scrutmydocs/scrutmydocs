@@ -101,7 +101,7 @@
 
     					<p:row>
     						<p:column><h:outputText value="Id :" /></p:column>
-							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.id}"
+							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.id}" disabled="#{settingsAction.fsRiverSelect.id != null}"
 								style="width:100%" id="id" /></p:column>
 							<p:column><p:message for="id" /></p:column>
 						</p:row>

@@ -40,7 +40,8 @@ public class SettingsAction implements Serializable {
 	}
 
 	public void resetFsRiverSelect() {
-		fsRiverSelect = new FSRiver();
+		fsRiverSelect =new FSRiver(null, ESSearchProperties.INDEX_NAME,
+				ESSearchProperties.INDEX_TYPE_DOC, "", "", "", null, "standard", false);
 	}
 
 	public void update() {
