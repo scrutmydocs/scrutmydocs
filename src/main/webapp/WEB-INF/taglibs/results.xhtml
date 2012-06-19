@@ -9,9 +9,17 @@
 		<f:facet name="header">
 		</f:facet>
 
-		<p:dataTable var="result" value="#{results}" 
+		<p:dataTable var="result" value="#{results}"
 			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-			 paginator="true" rows="5"  lazy="true" rowsPerPageTemplate="5,10,15" >
+			paginator="true" rows="5" lazy="true" rowsPerPageTemplate="5,10,15">
+
+			<p:ajax event="page">
+				<f:setPropertyActionListener target="#{searchController.search}"
+					value="#{searchController.search}" />
+			</p:ajax>
+
+
+
 			<p:column>
 				<es:result searchHits="#{result}" />
 			</p:column>

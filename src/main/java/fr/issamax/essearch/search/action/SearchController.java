@@ -5,18 +5,15 @@ import java.util.List;
 
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
-import org.primefaces.model.LazyDataModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import fr.issamax.essearch.data.Result;
-import fr.issamax.essearch.data.Results;
 import fr.issamax.essearch.search.data.LazySearch;
 import fr.issamax.essearch.search.service.SearchService;
 
 @Component("searchController")
-@Scope("session")
+@Scope("request")
 public class SearchController implements Serializable {
 
 	private static final long serialVersionUID = -336480920773407570L;
@@ -28,14 +25,11 @@ public class SearchController implements Serializable {
 
 	protected String search;
 
-	 protected LazyDataModel<Result> lazySearch; 
-
-//	 protected Results results;
+	@Autowired
+	protected LazySearch lazySearch; 
 
 	public void google() {
-
-
-		this.lazySearch = new LazySearch(searchService, this.search);
+		this.lazySearch.setSearch(search);
 	}
 
 	/**
@@ -46,8 +40,7 @@ public class SearchController implements Serializable {
 	 * @return
 	 */
 	public List<String> complete(String query) {
-
-		return searchService.complete(this.search);
+		return searchService.complete(query);
 	}
 
 	public void setSearch(String search) {
@@ -58,13 +51,11 @@ public class SearchController implements Serializable {
 		return search;
 	}
 
-	public LazyDataModel<Result> getLazySearch() {
+	public LazySearch getLazySearch() {
 		return lazySearch;
 	}
 
-	public void setLazySearch(LazyDataModel<Result> lazySearch) {
+	public void setLazySearch(LazySearch lazySearch) {
 		this.lazySearch = lazySearch;
 	}
-
-
 }

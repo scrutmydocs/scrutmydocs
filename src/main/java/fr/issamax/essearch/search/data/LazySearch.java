@@ -6,6 +6,9 @@ import java.util.Map;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import fr.issamax.essearch.data.Result;
 import fr.issamax.essearch.data.Results;
@@ -15,7 +18,7 @@ import fr.issamax.essearch.search.service.SearchService;
  * Dummy implementation of LazyDataModel that uses a list to mimic a real
  * datasource like a database.
  */
-
+@Component
 public class LazySearch extends LazyDataModel<Result> {
 
 	/**
@@ -23,16 +26,12 @@ public class LazySearch extends LazyDataModel<Result> {
 	 */
 	private static final long serialVersionUID = 7038031891023629994L;
 
+	@Autowired
 	protected SearchService searchService;
 
 	protected String search;
 
 	private Results results;
-
-	public LazySearch(SearchService searchService, String search) {
-		this.search = search;
-		this.searchService = searchService;
-	}
 
 	@Override
 	public Result getRowData(String rowKey) {
