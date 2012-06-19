@@ -6,20 +6,17 @@
 	xmlns:es="http://essearch.fr/taglibs">
 
 	<p:panel id="results">
-				<f:facet name="header">
-					Took <h:outputText value="#{results.took}" /> -
-					<h:outputText value="#{results.searchResponse.hits.totalHits}" /> elements found
-				</f:facet>
+		<f:facet name="header">
+		</f:facet>
 
-		<p:dataTable var="result" value="#{results.results}" rendered="#{results.rendered}">
-	       	<p:column>
+		<p:dataTable var="result" value="#{results}" 
+			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+			 paginator="true" rows="5"  lazy="true" rowsPerPageTemplate="5,10,15" >
+			<p:column>
 				<es:result searchHits="#{result}" />
 			</p:column>
 		</p:dataTable>
 
-	<p:outputPanel id="noresults" rendered="#{!results.rendered}">
-		Please refine your search...
-	</p:outputPanel>
 
 	</p:panel>
 

@@ -4,6 +4,7 @@ import static fr.issamax.essearch.constant.ESSearchProperties.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
@@ -11,7 +12,7 @@ import org.elasticsearch.search.highlight.HighlightField;
 
 public class Results {
 
-	protected Collection<Result> results=new ArrayList<Result>();
+	protected List<Result> results=new ArrayList<Result>();
 	protected String took;
 	protected boolean rendered = false;
 	protected SearchResponse searchResponse;
@@ -57,11 +58,11 @@ public class Results {
 		this.took = took;
 	}
 
-	public Collection<Result> getResults() {
+	public List<Result> getResults() {
 		return results;
 	}
 
-	public void setResults(Collection<Result> results) {
+	public void setResults(List<Result> results) {
 		this.results = results;
 	}
 	

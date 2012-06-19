@@ -25,7 +25,7 @@
 
 		<p:dataTable id="fsriversT" var="fsriver"
 			value="#{settingsAction.fsRivers}" editable="true"
-			rowStyleClass="#{!fsriver.start ? 'red' : 'green'}">
+			rowStyleClass="#{fsriver.start ? 'green' : null }">
 
 			<p:ajax event="rowEdit" listener="#{settingsAction.update}" />
 
