@@ -6,7 +6,7 @@
 	xmlns:es="http://essearch.fr/taglibs">
 
 <h:head>
-	<link rel="stylesheet" type="text/css" media="all"  />
+	<link rel="stylesheet" type="text/css" media="all" />
 	<title>Es Search</title>
 	<link rel="shortcut icon" type="image/x-icon" href="./img/logo.png" />
 </h:head>
@@ -29,7 +29,7 @@
 	</p:toolbar>
 </h:form>
 
-<h:form id="formSearch">
+<h:form id="formSearch" >
 
 	<p:focus context="formSearch" />
 
@@ -42,17 +42,18 @@
 				</h:outputLink>
 			</f:facet>
 			<h:panelGrid columns="2">
-				<p:autoComplete value="#{searchController.search}" completeMethod="#{searchController.complete}" multiple="false" size="60" tabindex="1"/>
-				<p:commandButton value="Search" update="results" icon="ui-icon-search"
-					action="#{searchController.google}" />
+				<p:inputText value="#{lazySearch.search}" size="60" tabindex="1" />
+				<p:commandButton value="Search" update=":formResult:results"
+					icon="ui-icon-search" action="#{lazySearch.ini}" />
 			</h:panelGrid>
 		</h:panelGrid>
 	</center>
 
-
+</h:form>
+<h:form id="formResult">
 	<center>
 
-		<es:results results="#{searchController.lazySearch}" />
+		<es:results results="#{lazySearch}" />
 
 	</center>
 
@@ -63,14 +64,11 @@
 		showEffect="explode" modal="true" hideEffect="explode" height="300"
 		width="500">
 
-		<p:fileUpload fileUploadListener="#{fileUploadController.handleFileUpload}"  
-            mode="advanced"   
-            update=":messages"  
-            auto="true"
-            multiple="true"
-            dragDropSupport="true"
-            oncomplete="upload.hide();" />  
-			
+		<p:fileUpload
+			fileUploadListener="#{fileUploadController.handleFileUpload}"
+			mode="advanced" update=":messages" auto="true" multiple="true"
+			dragDropSupport="true" oncomplete="upload.hide();" />
+
 	</p:dialog>
 
 </h:form>
