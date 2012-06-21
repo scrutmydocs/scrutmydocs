@@ -1,0 +1,4 @@
+Copyright 2012 David Pilato and Malloum Laya
+
+This product includes software developed by The Apache Software
+Foundation (http://www.apache.org/).
