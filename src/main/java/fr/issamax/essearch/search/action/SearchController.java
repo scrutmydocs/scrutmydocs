@@ -28,9 +28,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import fr.issamax.essearch.search.data.LazySearch;
 import fr.issamax.essearch.search.service.SearchService;
 
+@Deprecated
 @Component("searchController")
 @Scope("request")
 public class SearchController implements Serializable {

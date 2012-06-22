@@ -16,23 +16,20 @@
   specific language governing permissions and limitations
   under the License.
  -->
- 
- <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
+	<h:outputLink target="newPopup"	value="./api/download/#{result.searchHit.id}">	 #{result.title}</h:outputLink> 
 
-	<h:dataTable var="fragment" value="#{result.fragments}">
-		<f:facet name="header">
-			<h:outputLink target="newPopup" value="./api/download/#{result.searchHit.id}">
-			 #{result.title} 
-			</h:outputLink>
-		</f:facet>
-		<p:column>
-			<h:outputText value="#{fragment}" escape="false" />
-		</p:column>
-	</h:dataTable>
-
+	<br/>	<br/>
+	<blockquote>
+	<ui:repeat var="fragment" value="#{result.fragments}">
+		<h:outputText value="#{fragment}" escape="false" />
+		<br/>
+	</ui:repeat>
+	</blockquote>
 </ui:composition>

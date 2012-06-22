@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.search.data;
+package fr.issamax.essearch.search.action;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +52,10 @@ public class LazySearch extends LazyDataModel<Result> {
 
 	private Results results;
 
+	public void init() {
+		load(0, 10, null, null, null);
+	}
+
 	@Override
 	public Result getRowData(String rowKey) {
 
@@ -77,7 +81,7 @@ public class LazySearch extends LazyDataModel<Result> {
 
 		this.setRowCount(new Long(results.getSearchResponse().getHits()
 				.getTotalHits()).intValue());
-		
+
 		return results.getResults();
 	}
 

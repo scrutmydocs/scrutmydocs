@@ -16,7 +16,7 @@
   specific language governing permissions and limitations
   under the License.
  -->
- 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -28,75 +28,99 @@
 	<link rel="stylesheet" type="text/css" media="all" />
 	<title>Es Search</title>
 	<link rel="shortcut icon" type="image/x-icon" href="./img/logo.png" />
+	
+	 <!-- Le styles -->
+
+    <link href="./css/bootstrap.min.css" rel="stylesheet"/>
+    <style type="text/css">
+      body {
+        padding-top: 0px;
+        padding-bottom: 0px;
+      }
+    </style>
+	 <link href="./css/bootstrap-responsive.min.css" rel="stylesheet"/>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="./img/favicon.ico"/>
+	 
 </h:head>
-
-<p:growl id="messages" showDetail="true" life="1000" />
-
-<h:form id="formupload">
-	<p:toolbar id="menu">
-
-		<p:toolbarGroup align="left">
-			<p:commandButton type="push" value="Add..." icon="ui-icon-document"
-				onclick="upload.show();" />
-		</p:toolbarGroup>
-
-		<p:toolbarGroup align="right">
-			<p:commandButton type="push" value="Settings" icon="ui-icon-power"
-				action="#{settingsAction.init}" />
-		</p:toolbarGroup>
-
-	</p:toolbar>
-</h:form>
-
-<h:form id="formSearch" >
-
-	<p:focus context="formSearch" />
-
-	<center>
-		<h:panelGrid>
-			<f:facet name="header">
-				<h:outputLink id="essearch-site-link"
-					value="http://essearch.pilato.fr">
-					<h:graphicImage value="./img/logo-text.png" />
-				</h:outputLink>
-			</f:facet>
-			<h:panelGrid columns="2">
-				<p:inputText value="#{lazySearch.search}" size="60" tabindex="1" />
-				<p:commandButton value="Search" update=":formResult:results"
-					icon="ui-icon-search" />
-			</h:panelGrid>
-		</h:panelGrid>
-	</center>
-
-</h:form>
-<h:form id="formResult">
-	<center>
-
-		<es:results results="#{lazySearch}" />
-
-	</center>
-
-</h:form>
-
-<h:form id="formadd" enctype="multipart/form-data">
-	<p:dialog header="Upload your documents" widgetVar="upload"
-		showEffect="explode" modal="true" hideEffect="explode" height="300"
-		width="500">
-
-		<p:fileUpload
-			fileUploadListener="#{fileUploadController.handleFileUpload}"
-			mode="advanced" update=":messages" auto="true" multiple="true"
-			dragDropSupport="true" oncomplete="upload.hide();" />
-
-	</p:dialog>
-
-</h:form>
-
 
 
 
 <h:body>
+	<p:growl id="messages" showDetail="true" life="1000" />
 
+	<h:form id="formupload">
+		<p:toolbar id="menu">
+
+			<p:toolbarGroup align="left">
+				<p:commandButton type="push" value="Add..." icon="ui-icon-document"
+					onclick="upload.show();" />
+			</p:toolbarGroup>
+
+			<p:toolbarGroup align="right">
+				<p:commandButton type="push" value="Settings" icon="ui-icon-power"
+					action="#{settingsAction.init}" />
+			</p:toolbarGroup>
+
+		</p:toolbar>
+	</h:form>
+
+    <div class="container">
+	<h:form id="formSearch">
+
+		<p:focus context="formSearch" />
+
+		<div class="hero-unit">
+			<div class="row">
+				<div class="span10 offset1">
+					<center><h:graphicImage value="./img/logo-text.png" /></center>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span6 offset2">
+					<p:inputText value="#{lazySearch.search}" tabindex="1" styleClass="span6" />
+				</div>
+				<div class="span1">
+					<p:commandButton value="Search" update=":formResult" action="#{lazySearch.init}"
+						icon="ui-icon-search" />
+				</div>
+			</div>
+		</div>
+	
+	</h:form>
+	<h:form id="formResult">
+	<center>
+		<div class="row">
+			<div class="span10 offset1">
+				<es:results results="#{lazySearch}" />
+			</div>
+		</div>
+	</center>
+	</h:form>
+
+</div>
+
+	<h:form id="formadd" enctype="multipart/form-data">
+		<p:dialog header="Upload your documents" widgetVar="upload"
+			showEffect="explode" modal="true" hideEffect="explode" height="300"
+			width="500">
+
+			<p:fileUpload
+				fileUploadListener="#{fileUploadController.handleFileUpload}"
+				mode="advanced" update=":messages" auto="true" multiple="true"
+				dragDropSupport="true" oncomplete="upload.hide();" />
+
+		</p:dialog>
+
+	</h:form>
 
 </h:body>
+
+
 </html>

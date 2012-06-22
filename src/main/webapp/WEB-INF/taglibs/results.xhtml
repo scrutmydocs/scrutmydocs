@@ -24,28 +24,21 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:es="http://essearch.fr/taglibs">
 
-	<p:panel id="results">
-		<f:facet name="header">
-		</f:facet>
+	<p:dataTable id="results" var="result" value="#{results}"  rendered="#{results.results.searchResponse.hits.totalHits > 0}"
+		paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+		paginatorPosition="bottom"
+		paginator="true" rows="10" lazy="true" styleClass="table">
 
-		<p:dataTable var="result" value="#{results}"
-			paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-			paginator="true" rows="5" lazy="true" rowsPerPageTemplate="5,10,15">
-
-			<p:ajax event="page">
-				<f:setPropertyActionListener target="#{results.search}"
-					value="#{results.search}" />
-			</p:ajax>
+		<p:ajax event="page">
+			<f:setPropertyActionListener target="#{results.search}"
+				value="#{results.search}" />
+		</p:ajax>
 
 
 
-			<p:column>
-				<es:result searchHits="#{result}" />
-			</p:column>
-		</p:dataTable>
-
-
-	</p:panel>
-
+		<p:column>
+			<es:result searchHits="#{result}" />
+		</p:column>
+	</p:dataTable>
 
 </ui:composition>
