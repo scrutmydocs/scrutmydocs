@@ -16,18 +16,19 @@
   specific language governing permissions and limitations
   under the License.
  -->
- 
- <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:es="http://essearch.fr/taglibs">
 
-	<p:dataTable id="results" var="result" value="#{results}"  rendered="#{results.results.searchResponse.hits.totalHits > 0}"
+	<p:dataTable id="results" var="result" value="#{results}"
+		rendered="#{results.results.searchResponse.hits.totalHits > 0}"
 		paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-		paginatorPosition="bottom"
-		paginator="true" rows="5" lazy="true" styleClass="table">
+		paginatorPosition="bottom" paginator="true" rows="5" lazy="true"
+		styleClass="table">
 
 		<p:ajax event="page">
 			<f:setPropertyActionListener target="#{results.search}"
@@ -40,5 +41,11 @@
 			<es:result searchHits="#{result}" />
 		</p:column>
 	</p:dataTable>
+
+	<p:outputPanel id="noResults"
+		rendered="#{results.results.searchResponse.hits.totalHits == 0}">
+
+			no results in your search words.(<strong>#{results.search}</strong>).
+	</p:outputPanel>
 
 </ui:composition>
