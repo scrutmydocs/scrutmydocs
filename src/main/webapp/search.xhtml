@@ -21,35 +21,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:es="http://essearch.fr/taglibs">
 
-<h:head>
-	<link rel="stylesheet" type="text/css" media="all" />
-	<title>Es Search</title>
-	<link rel="shortcut icon" type="image/x-icon" href="./img/logo.png" />
-	
-	 <!-- Le styles -->
 
-    <link href="./css/bootstrap.min.css" rel="stylesheet"/>
-    <style type="text/css">
-      body {
-        padding-top: 0px;
-        padding-bottom: 0px;
-      }
-    </style>
-	 <link href="./css/bootstrap-responsive.min.css" rel="stylesheet"/>
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="./img/favicon.ico"/>
-	 
-</h:head>
-
+<ui:include src="head.xhtml" />
 
 
 <h:body>
@@ -59,7 +36,7 @@
 		<p:toolbar id="menu">
 
 			<p:toolbarGroup align="left">
-				<p:commandButton type="push" value="Add..." icon="ui-icon-document"
+				<p:commandButton type="push" value="Upload" icon="ui-icon-document"
 					onclick="upload.show();" />
 			</p:toolbarGroup>
 
@@ -119,6 +96,9 @@
 		</p:dialog>
 
 	</h:form>
+
+
+<ui:include src="foot.xhtml" />
 
 </h:body>
 

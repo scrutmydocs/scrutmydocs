@@ -36,7 +36,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>settings</from-outcome>
-			<to-view-id>/settings/settings.xhtml</to-view-id>
+			<to-view-id>/settings.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>

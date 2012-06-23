@@ -24,21 +24,5 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:es="http://essearch.fr/taglibs">
 
-	<p:dataTable id="results" var="result" value="#{results}"  rendered="#{results.results.searchResponse.hits.totalHits > 0}"
-		paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-		paginatorPosition="bottom"
-		paginator="true" rows="5" lazy="true" styleClass="table">
-
-		<p:ajax event="page">
-			<f:setPropertyActionListener target="#{results.search}"
-				value="#{results.search}" />
-		</p:ajax>
-
-
-
-		<p:column>
-			<es:result searchHits="#{result}" />
-		</p:column>
-	</p:dataTable>
 
 </ui:composition>

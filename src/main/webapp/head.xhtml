@@ -24,21 +24,31 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:es="http://essearch.fr/taglibs">
 
-	<p:dataTable id="results" var="result" value="#{results}"  rendered="#{results.results.searchResponse.hits.totalHits > 0}"
-		paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-		paginatorPosition="bottom"
-		paginator="true" rows="5" lazy="true" styleClass="table">
+<h:head>
+	<link rel="stylesheet" type="text/css" media="all" />
+	<title>Es Search</title>
+	<link rel="shortcut icon" type="image/x-icon" href="./img/logo.png" />
+	
+	 <!-- Le styles -->
 
-		<p:ajax event="page">
-			<f:setPropertyActionListener target="#{results.search}"
-				value="#{results.search}" />
-		</p:ajax>
+    <link href="./css/bootstrap.min.css" rel="stylesheet"/>
+    <style type="text/css">
+      body {
+        padding-top: 0px;
+        padding-bottom: 0px;
+      }
+    </style>
+	 <link href="./css/bootstrap-responsive.min.css" rel="stylesheet"/>
 
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="./img/favicon.ico"/>
+	 
+</h:head>
 
-		<p:column>
-			<es:result searchHits="#{result}" />
-		</p:column>
-	</p:dataTable>
 
 </ui:composition>

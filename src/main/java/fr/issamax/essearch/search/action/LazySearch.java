@@ -19,14 +19,14 @@
 
 package fr.issamax.essearch.search.action;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import fr.issamax.essearch.data.Result;
@@ -38,6 +38,7 @@ import fr.issamax.essearch.search.service.SearchService;
  * datasource like a database.
  */
 @Component
+@ViewScoped
 public class LazySearch extends LazyDataModel<Result> {
 
 	/**
