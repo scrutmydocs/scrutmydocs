@@ -96,6 +96,7 @@ public class AdminService implements Serializable {
 
 					// We only manage FS rivers
 					FSRiver fsriver = FSRiverHelper.toFSRiver(hit.sourceAsMap());
+					fsriver.setStart(true);
 					rivers.add(fsriver);
 				}
 			}
