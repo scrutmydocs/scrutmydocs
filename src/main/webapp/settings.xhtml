@@ -45,29 +45,30 @@
 	</h:form>
 
 	<div class="container">
-		<div class="hero-unit">
 
-			<div class="row">
-				<div class="span10 offset1">
+		<div class="row">
+			<div class="span12">
 
-					<p:accordionPanel id="tabRiver">
-						<p:tab title="File System River" icon="ui-icon-home">
-							<ui:include src="/settings/fsRiver.xhtml" />
-						</p:tab>
-						<p:tab title="BDD River">
-							<ui:include src="/settings/bddRiver.xhtml" />
-						</p:tab>
-						<p:tab title="FTP River">
-							<ui:include src="/settings/ftpRiver.xhtml" />
-						</p:tab>
-						<p:tab title="RSS River">
-							<ui:include src="/settings/rssRiver.xhtml" />
-						</p:tab>
-						<p:tab title="Twitter River">
-							<ui:include src="/settings/twitterRiver.xhtml" />
-						</p:tab>
-					</p:accordionPanel>
-				</div>
+				<p:accordionPanel id="tabRiver">
+					<p:tab title="File System River">
+						<ui:include src="/settings/fsRiver.xhtml" />
+					</p:tab>
+					<p:tab title="BDD River">
+						<ui:include src="/settings/bddRiver.xhtml" />
+					</p:tab>
+					<p:tab title="FTP River">
+						<ui:include src="/settings/ftpRiver.xhtml" />
+					</p:tab>
+					<p:tab title="RSS River">
+						<ui:include src="/settings/rssRiver.xhtml" />
+					</p:tab>
+					<p:tab title="Twitter River">
+						<ui:include src="/settings/twitterRiver.xhtml" />
+					</p:tab>
+					<p:tab title="Dropbox River">
+						<ui:include src="/settings/dropboxRiver.xhtml" />
+					</p:tab>
+				</p:accordionPanel>
 			</div>
 		</div>
 	</div>
