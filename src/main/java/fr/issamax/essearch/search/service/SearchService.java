@@ -76,8 +76,8 @@ public class SearchService {
 					.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 					.setQuery(qb).setFrom(first).setSize(pageSize)
 					.addHighlightedField("name").addHighlightedField("file")
-					.setHighlighterPreTags("<b>")
-					.setHighlighterPostTags("</b>").execute().actionGet();
+					.setHighlighterPreTags("<span class='badge badge-info'>")
+					.setHighlighterPostTags("</span>").execute().actionGet();
 			totalResults = searchHits.getHits().totalHits();
 			
 			results = new Results(searchHits);
