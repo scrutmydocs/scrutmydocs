@@ -19,15 +19,16 @@
 
 package fr.issamax.essearch.data;
 
-import static fr.issamax.essearch.constant.ESSearchProperties.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.highlight.HighlightField;
+
+import fr.issamax.essearch.admin.river.data.FSRiverHelper;
+import fr.issamax.essearch.constant.ESSearchProperties;
 
 public class Results {
 
@@ -44,11 +45,12 @@ public class Results {
 
 		for (SearchHit searchHit : searchResponse.getHits()) {
 			Result result = new Result(searchHit);
-			searchHit.getHighlightFields();
-			searchHit.getId();
+//			searchHit.getHighlightFields();
+//			searchHit.getId();
 			
-			if (searchHit.getSource() != null && searchHit.getSource().containsKey(DOC_FIELD_NAME)) {
-				result.setTitle(searchHit.getSource().get(DOC_FIELD_NAME).toString());
+			if (searchHit.getSource() != null) {
+				result.setTitle(FSRiverHelper.getSingleStringValue(ESSearchProperties.DOC_FIELD_NAME, searchHit.getSource()));
+				result.setContentType(FSRiverHelper.getSingleStringValue("file._content_type", searchHit.getSource()));
 			}
 
 			if (searchHit.getHighlightFields() != null) {

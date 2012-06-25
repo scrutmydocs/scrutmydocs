@@ -29,7 +29,8 @@ public class Result {
 	protected Collection<String> fragments = new ArrayList<String>();
 	protected SearchHit searchHit;
 	protected String virtualPath;
-
+	protected String contentType;
+	
 	public Result(SearchHit searchHit) {
 		this.searchHit = searchHit;
 	}
@@ -69,5 +70,13 @@ public class Result {
 
 	public void setVirtualPath(String virtualPath) {
 		this.virtualPath = virtualPath;
+	}
+	
+	public String getContentType() {
+		return contentType;
+	}
+	
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 }
