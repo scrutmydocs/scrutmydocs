@@ -58,8 +58,10 @@ public class SearchService {
 	public Results google(String search,int first, int pageSize, String sortField,
 			SortOrder sortOrder, Map<String, String> filters) {
 		if (logger.isDebugEnabled())
-			logger.debug("google('{}', {}, {}) : ", search, first, pageSize);
+			logger.debug("google('{}', {}, {})", search, first, pageSize);
 
+		long totalResults = -1;
+		
 		Results results = null;
 		try {
 			QueryBuilder qb;
@@ -76,7 +78,8 @@ public class SearchService {
 					.addHighlightedField("name").addHighlightedField("file")
 					.setHighlighterPreTags("<b>")
 					.setHighlighterPostTags("</b>").execute().actionGet();
-
+			totalResults = searchHits.getHits().totalHits();
+			
 			results = new Results(searchHits);
 
 		} catch (Exception e) {
@@ -84,7 +87,7 @@ public class SearchService {
 		}
 
 		if (logger.isDebugEnabled())
-			logger.debug("/google() : {}", search);
+			logger.debug("/google({}) : {}", search, totalResults);
 
 		return results;
 		
