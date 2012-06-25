@@ -30,7 +30,7 @@
 
 
 
-	<table class="table">
+	<table class="table table-striped table-condensed">
 		<tbody>
 
 			<ui:repeat var="result" value="#{lazySearch.results.results}"
@@ -42,7 +42,8 @@
 							<ui:repeat var="fragment" value="#{result.fragments}">
 								<h:outputText value="#{fragment}" escape="false" />
 							</ui:repeat>
-						</blockquote></td>
+						</blockquote>
+					</td>
 				</tr>
 			</ui:repeat>
 		</tbody>
