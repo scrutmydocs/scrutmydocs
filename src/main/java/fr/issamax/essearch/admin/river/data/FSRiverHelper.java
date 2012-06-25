@@ -50,11 +50,11 @@ public class FSRiverHelper {
 							.field("update_rate", fsriver.getUpdateRate() * 1000)
 							.field("includes", fsriver.getIncludes())
 							.field("excludes", fsriver.getExcludes())
+							.field("analyzer", fsriver.getAnalyzer())
 						.endObject()
 						.startObject("index")
 							.field("index", fsriver.getIndexname())
 							.field("type", fsriver.getTypename())
-							.field("analyzer", fsriver.getAnalyzer())
 						.endObject()
 					.endObject();
 		} catch (IOException e) {
