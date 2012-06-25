@@ -24,6 +24,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.component.commandlink.CommandLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -112,6 +113,21 @@ public class LazySearch {
 			lastPage = false;
 		}
 
+		CommandLink previous = (CommandLink) FacesContext
+				.getCurrentInstance().getViewRoot().findComponent(":formResult:previous");
+		previous.setDisabled(firstPage);
+		CommandLink next = (CommandLink) FacesContext
+				.getCurrentInstance().getViewRoot().findComponent(":formResult:next");
+		next.setDisabled(lastPage);
+		
+		if (firstPage && lastPage) {
+			previous.setRendered(false);
+			next.setRendered(false);
+		} else {
+			previous.setRendered(true);
+			next.setRendered(true);
+		}
+		
 		return results.getResults();
 	}
 

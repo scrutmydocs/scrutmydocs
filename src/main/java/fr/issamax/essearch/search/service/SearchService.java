@@ -58,7 +58,7 @@ public class SearchService {
 	public Results google(String search,int first, int pageSize, String sortField,
 			SortOrder sortOrder, Map<String, String> filters) {
 		if (logger.isDebugEnabled())
-			logger.debug("google() : {}", search);
+			logger.debug("google('{}', {}, {}) : ", search, first, pageSize);
 
 		Results results = null;
 		try {
