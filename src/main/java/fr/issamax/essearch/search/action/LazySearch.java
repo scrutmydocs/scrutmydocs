@@ -20,13 +20,12 @@
 package fr.issamax.essearch.search.action;
 
 import java.util.List;
-import java.util.Map;
 
-import javax.faces.bean.ViewScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
-import org.primefaces.model.LazyDataModel;
-import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import fr.issamax.essearch.data.Result;
@@ -38,8 +37,8 @@ import fr.issamax.essearch.search.service.SearchService;
  * datasource like a database.
  */
 @Component
-@ViewScoped
-public class LazySearch extends LazyDataModel<Result> {
+@Scope("request")
+public class LazySearch {
 
 	/**
 	 * 
@@ -53,35 +52,65 @@ public class LazySearch extends LazyDataModel<Result> {
 
 	private Results results;
 
+	private long totalPages;
+
+	private int page;
+
+	private boolean firstPage = true;
+
+	private boolean lastPage = true;
+
 	public void init() {
-		load(0, 10, null, null, null);
+		load(0, 10);
+		page = 0;
 	}
 
-	@Override
-	public Result getRowData(String rowKey) {
+	public void next() {
+		if (page + 1 < totalPages) {
+			page++;
+		} else {
+			FacesContext context = FacesContext.getCurrentInstance();
 
-		for (Result result : results.getResults()) {
-			if (result.getTitle().equals(rowKey))
-				return result;
+			context.addMessage(null, new FacesMessage("WARNING",
+					"this page is not available"));
 		}
 
-		return null;
+		load(page * 10, 10);
+
 	}
 
-	@Override
-	public Object getRowKey(Result result) {
-		return result.getTitle();
+	public void previous() {
+		if (page != 0) {
+			page--;
+		} else {
+			FacesContext context = FacesContext.getCurrentInstance();
+
+			context.addMessage(null, new FacesMessage("WARNING",
+					"this page is not available"));
+		}
+
+		load(page * 10, 10);
 	}
 
-	@Override
-	public List<Result> load(int first, int pageSize, String sortField,
-			SortOrder sortOrder, Map<String, String> filters) {
+	public List<Result> load(int first, int pageSize) {
 
-		results = searchService.google(this.search, first, pageSize, sortField,
-				sortOrder, filters);
+		results = searchService.google(this.search, first, pageSize, null,
+				null, null);
 
-		this.setRowCount(new Long(results.getSearchResponse().getHits()
-				.getTotalHits()).intValue());
+		this.setTotalPages(1 + results.getSearchResponse().getHits()
+				.getTotalHits() / 10);
+
+		if (page <= 0) {
+			firstPage = true;
+		} else {
+			firstPage = false;
+		}
+
+		if (page + 1 >= totalPages) {
+			lastPage = true;
+		} else {
+			lastPage = false;
+		}
 
 		return results.getResults();
 	}
@@ -108,6 +137,38 @@ public class LazySearch extends LazyDataModel<Result> {
 
 	public void setResults(Results results) {
 		this.results = results;
+	}
+
+	public long getTotalPages() {
+		return totalPages;
+	}
+
+	public void setTotalPages(long totalPages) {
+		this.totalPages = totalPages;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public boolean isFirstPage() {
+		return firstPage;
+	}
+
+	public void setFirstPage(boolean firstPage) {
+		this.firstPage = firstPage;
+	}
+
+	public boolean isLastPage() {
+		return lastPage;
+	}
+
+	public void setLastPage(boolean lastPage) {
+		this.lastPage = lastPage;
 	}
 
 }

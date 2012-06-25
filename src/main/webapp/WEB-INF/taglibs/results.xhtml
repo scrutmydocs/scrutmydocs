@@ -24,28 +24,49 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:es="http://essearch.fr/taglibs">
 
-	<p:dataTable id="results" var="result" value="#{results}"
-		rendered="#{results.results.searchResponse.hits.totalHits > 0}"
-		paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-		paginatorPosition="bottom" paginator="true" rows="5" lazy="true"
-		styleClass="table">
-
-		<p:ajax event="page">
-			<f:setPropertyActionListener target="#{results.search}"
-				value="#{results.search}" />
-		</p:ajax>
+	<h:inputHidden value="#{lazySearch.page}" />
+	<h:inputHidden value="#{lazySearch.search}" />
+	<h:inputHidden value="#{lazySearch.totalPages}" />
 
 
 
-		<p:column>
-			<es:result searchHits="#{result}" />
-		</p:column>
-	</p:dataTable>
+	<table class="table">
+		<tbody>
+
+			<ui:repeat var="result" value="#{lazySearch.results.results}"
+				rendered="#{lazySearch.results.searchResponse.hits.totalHits > 0}">
+				<tr>
+					<td><h:outputLink target="newPopup"
+							value="./api/download/#{result.searchHit.id}">	 #{result.title}</h:outputLink>
+						<blockquote>
+							<ui:repeat var="fragment" value="#{result.fragments}">
+								<h:outputText value="#{fragment}" escape="false" />
+							</ui:repeat>
+						</blockquote></td>
+				</tr>
+			</ui:repeat>
+		</tbody>
+	</table>
+
+		<div class="row">
+			<div class="span1 offset3">
+
+				<p:commandLink value="previous" 
+					update=":formResult" action="#{lazySearch.previous}">
+				</p:commandLink>
+			</div>
+			<div class="span1 offset1">
+				<p:commandLink value="next"
+					update=":formResult" action="#{lazySearch.next}">
+				</p:commandLink>
+			</div>
+
+		</div>
 
 	<p:outputPanel id="noResults"
-		rendered="#{results.results.searchResponse.hits.totalHits == 0}">
+		rendered="#{lazySearch.results.searchResponse.hits.totalHits == 0}">
 
-			no results in your search words.(<strong>#{results.search}</strong>).
+			no results in your search words.
+	
 	</p:outputPanel>
-
 </ui:composition>
