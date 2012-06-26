@@ -32,8 +32,6 @@ public class FSRiverHelper {
 	
 	/**
 	 * Build a river definition for FS
-	 * @param index Index where to send documents
-	 * @param type Type where to store documents
 	 * @param fsriver The river definition
 	 * @return An ES xcontent
 	 */
@@ -81,10 +79,8 @@ public class FSRiverHelper {
   }
 }
 </pre>
-	 * @param index Index where to send documents
-	 * @param type Type where to store documents
-	 * @param fsriver The river definition
-	 * @return An ES xcontent
+	 * @param content The JSON form
+	 * @return An FS River
 	 */
 	public static FSRiver toFSRiver(Map<String, Object> content) {
 		FSRiver fsriver = new FSRiver();
