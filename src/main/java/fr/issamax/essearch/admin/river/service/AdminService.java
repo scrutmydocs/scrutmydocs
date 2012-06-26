@@ -65,7 +65,7 @@ public class AdminService implements Serializable {
 			
 			GetResponse response = rb.execute().actionGet();
 			if (response.exists()) {
-				fsriver = FSRiverHelper.toFSRiver(response.sourceAsMap());
+				fsriver = FSRiverHelper.toRiver(response.sourceAsMap());
 			}
 		}
 
@@ -95,7 +95,7 @@ public class AdminService implements Serializable {
 					SearchHit hit = response.hits().hits()[i];
 
 					// We only manage FS rivers
-					FSRiver fsriver = FSRiverHelper.toFSRiver(hit.sourceAsMap());
+					FSRiver fsriver = FSRiverHelper.toRiver(hit.sourceAsMap());
 					fsriver.setStart(true);
 					rivers.add(fsriver);
 				}

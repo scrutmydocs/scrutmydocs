@@ -32,26 +32,26 @@ public class FSRiverHelper {
 	
 	/**
 	 * Build a river definition for FS
-	 * @param fsriver The river definition
+	 * @param river The river definition
 	 * @return An ES xcontent
 	 */
-	public static XContentBuilder toXContent(FSRiver fsriver) {
+	public static XContentBuilder toXContent(FSRiver river) {
 		XContentBuilder xb = null;
 		try {
 			xb = jsonBuilder()
 					.startObject()
 						.field("type", "fs")
 						.startObject("fs")
-							.field("name", fsriver.getId())
-							.field("url", fsriver.getUrl())
-							.field("update_rate", fsriver.getUpdateRate() * 1000)
-							.field("includes", fsriver.getIncludes())
-							.field("excludes", fsriver.getExcludes())
-							.field("analyzer", fsriver.getAnalyzer())
+							.field("name", river.getId())
+							.field("url", river.getUrl())
+							.field("update_rate", river.getUpdateRate() * 1000)
+							.field("includes", river.getIncludes())
+							.field("excludes", river.getExcludes())
+							.field("analyzer", river.getAnalyzer())
 						.endObject()
 						.startObject("index")
-							.field("index", fsriver.getIndexname())
-							.field("type", fsriver.getTypename())
+							.field("index", river.getIndexname())
+							.field("type", river.getTypename())
 						.endObject()
 					.endObject();
 		} catch (IOException e) {
@@ -82,41 +82,41 @@ public class FSRiverHelper {
 	 * @param content The JSON form
 	 * @return An FS River
 	 */
-	public static FSRiver toFSRiver(Map<String, Object> content) {
-		FSRiver fsriver = new FSRiver();
+	public static FSRiver toRiver(Map<String, Object> content) {
+		FSRiver river = new FSRiver();
 		try {
 			// First we check that it's a fs type
 			if (!content.containsKey("type")) 
 				throw new RuntimeException("Your River object should be a river and contain \"type\":\"rivertype\"");
 			if (!(XContentMapValues.nodeStringValue(content.get("type"), "")).equalsIgnoreCase("fs")) 
 				throw new RuntimeException("Your FSRiver object should be a river and contain \"type\":\"fs\"");
-			fsriver.setType("fs");
+			river.setType("fs");
 			
 			// Then we dig into fs
 			if (!content.containsKey("fs")) 
 				throw new RuntimeException("A FSRiver must contain \"fs\":{...}");
 
-			fsriver.setId(getSingleStringValue("fs.name", content));
-			fsriver.setName(getSingleStringValue("fs.name", content));
-			fsriver.setUrl(getSingleStringValue("fs.url", content));
-			fsriver.setUpdateRate(getSingleLongValue("fs.update_rate", content) / 1000);
+			river.setId(getSingleStringValue("fs.name", content));
+			river.setName(getSingleStringValue("fs.name", content));
+			river.setUrl(getSingleStringValue("fs.url", content));
+			river.setUpdateRate(getSingleLongValue("fs.update_rate", content) / 1000);
 
 			// TODO Manage includes/excludes when arrays
-			fsriver.setIncludes(getSingleStringValue("fs.includes", content));
-			fsriver.setExcludes(getSingleStringValue("fs.excludes", content));
+			river.setIncludes(getSingleStringValue("fs.includes", content));
+			river.setExcludes(getSingleStringValue("fs.excludes", content));
 			
-			fsriver.setAnalyzer(getSingleStringValue("fs.analyzer", content));
+			river.setAnalyzer(getSingleStringValue("fs.analyzer", content));
 			
 			// Then we dig into fs
 			if (content.containsKey("index")) {
-				fsriver.setIndexname(getSingleStringValue("index.index", content));
-				fsriver.setTypename(getSingleStringValue("index.type", content));
+				river.setIndexname(getSingleStringValue("index.index", content));
+				river.setTypename(getSingleStringValue("index.type", content));
 				// TODO Add support for fancy river name ???
 			}
 		} catch (Exception e) {
 			// TODO Log when error
 		}		
-		return fsriver;
+		return river;
 	}
 	
 	/**

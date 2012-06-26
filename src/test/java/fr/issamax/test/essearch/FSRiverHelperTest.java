@@ -62,7 +62,7 @@ public class FSRiverHelperTest {
 
 		Map<String, Object> map = XContentHelper.convertToMap(jsonContent.getBytes(), 0, jsonContent.length(), false).v2();
 		
-		FSRiver fsriver = FSRiverHelper.toFSRiver(map);
+		FSRiver fsriver = FSRiverHelper.toRiver(map);
 		
 		Assert.assertEquals(model.getId(), fsriver.getId());
 		Assert.assertEquals(model.getType(), fsriver.getType());
