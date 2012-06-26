@@ -28,13 +28,13 @@
             .red {
                 background-color: #FFC0C0 !important;
                 background-image: none !important;
-                color: #000000 !important;
+                color: #FFFFFF !important;
             }
             
             .green {
                 background-color: #6CE26C !important;
                 background-image: none !important;
-                color: #000000 !important;
+                color: #FFFFFF !important;
             }
             
         </style>
@@ -49,7 +49,7 @@
 			<div class="span10">
 				<p:dataTable id="fsriversT" var="fsriver"
 					value="#{settingsAction.fsRivers}" editable="true"
-					rowStyleClass="#{fsriver.start ? 'green' : null }">
+					>
 		
 					<p:ajax event="rowEdit" listener="#{settingsAction.update}" />
 		
@@ -73,7 +73,7 @@
 		  				</h:outputText>
 					</p:column>
 		
-					<p:column >
+					<p:column styleClass="#{fsriver.start ? 'green' : null}" style="text-align:center">
 							<p:commandButton id="selectButton" 
 								oncomplete="fsRiverDialog.show()" icon="ui-icon-wrench"
 								update=":tabRiver:formFsRiver:display" title="Settings">
