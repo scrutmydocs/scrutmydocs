@@ -50,7 +50,7 @@ public class Results {
 			
 			if (searchHit.getSource() != null) {
 				result.setTitle(FSRiverHelper.getSingleStringValue(ESSearchProperties.DOC_FIELD_NAME, searchHit.getSource()));
-				result.setContentType(FSRiverHelper.getSingleStringValue("file.content_type", searchHit.getSource()));
+				result.setContentType(FSRiverHelper.getSingleStringValue("file._content_type", searchHit.getSource()));
 				result.setVirtualPath(FSRiverHelper.getSingleStringValue(ESSearchProperties.DOC_FIELD_VIRTUAL_PATH, searchHit.getSource()));
 			}
 

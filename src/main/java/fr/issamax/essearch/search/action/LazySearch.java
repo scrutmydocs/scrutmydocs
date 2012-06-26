@@ -61,6 +61,8 @@ public class LazySearch {
 
 	private boolean lastPage = true;
 
+	private boolean hasResults = false;
+
 	public void init() {
 		load(0, 10);
 		page = 0;
@@ -101,6 +103,11 @@ public class LazySearch {
 		this.setTotalPages(1 + results.getSearchResponse().getHits()
 				.getTotalHits() / 10);
 
+		if (results.getSearchResponse().getHits().getTotalHits() > 0) {
+			hasResults = true;
+		} else {
+			hasResults = false;
+		}
 		if (page <= 0) {
 			firstPage = true;
 		} else {
@@ -113,13 +120,13 @@ public class LazySearch {
 			lastPage = false;
 		}
 
-		CommandLink previous = (CommandLink) FacesContext
-				.getCurrentInstance().getViewRoot().findComponent(":formResult:previous");
+		CommandLink previous = (CommandLink) FacesContext.getCurrentInstance()
+				.getViewRoot().findComponent(":formResult:previous");
 		previous.setDisabled(firstPage);
-		CommandLink next = (CommandLink) FacesContext
-				.getCurrentInstance().getViewRoot().findComponent(":formResult:next");
+		CommandLink next = (CommandLink) FacesContext.getCurrentInstance()
+				.getViewRoot().findComponent(":formResult:next");
 		next.setDisabled(lastPage);
-		
+
 		if (firstPage && lastPage) {
 			previous.setRendered(false);
 			next.setRendered(false);
@@ -127,7 +134,7 @@ public class LazySearch {
 			previous.setRendered(true);
 			next.setRendered(true);
 		}
-		
+
 		return results.getResults();
 	}
 
@@ -185,6 +192,14 @@ public class LazySearch {
 
 	public void setLastPage(boolean lastPage) {
 		this.lastPage = lastPage;
+	}
+
+	public boolean isHasResults() {
+		return hasResults;
+	}
+
+	public void setHasResults(boolean hasResults) {
+		this.hasResults = hasResults;
 	}
 
 }

@@ -1,4 +1,3 @@
-<?xml version="1.0"?>
 <!-- 
   Licensed to David Pilato and Malloum Laya (the "Authors") under one
   or more contributor license agreements.  See the NOTICE file
@@ -17,23 +16,19 @@
   specific language governing permissions and limitations
   under the License.
  -->
- 
- <!DOCTYPE facelet-taglib PUBLIC
-  "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
-  "facelet-taglib_1_0.dtd">
-<facelet-taglib>
-	<namespace>http://essearch.fr/taglibs</namespace>
 
-	<tag>
-		<tag-name>results</tag-name>
-		<source>../taglibs/results.xhtml</source>
-	</tag>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:es="http://essearch.fr/taglibs">
 	
-	<tag>
-		<tag-name>contentType</tag-name>
-		<source>../taglibs/contentType.xhtml</source>
-	</tag>
+	<!-- Icons are from http://www.iconarchive.com/show/snowish-icons-by-saki.3.html -->
 	
+	<h:graphicImage rendered="#{value == 'application/vnd.oasis.opendocument.text'}" value="./img/docicons/writer.png" />
+	<h:graphicImage rendered="#{value == 'application/pdf'}" value="./img/docicons/pdf.png" />
+	<h:graphicImage rendered="#{value == 'application/png'}" value="./img/docicons/image.png" />
+	<h:graphicImage rendered="#{value == 'application/gif'}" value="./img/docicons/image.png" />
 	
-	
-</facelet-taglib>
+</ui:composition>

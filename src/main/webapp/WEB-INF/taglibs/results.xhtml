@@ -31,6 +31,19 @@
 
 
 	<table class="table table-striped table-condensed">
+		<p:outputPanel
+			rendered="#{lazySearch.hasResults}">
+			<thead>
+				<tr>
+					<td colspan="2">
+
+						<strong> #{lazySearch.results.searchResponse.hits.totalHits}</strong> documents
+						found in #{lazySearch.results.took}</td>
+
+				</tr>
+
+			</thead>
+		</p:outputPanel>
 		<tbody>
 
 			<ui:repeat var="result" value="#{lazySearch.results.results}"
@@ -42,28 +55,30 @@
 							<ui:repeat var="fragment" value="#{result.fragments}">
 								<h:outputText value="#{fragment}" escape="false" />
 							</ui:repeat>
-						</blockquote>
-					</td>
+						</blockquote></td>
+					<td><es:contentType value="#{result.contentType}"/></td>
 				</tr>
 			</ui:repeat>
 		</tbody>
 	</table>
 
-		<div class="row">
-			<div class="span1 offset3">
+	<div class="row">
+		<div class="span1 offset3">
 
-				<p:commandLink value="previous" id="previous" rendered="false"
-					update=":formResult" action="#{lazySearch.previous}" />
-			</div>
-			<div class="span1 offset1">
-				<p:commandLink value="next" id="next" rendered="false" 
-					update=":formResult" action="#{lazySearch.next}" />
-			</div>
-
+			<ul class="pager">
+ 			 <li><p:commandLink value="Previous" id="previous" rendered="false"
+				update=":formResult" action="#{lazySearch.previous}" /></li></ul>
+		</div>
+		<div class="span1 offset1">
+			<ul class="pager">
+ 			 <li><p:commandLink value="Next" id="next" rendered="false"
+				update=":formResult" action="#{lazySearch.next}" /></li></ul>
 		</div>
 
+	</div>
+
 	<p:outputPanel id="noResults"
-		rendered="#{lazySearch.results.searchResponse.hits.totalHits == 0}">
+		rendered="#{!lazySearch.hasResults and lazySearch.search != null }">
 
 			no results in your search words.
 	
