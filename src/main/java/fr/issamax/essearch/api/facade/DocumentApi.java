@@ -29,8 +29,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import fr.issamax.essearch.api.RestAPIException;
 import fr.issamax.essearch.api.data.Document;
-import fr.issamax.essearch.api.data.DocumentMessage;
+import fr.issamax.essearch.api.data.RestResponse;
 import fr.issamax.essearch.api.service.RestDocumentService;
 
 @Controller
@@ -43,14 +44,17 @@ public class DocumentApi {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/doc")
 	public @ResponseBody
-	Document push(@RequestBody Document e) {
-		return restDocumentService.push(e);
+	RestResponse<Document> push(@RequestBody Document doc) {
+		doc = restDocumentService.push(doc);
+		RestResponse<Document> response = new RestResponse<Document>(doc);
+		return response;
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/doc/{id}")
 	public @ResponseBody
-	void delete(@PathVariable String id) {
+	RestResponse<?> delete(@PathVariable String id) {
 		restDocumentService.delete(id);
+		return new RestResponse<Object>();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/doc/{index}/{type}/{id}")
@@ -60,17 +64,17 @@ public class DocumentApi {
 		return restDocumentService.get(index, type, id);
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/doc/{index}/{type}/")
+	@RequestMapping(method = RequestMethod.PUT, value = "/doc/{index}/{type}/")
 	public @ResponseBody
-	DocumentMessage createIndex(@PathVariable String index,
+	RestResponse<?> createIndex(@PathVariable String index,
 			@PathVariable String type) {
-		DocumentMessage documentMessage = new DocumentMessage();
-
-		if (restDocumentService.createIndex(index, type)) {
-			documentMessage.setOk(true);
+		try {
+			restDocumentService.createIndex(index, type);
+		} catch (RestAPIException e) {
+			return new RestResponse<Object>(e);
 		}
-
-		return documentMessage;
+		
+		return new RestResponse<Object>();
 	}
 
 }

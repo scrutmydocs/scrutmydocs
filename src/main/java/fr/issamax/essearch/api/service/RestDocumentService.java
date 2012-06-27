@@ -1,9 +1,27 @@
+/*
+ * Licensed to David Pilato and Malloum Laya (the "Authors") under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership. Authors licenses this
+ * file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
 package fr.issamax.essearch.api.service;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
@@ -23,8 +41,8 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import fr.issamax.essearch.admin.river.data.FSRiver;
 import fr.issamax.essearch.admin.river.service.RiverService;
+import fr.issamax.essearch.api.RestAPIException;
 import fr.issamax.essearch.api.data.Document;
 import fr.issamax.essearch.constant.ESSearchProperties;
 
@@ -101,11 +119,11 @@ public class RestDocumentService {
 		return document;
 	}
 
-	public Boolean createIndex(String index, String type) {
+	public Boolean createIndex(String index, String type) throws RestAPIException {
 
 		try {
 			if (isTypeExist(index, type)) {
-				return new Boolean(false);
+				throw new RestAPIException("Type already exists");
 			}
 			pushMapping(index, type, null);
 
