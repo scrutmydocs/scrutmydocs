@@ -35,7 +35,7 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 		Assert.assertNotNull(riverService);
 
 		FSRiver fsriver = new FSRiver("mytestriver", ESSearchProperties.INDEX_NAME, 
-						ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L, "standard", false);		
+						ESSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false);		
 
 		riverService.add(fsriver);
 	}
@@ -44,7 +44,7 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 		Assert.assertNotNull(riverService);
 
 		FSRiver fsriver = new FSRiver("mytestriver", ESSearchProperties.INDEX_NAME, 
-						ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L, "standard", false);		
+						ESSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false);		
 
 		riverService.add(fsriver);
 		

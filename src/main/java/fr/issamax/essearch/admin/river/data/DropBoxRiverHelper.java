@@ -40,8 +40,8 @@ public class DropBoxRiverHelper {
 		try {
 			xb = jsonBuilder()
 					.startObject()
-						.field("type", "dropbox")
-						.startObject("dropbox")
+						.field("type", river.getType())
+						.startObject(river.getType())
 							.field("name", river.getId())
 							.field("token", river.getToken())
 							.field("secret", river.getSecret())
@@ -94,7 +94,6 @@ public class DropBoxRiverHelper {
 				throw new RuntimeException("Your River object should be a river and contain \"type\":\"rivertype\"");
 			if (!(XContentMapValues.nodeStringValue(content.get("type"), "")).equalsIgnoreCase("dropbox")) 
 				throw new RuntimeException("Your DropBox River object should be a river and contain \"type\":\"dropbox\"");
-			river.setType("dropbox");
 			
 			// Then we dig into fs
 			if (!content.containsKey("dropbox")) 

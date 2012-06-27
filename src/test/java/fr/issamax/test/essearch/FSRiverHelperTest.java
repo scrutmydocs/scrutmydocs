@@ -55,7 +55,7 @@ public class FSRiverHelperTest {
 	 */
 	@Test public void test_tofsriver() throws IOException {
 		FSRiver model = new FSRiver("tmp", ESSearchProperties.INDEX_NAME, 
-				ESSearchProperties.INDEX_TYPE_DOC, "fs", "tmp", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
+				ESSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
 		
 		XContentBuilder xb = FSRiverHelper.toXContent(model);		
 		String jsonContent = xb.string();

@@ -57,7 +57,7 @@ public class DropBoxRiverHelperTest {
 	 */
 	@Test public void test_todropboxriver() throws IOException {
 		DropBoxRiver model = new DropBoxRiver("tmp", ESSearchProperties.INDEX_NAME, 
-				ESSearchProperties.INDEX_TYPE_DOC, "dropbox", "tmp", "mytoken", "mysecret", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
+				ESSearchProperties.INDEX_TYPE_DOC, "tmp", "mytoken", "mysecret", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
 		
 		XContentBuilder xb = DropBoxRiverHelper.toXContent(model);		
 		String jsonContent = xb.string();

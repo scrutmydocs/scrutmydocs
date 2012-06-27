@@ -37,7 +37,15 @@ public class FSRiver extends AbstractRiver {
 	private String includes;
 	private String excludes;
 	private String analyzer;
-	
+
+	/**
+	 * We implement here a "fs" river
+	 */
+	@Override
+	public String getType() {
+		return "fs";
+	}
+
 	public FSRiver() {
 		this("tmp", "/tmp", 60L);
 	}
@@ -59,23 +67,21 @@ public class FSRiver extends AbstractRiver {
 	 * @param id The unique id of this river
 	 * @param indexname The ES index where we store our docs
 	 * @param typename The ES type we use to store docs
-	 * @param type The river type
 	 * @param name The human readable name for this river
 	 * @param url URL where to fetch content
 	 * @param updateRate Update Rate (in seconds)
 	 * @param analyzer Analyzer to use
 	 * @param started Is the river already started ?
 	 */
-	public FSRiver(String id, String indexname, String typename, String type, String name,
+	public FSRiver(String id, String indexname, String typename, String name,
 			String url, Long updateRate, String analyzer, boolean started) {
-		this(id, indexname, typename, type, name, url, updateRate, null, null, analyzer, started);
+		this(id, indexname, typename, name, url, updateRate, null, null, analyzer, started);
 	}
 
 	/**
 	 * @param id The unique id of this river
 	 * @param indexname The ES index where we store our docs
 	 * @param typename The ES type we use to store docs
-	 * @param type The river type
 	 * @param name The human readable name for this river
 	 * @param url URL where to fetch content
 	 * @param updateRate Update Rate (in seconds)
@@ -84,9 +90,9 @@ public class FSRiver extends AbstractRiver {
 	 * @param analyzer Analyzer to use
 	 * @param started Is the river already started ?
 	 */
-	public FSRiver(String id, String indexname, String typename, String type, String name,
+	public FSRiver(String id, String indexname, String typename, String name,
 			String url, Long updateRate, String includes, String excludes, String analyzer, boolean started) {
-		super(id, indexname, typename, type, name, started);
+		super(id, indexname, typename, name, started);
 		this.url = url;
 		this.updateRate = updateRate;
 		this.includes = includes;

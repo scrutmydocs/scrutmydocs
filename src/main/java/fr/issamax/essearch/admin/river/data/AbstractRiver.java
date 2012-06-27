@@ -35,8 +35,12 @@ public abstract class AbstractRiver implements Serializable {
 	private String name;
 	private String indexname;
 	private String typename;
-	private String type;
 	private boolean start;
+	
+	/**
+	 * @return The river implementation type, for example: fs, dropbox, rss
+	 */
+	public abstract String getType();
 	
 	/**
 	 * Default constructor using a dummy name and defaults to
@@ -51,22 +55,20 @@ public abstract class AbstractRiver implements Serializable {
 	 * index/type : docs/doc
 	 */
 	public AbstractRiver(String id) {
-		this(id, ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, "dummy", "My Dummy River", false);
+		this(id, ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, "My Dummy River", false);
 	}
 	
 	/**
 	 * @param id The unique id of this river
 	 * @param indexname The ES index where we store our docs
 	 * @param typename The ES type we use to store docs
-	 * @param type The technical type of the river
 	 * @param name The human readable name for this river
 	 * @param start Started ?
 	 */
-	public AbstractRiver(String id, String indexname, String typename, String type, String name, boolean start) {
+	public AbstractRiver(String id, String indexname, String typename, String name, boolean start) {
 		this.id = id;
 		this.indexname = indexname;
 		this.typename = typename;
-		this.type = type;
 		this.name = name;
 		this.start = start;
 	}
@@ -113,20 +115,6 @@ public abstract class AbstractRiver implements Serializable {
 		this.typename = typename;
 	}
 
-	/**
-	 * @return The river type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * @param type The river type
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
-	
 	/**
 	 * @param start The river state
 	 */

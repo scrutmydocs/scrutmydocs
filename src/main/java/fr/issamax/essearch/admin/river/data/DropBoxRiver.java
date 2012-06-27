@@ -40,6 +40,14 @@ public class DropBoxRiver extends AbstractRiver {
 	private String excludes;
 	private String analyzer;
 	
+	/**
+	 * We implement here a "dropbox" river
+	 */
+	@Override
+	public String getType() {
+		return "dropbox";
+	}
+
 	public DropBoxRiver() {
 		this(null, null, "tmp", "/tmp", 60L);
 	}
@@ -65,7 +73,6 @@ public class DropBoxRiver extends AbstractRiver {
 	 * @param id The unique id of this river
 	 * @param indexname The ES index where we store our docs
 	 * @param typename The ES type we use to store docs
-	 * @param type The river type
 	 * @param name The human readable name for this river
 	 * @param token Dropbox Token
 	 * @param secret Dropbox Secret
@@ -74,16 +81,15 @@ public class DropBoxRiver extends AbstractRiver {
 	 * @param analyzer Analyzer to use
 	 * @param started Is the river already started ?
 	 */
-	public DropBoxRiver(String id, String indexname, String typename, String type, String name,
+	public DropBoxRiver(String id, String indexname, String typename, String name,
 			String token, String secret, String url, Long updateRate, String analyzer, boolean started) {
-		this(id, indexname, typename, type, name, token, secret, url, updateRate, null, null, analyzer, started);
+		this(id, indexname, typename, name, token, secret, url, updateRate, null, null, analyzer, started);
 	}
 
 	/**
 	 * @param id The unique id of this river
 	 * @param indexname The ES index where we store our docs
 	 * @param typename The ES type we use to store docs
-	 * @param type The river type
 	 * @param name The human readable name for this river
 	 * @param token Dropbox Token
 	 * @param secret Dropbox Secret
@@ -94,9 +100,9 @@ public class DropBoxRiver extends AbstractRiver {
 	 * @param analyzer Analyzer to use
 	 * @param started Is the river already started ?
 	 */
-	public DropBoxRiver(String id, String indexname, String typename, String type, String name,
+	public DropBoxRiver(String id, String indexname, String typename, String name,
 			String token, String secret, String url, Long updateRate, String includes, String excludes, String analyzer, boolean started) {
-		super(id, indexname, typename, type, name, started);
+		super(id, indexname, typename, name, started);
 		this.token = token;
 		this.secret = secret;
 		this.url = url;

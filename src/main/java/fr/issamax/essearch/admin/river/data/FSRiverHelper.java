@@ -40,8 +40,8 @@ public class FSRiverHelper {
 		try {
 			xb = jsonBuilder()
 					.startObject()
-						.field("type", "fs")
-						.startObject("fs")
+						.field("type", river.getType())
+						.startObject(river.getType())
 							.field("name", river.getId())
 							.field("url", river.getUrl())
 							.field("update_rate", river.getUpdateRate() * 1000)
@@ -90,7 +90,6 @@ public class FSRiverHelper {
 				throw new RuntimeException("Your River object should be a river and contain \"type\":\"rivertype\"");
 			if (!(XContentMapValues.nodeStringValue(content.get("type"), "")).equalsIgnoreCase("fs")) 
 				throw new RuntimeException("Your FSRiver object should be a river and contain \"type\":\"fs\"");
-			river.setType("fs");
 			
 			// Then we dig into fs
 			if (!content.containsKey("fs")) 
