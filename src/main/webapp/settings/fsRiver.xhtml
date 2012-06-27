@@ -185,6 +185,18 @@
 						        </p:selectOneMenu>  
 							</p:column>
 						</p:row>	
+						
+						<p:row>
+							<p:column><h:outputText value="includes(eg *.doc, *.pdf) : " /></p:column>
+							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.includes}" style="width:100%" label="includes" /></p:column>
+						</p:row>	
+						
+						<p:row>
+							<p:column><h:outputText value="excludes(eg *.doc,*.pdf) : " /></p:column>
+							<p:column><p:inputText value="#{settingsAction.fsRiverSelect.excludes}" style="width:100%" label="excludes" /></p:column>
+						</p:row>	
+						
+						
 					</p:panelGrid>
 				</p:tab>
 
