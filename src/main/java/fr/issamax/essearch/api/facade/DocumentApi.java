@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.issamax.essearch.api.data.Document;
+import fr.issamax.essearch.api.data.DocumentMessage;
 import fr.issamax.essearch.api.service.RestDocumentService;
 
 @Controller
@@ -54,7 +55,22 @@ public class DocumentApi {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/doc/{index}/{type}/{id}")
 	public @ResponseBody
-	Document get(@PathVariable String index, @PathVariable String type, @PathVariable String id) {
+	Document get(@PathVariable String index, @PathVariable String type,
+			@PathVariable String id) {
 		return restDocumentService.get(index, type, id);
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/doc/{index}/{type}/")
+	public @ResponseBody
+	DocumentMessage createIndex(@PathVariable String index,
+			@PathVariable String type) {
+		DocumentMessage documentMessage = new DocumentMessage();
+
+		if (restDocumentService.createIndex(index, type)) {
+			documentMessage.setOk(true);
+		}
+
+		return documentMessage;
+	}
+
 }
