@@ -38,6 +38,7 @@
 		<spring.elasticsearch.version>0.0.2</spring.elasticsearch.version>
 		<fsriver.version>0.0.1-SNAPSHOT</fsriver.version>
 		<jsf.version>2.1.7</jsf.version>
+		<display_version>${project.version}-${BUILD_ID}</display_version>
 	</properties>
 
 	<dependencies>
@@ -198,45 +199,45 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			
-			<plugin>  
-                <groupId>org.apache.maven.plugins</groupId>  
-                <artifactId>maven-surefire-plugin</artifactId>  
-                <version>2.7.1</version>  
-                <configuration>  
-                    <skip>true</skip>  
-                </configuration>  
-                <executions>  
-                    <execution>  
-                        <id>surefire-test</id>  
-                        <phase>test</phase>  
-                        <goals>  
-                            <goal>test</goal>  
-                        </goals>  
-                        <configuration>  
-                            <skip>false</skip>  
-                            <excludes>  
-                                <exclude>**/itest/**</exclude>  
-                            </excludes>  
-                        </configuration>  
-                    </execution>  
-  
-                    <execution>  
-                        <id>surefire-itest</id>  
-                        <phase>integration-test</phase>  
-                        <goals>  
-                            <goal>test</goal>  
-                        </goals>  
-                        <configuration>  
-                            <skip>false</skip>  
-                            <includes>  
-                                <include>**/itest/**</include>  
-                            </includes>  
-                        </configuration>  
-                    </execution>  
-                </executions>  
-            </plugin>  
-	
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.7.1</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>surefire-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<excludes>
+								<exclude>**/itest/**</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>surefire-itest</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<includes>
+								<include>**/itest/**</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
@@ -273,6 +274,29 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<nonFilteredFileExtensions>
+						<nonFilteredFileExtension>gif</nonFilteredFileExtension>
+						<nonFilteredFileExtension>xml</nonFilteredFileExtension>
+						<nonFilteredFileExtension>jsp</nonFilteredFileExtension>
+						<nonFilteredFileExtension>ico</nonFilteredFileExtension>
+						<nonFilteredFileExtension>jpg</nonFilteredFileExtension>
+						<nonFilteredFileExtension>png</nonFilteredFileExtension>
+						<nonFilteredFileExtension>pdf</nonFilteredFileExtension>
+					</nonFilteredFileExtensions>
+					<webResources>
+						<resource>
+							<directory>src/main/webapp/</directory>
+							<filtering>true</filtering>
+						</resource>
+					</webResources>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
