@@ -34,7 +34,7 @@
 	<properties>
 		<primefaces.version>3.3.1</primefaces.version>
 		<spring.version>3.1.1.RELEASE</spring.version>
-		<elasticsearch.version>0.19.4</elasticsearch.version>
+		<elasticsearch.version>0.19.7</elasticsearch.version>
 		<spring.elasticsearch.version>0.0.2</spring.elasticsearch.version>
 		<fsriver.version>0.0.1-SNAPSHOT</fsriver.version>
 		<jsf.version>2.1.7</jsf.version>
