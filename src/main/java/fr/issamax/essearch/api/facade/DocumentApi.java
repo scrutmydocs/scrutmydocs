@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.issamax.essearch.api.RestAPIException;
 import fr.issamax.essearch.api.data.Document;
-import fr.issamax.essearch.api.data.RestResponse;
+import fr.issamax.essearch.api.data.RestResponseDocument;
 import fr.issamax.essearch.api.service.RestDocumentService;
 
 @Controller
@@ -44,17 +44,17 @@ public class DocumentApi {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/doc")
 	public @ResponseBody
-	RestResponse<Document> push(@RequestBody Document doc) {
+	RestResponseDocument push(@RequestBody Document doc) {
 		doc = restDocumentService.push(doc);
-		RestResponse<Document> response = new RestResponse<Document>(doc);
+		RestResponseDocument response = new RestResponseDocument(doc);
 		return response;
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/doc/{id}")
 	public @ResponseBody
-	RestResponse<?> delete(@PathVariable String id) {
+	RestResponseDocument delete(@PathVariable String id) {
 		restDocumentService.delete(id);
-		return new RestResponse<Object>();
+		return new RestResponseDocument();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/doc/{index}/{type}/{id}")
@@ -66,15 +66,15 @@ public class DocumentApi {
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/doc/{index}/{type}/")
 	public @ResponseBody
-	RestResponse<?> createIndex(@PathVariable String index,
+	RestResponseDocument createIndex(@PathVariable String index,
 			@PathVariable String type) {
 		try {
 			restDocumentService.createIndex(index, type);
 		} catch (RestAPIException e) {
-			return new RestResponse<Object>(e);
+			return new RestResponseDocument(e);
 		}
 		
-		return new RestResponse<Object>();
+		return new RestResponseDocument();
 	}
 
 }

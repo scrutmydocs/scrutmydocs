@@ -30,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
 import fr.issamax.essearch.api.data.Document;
-import fr.issamax.essearch.api.data.RestResponse;
+import fr.issamax.essearch.api.data.RestResponseDocument;
 import fr.issamax.essearch.constant.ESSearchProperties;
 
 public class DocumentApiTest extends AbstractConfigurationIntegrationTest {
@@ -42,12 +42,12 @@ public class DocumentApiTest extends AbstractConfigurationIntegrationTest {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	// @Test
+	@Test
 	public void push_document() throws Exception {
 		Document input = new Document("nom.pdf", "BASE64CODE");
 
-		RestResponse<Document> response = restTemplate.postForObject(BASE_URL, input,
-				RestResponse.class, new Object[] {});
+		RestResponseDocument response = restTemplate.postForObject(BASE_URL, input,
+				RestResponseDocument.class, new Object[] {});
 		assertNotNull(response);
 		assertTrue(response.isOk());
 		assertNotNull(response.getObject());
@@ -60,11 +60,11 @@ public class DocumentApiTest extends AbstractConfigurationIntegrationTest {
 		assertEquals(input, output);
 	}
 
-	// @Test
+	@Test
 	public void push_then_get_document() throws Exception {
 		Document input = new Document("nom2.pdf", "BASE64CODEO");
-		RestResponse<Document> response = restTemplate.postForObject(BASE_URL, input,
-				RestResponse.class, new Object[] {});
+		RestResponseDocument response = restTemplate.postForObject(BASE_URL, input,
+				RestResponseDocument.class, new Object[] {});
 		assertNotNull(response);
 		assertTrue(response.isOk());
 		assertNotNull(response.getObject());
@@ -72,17 +72,11 @@ public class DocumentApiTest extends AbstractConfigurationIntegrationTest {
 
 		String url = BASE_URL + input.getIndex() + "/" + input.getType() + "/" + input.getId();
 		
-		response = restTemplate.getForObject(url, RestResponse.class);
+		Document output = restTemplate.getForObject(url, Document.class);
 
-		assertNotNull(response);
-		assertNotNull(response.getObject());
-		assertTrue(response.getObject() instanceof Document);
-		Document output = (Document) response.getObject();
+		assertNotNull(output);
 		
 		assertEquals(input, output);
 	}
 
-	@Test public void testDummy() {
-		// We do nothing here
-	}
 }
