@@ -34,7 +34,7 @@ import fr.issamax.essearch.api.document.data.RestResponseDocument;
 import fr.issamax.essearch.constant.ESSearchProperties;
 
 public class DocumentApiTest extends AbstractConfigurationIntegrationTest {
-	private static final String BASE_URL = "http://localhost:9090/essearch/api/docs/doc/";
+	private static final String BASE_URL = "http://localhost:9090/essearch/api/doc/";
 
 	private ESLogger logger = ESLoggerFactory.getLogger(DocumentApiTest.class
 			.getName());
