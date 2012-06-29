@@ -29,8 +29,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
-import fr.issamax.essearch.api.data.Document;
-import fr.issamax.essearch.api.data.RestResponseDocument;
+import fr.issamax.essearch.api.document.data.Document;
+import fr.issamax.essearch.api.document.data.RestResponseDocument;
 import fr.issamax.essearch.constant.ESSearchProperties;
 
 public class DocumentApiTest extends AbstractConfigurationIntegrationTest {

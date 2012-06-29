@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.api.data;
+package fr.issamax.essearch.api.document.data;
 
 import java.io.Serializable;
 

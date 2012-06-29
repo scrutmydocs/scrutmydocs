@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.api.facade;
+package fr.issamax.essearch.api.document.facade;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,10 +29,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import fr.issamax.essearch.api.RestAPIException;
-import fr.issamax.essearch.api.data.Document;
-import fr.issamax.essearch.api.data.RestResponseDocument;
-import fr.issamax.essearch.api.service.RestDocumentService;
+import fr.issamax.essearch.api.common.RestAPIException;
+import fr.issamax.essearch.api.document.data.Document;
+import fr.issamax.essearch.api.document.data.RestResponseDocument;
+import fr.issamax.essearch.api.document.service.RestDocumentService;
 
 @Controller
 @RequestMapping("/docs")

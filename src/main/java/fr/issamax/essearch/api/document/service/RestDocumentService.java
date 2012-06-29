@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.api.service;
+package fr.issamax.essearch.api.document.service;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -42,8 +42,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.issamax.essearch.admin.river.service.RiverService;
-import fr.issamax.essearch.api.RestAPIException;
-import fr.issamax.essearch.api.data.Document;
+import fr.issamax.essearch.api.common.RestAPIException;
+import fr.issamax.essearch.api.document.data.Document;
 import fr.issamax.essearch.constant.ESSearchProperties;
 
 @Component

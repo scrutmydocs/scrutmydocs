@@ -17,14 +17,14 @@
  * under the License.
  */
 
-package fr.issamax.essearch.api.data;
+package fr.issamax.essearch.api.common.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import fr.issamax.essearch.api.RestAPIException;
+import fr.issamax.essearch.api.common.RestAPIException;
 
 public class RestResponse<T> implements Serializable {
 

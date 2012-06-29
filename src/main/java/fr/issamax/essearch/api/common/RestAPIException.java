@@ -17,23 +17,18 @@
  * under the License.
  */
 
-package fr.issamax.essearch.api.data;
+package fr.issamax.essearch.api.common;
 
-import fr.issamax.essearch.api.RestAPIException;
-
-
-public class RestResponseDocument extends RestResponse<Document> {
+/**
+ * Define a REST API Exception
+ * @author David
+ *
+ */
+public class RestAPIException extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	public RestResponseDocument(Document doc) {
-		super(doc);
+	public RestAPIException(String message) {
+		super(message);
 	}
 
-	public RestResponseDocument() {
-		super();
-	}
-
-	public RestResponseDocument(RestAPIException e) {
-		super(e);
-	}
 }
