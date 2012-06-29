@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.issamax.essearch.api.common.RestAPIException;
+import fr.issamax.essearch.api.common.data.Api;
+import fr.issamax.essearch.api.common.facade.CommonBaseApi;
 import fr.issamax.essearch.api.index.data.Index;
 import fr.issamax.essearch.api.index.data.RestResponseIndex;
 import fr.issamax.essearch.api.index.service.RestIndexService;
@@ -46,12 +48,27 @@ import fr.issamax.essearch.constant.ESSearchProperties;
  */
 @Controller
 @RequestMapping("/index")
-public class IndexApi {
+public class IndexApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	@Autowired
 	RestIndexService restIndexService;
 
+	@Override
+	public Api[] helpApiList() {
+		Api[] apis = new Api[4];
+		apis[0] = new Api("/index", "POST", "Create a new Index. You have to post settings.");
+		apis[1] = new Api("/index/{index}", "POST", "Create a new Index named {index}. You can post settings.");
+		apis[2] = new Api("/index/{index}/{type}", "POST", "Create a new Index named {index}/{type}. You can post settings.");
+		apis[3] = new Api("/index/{index}", "DELETE", "Delete an existing index. Use with caution !");
+		return apis;
+	}
+	
+	@Override
+	public String helpMessage() {
+		return "The /index API helps you to manage your indices.";
+	}
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/{index}/{type}")
 	public @ResponseBody
 	RestResponseIndex create(@PathVariable String index, 

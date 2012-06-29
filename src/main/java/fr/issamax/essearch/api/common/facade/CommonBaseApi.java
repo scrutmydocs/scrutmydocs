@@ -19,7 +19,6 @@
 
 package fr.issamax.essearch.api.common.facade;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,28 +27,18 @@ import fr.issamax.essearch.api.common.data.Api;
 import fr.issamax.essearch.api.common.data.RestResponseWelcome;
 import fr.issamax.essearch.api.common.data.Welcome;
 
-@Controller
-@RequestMapping("/")
-public class WelcomeApi extends CommonBaseApi {
+public abstract class CommonBaseApi {
 
-	@Override
-	public Api[] helpApiList() {
-		Api[] apis = new Api[4];
-		apis[0] = new Api("/", "GET", "This API");
-		apis[1] = new Api("_help", "GET", "Should give you help on each APIs.");
-		apis[2] = new Api("/doc", "POST/GET/DELETE", "Manage documents.");
-		apis[3] = new Api("/index", "POST/DELETE", "Manage Indices");
-		return apis;
-	}
+	public abstract String helpMessage();
 	
-	@Override
-	public String helpMessage() {
-		return "You are looking for help ??? ;-)";
-	}
+	public abstract Api[] helpApiList();
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET, value = "_help")
 	public @ResponseBody
-	RestResponseWelcome welcome() {
-		return new RestResponseWelcome(new Welcome("Welcome to ESSearch RESTFul Service..."));
+	RestResponseWelcome welcomeHelp() {
+		// Build a Welcome Message
+		Welcome welcome = new Welcome(helpMessage());
+		welcome.setApis(helpApiList());
+		return new RestResponseWelcome(welcome);
 	}
 }

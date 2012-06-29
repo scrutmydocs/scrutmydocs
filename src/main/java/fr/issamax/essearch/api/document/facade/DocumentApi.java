@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import fr.issamax.essearch.api.common.data.Api;
+import fr.issamax.essearch.api.common.facade.CommonBaseApi;
 import fr.issamax.essearch.api.document.data.Document;
 import fr.issamax.essearch.api.document.data.RestResponseDocument;
 import fr.issamax.essearch.api.document.service.RestDocumentService;
@@ -36,12 +38,28 @@ import fr.issamax.essearch.constant.ESSearchProperties;
 
 @Controller
 @RequestMapping("/doc")
-public class DocumentApi {
+public class DocumentApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	@Autowired
 	RestDocumentService restDocumentService;
 
+	@Override
+	public Api[] helpApiList() {
+		Api[] apis = new Api[5];
+		apis[0] = new Api("/doc", "POST", "Add a document to the search engine");
+		apis[1] = new Api("/doc/{id}", "DELETE", "Delete a document");
+		apis[2] = new Api("/doc/{id}", "GET", "Get a document in the default index/type");
+		apis[3] = new Api("/doc/{index}/{id}", "GET", "Get a document in a specific index with default type");
+		apis[4] = new Api("/doc/{index}/{type}/{id}", "GET", "Get a document in a specific index/type");
+		return apis;
+	}
+	
+	@Override
+	public String helpMessage() {
+		return "The /doc API helps you to manage your documents.";
+	}
+	
 	/**
 	 * Add a new document
 	 * @param doc
