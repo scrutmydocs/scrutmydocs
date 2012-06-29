@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.api;
+package fr.issamax.essearch.api.common.facade;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/")
-public class WelcomeWS {
+public class WelcomeApi {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
