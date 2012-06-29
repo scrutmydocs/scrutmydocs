@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import fr.issamax.essearch.api.common.RestAPIException;
 import fr.issamax.essearch.api.document.data.Document;
 import fr.issamax.essearch.api.document.data.RestResponseDocument;
 import fr.issamax.essearch.api.document.service.RestDocumentService;
@@ -62,19 +61,6 @@ public class DocumentApi {
 	Document get(@PathVariable String index, @PathVariable String type,
 			@PathVariable String id) {
 		return restDocumentService.get(index, type, id);
-	}
-
-	@RequestMapping(method = RequestMethod.PUT, value = "/doc/{index}/{type}/")
-	public @ResponseBody
-	RestResponseDocument createIndex(@PathVariable String index,
-			@PathVariable String type) {
-		try {
-			restDocumentService.createIndex(index, type);
-		} catch (RestAPIException e) {
-			return new RestResponseDocument(e);
-		}
-		
-		return new RestResponseDocument();
 	}
 
 }
