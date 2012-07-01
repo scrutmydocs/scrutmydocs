@@ -31,28 +31,28 @@ curl 'localhost:8080/essearch/api/_help'
 
 ```sh
 # Add a document to the search engine
-curl -XPOST 'localhost:9200/doc/{index}/{type}/{id}/'    					 
+curl -XPOST 'localhost:8080/essearch/api/doc/{index}/{type}/{id}/'    					 
 ```
 
 ### GET
  
 ```sh
 # Get a document in the default index/type  (doc/docs)
-curl -XGET 'localhost:9200/doc/{id}/'     	 
+curl -XGET 'localhost:8080/essearch/api/doc/{id}/'     	 
 # Get a document in a specific index with default type (docs)
-curl -XGET 'localhost:9200/doc/{index}/{id}/' 
+curl -XGET 'localhost:8080/essearch/api/doc/{index}/{id}/' 
 # Get a document in a specific index/type
-curl -XGET 'localhost:9200/doc/{index}/{type}/{id}/'   			 	     
+curl -XGET 'localhost:8080/essearch/api/doc/{index}/{type}/{id}/'   			 	     
 ```
 
 ### DELETE
 
 ```sh
 # DELETE a document in the default index/type  (doc/docs)
-curl -XDELETE 'localhost:9200/doc/{id}/'         
+curl -XDELETE 'localhost:8080/essearch/api/doc/{id}/'         
 # DELETE a document in a specific index with default type (docs)
-curl -XDELETE 'localhost:9200/doc/{index}/{id}/'  
+curl -XDELETE 'localhost:8080/essearch/api/doc/{index}/{id}/'  
 # DELETE a document in a specific index/type
-curl -XDELETE 'localhost:9200/doc/{index}/{type}/{id}/'    			 	    
+curl -XDELETE 'localhost:8080/essearch/api/doc/{index}/{type}/{id}/'    			 	    
 ```
 
