@@ -24,29 +24,28 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.elasticsearch.common.logging.ESLogger;
-import org.elasticsearch.common.logging.ESLoggerFactory;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
 
 import fr.issamax.essearch.api.index.data.Index;
 import fr.issamax.essearch.api.index.data.RestResponseIndex;
 import fr.issamax.essearch.constant.ESSearchProperties;
 
-public class IndexApiTest extends AbstractConfigurationIntegrationTest {
-	private static final String BASE_URL = "http://localhost:9090/essearch/api/index/";
-
-	private ESLogger logger = ESLoggerFactory.getLogger(IndexApiTest.class
-			.getName());
-
-	@Autowired
-	private RestTemplate restTemplate;
-
+/**
+ * Test for module "index/"
+ * @author David Pilato
+ */
+public class IndexApiTest extends AbstractApiTest {
+	/**
+	 * module is "index/"
+	 */
+	@Override
+	protected String getModuleApiUrl() {
+		return "index/";
+	}
+	
 	@Test
 	public void create_index_with_defaults() throws Exception {
-		RestResponseIndex response = restTemplate.postForObject(BASE_URL, new Index(),
+		RestResponseIndex response = restTemplate.postForObject(buildFullApiUrl(), new Index(),
 				RestResponseIndex.class, new Object[] {});
 		assertNotNull(response);
 		assertTrue(response.isOk());
@@ -65,7 +64,7 @@ public class IndexApiTest extends AbstractConfigurationIntegrationTest {
 		String analyzer = "myanalyzer";
 		Index input = new Index(index, type, analyzer);
 
-		RestResponseIndex response = restTemplate.postForObject(BASE_URL, input,
+		RestResponseIndex response = restTemplate.postForObject(buildFullApiUrl(), input,
 				RestResponseIndex.class, new Object[] {});
 		assertNotNull(response);
 		assertTrue(response.isOk());
@@ -83,7 +82,7 @@ public class IndexApiTest extends AbstractConfigurationIntegrationTest {
 		String index = "mysecondindex";
 		String type = "mysecondtype";
 
-		String url = BASE_URL + index + "/" + type;
+		String url = buildFullApiUrl(index + "/" + type);
 		RestResponseIndex response = restTemplate.postForObject(url, new Index(),
 				RestResponseIndex.class, new Object[] {});
 		assertNotNull(response);
@@ -103,7 +102,7 @@ public class IndexApiTest extends AbstractConfigurationIntegrationTest {
 		String type = "mysecondtype";
 		Index settings = new Index(null, null, "french");
 		
-		String url = BASE_URL + index + "/" + type;
+		String url = buildFullApiUrl(index + "/" + type);
 		RestResponseIndex response = restTemplate.postForObject(url, settings,
 				RestResponseIndex.class, new Object[] {});
 		assertNotNull(response);

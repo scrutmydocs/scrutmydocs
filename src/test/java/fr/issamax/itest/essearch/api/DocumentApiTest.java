@@ -23,31 +23,32 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.elasticsearch.common.logging.ESLogger;
-import org.elasticsearch.common.logging.ESLoggerFactory;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
 
 import fr.issamax.essearch.api.document.data.Document;
 import fr.issamax.essearch.api.document.data.RestResponseDocument;
 import fr.issamax.essearch.constant.ESSearchProperties;
 
-public class DocumentApiTest extends AbstractConfigurationIntegrationTest {
-	private static final String BASE_URL = "http://localhost:9090/essearch/api/doc/";
-
-	private ESLogger logger = ESLoggerFactory.getLogger(DocumentApiTest.class
-			.getName());
-
-	@Autowired
-	private RestTemplate restTemplate;
+/**
+ * Test for module "doc/"
+ * @author David Pilato
+ */
+public class DocumentApiTest extends AbstractApiTest {
+	
+	/**
+	 * Module is "doc/"
+	 */
+	@Override
+	protected String getModuleApiUrl() {
+		return "doc/";
+	}
 
 	@Test
 	public void push_document() throws Exception {
 		Document input = new Document("nom.pdf", "BASE64CODE");
 
-		RestResponseDocument response = restTemplate.postForObject(BASE_URL, input,
-				RestResponseDocument.class, new Object[] {});
+		RestResponseDocument response = restTemplate.postForObject(buildFullApiUrl(),
+				input, RestResponseDocument.class, new Object[] {});
 		assertNotNull(response);
 		assertTrue(response.isOk());
 		assertNotNull(response.getObject());
@@ -63,19 +64,20 @@ public class DocumentApiTest extends AbstractConfigurationIntegrationTest {
 	@Test
 	public void push_then_get_document() throws Exception {
 		Document input = new Document("nom2.pdf", "BASE64CODEO");
-		RestResponseDocument response = restTemplate.postForObject(BASE_URL, input,
-				RestResponseDocument.class, new Object[] {});
+		RestResponseDocument response = restTemplate.postForObject(buildFullApiUrl(),
+				input, RestResponseDocument.class, new Object[] {});
 		assertNotNull(response);
 		assertTrue(response.isOk());
 		assertNotNull(response.getObject());
 		input = (Document) response.getObject();
 
-		String url = BASE_URL + input.getIndex() + "/" + input.getType() + "/" + input.getId();
-		
+		String url = buildFullApiUrl(input.getIndex() + "/" + input.getType() + "/"
+				+ input.getId());
+
 		Document output = restTemplate.getForObject(url, Document.class);
 
 		assertNotNull(output);
-		
+
 		assertEquals(input, output);
 	}
 

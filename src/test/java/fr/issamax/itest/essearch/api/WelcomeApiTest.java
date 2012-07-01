@@ -19,36 +19,17 @@
 
 package fr.issamax.itest.essearch.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+/**
+ * Test main entry point
+ * @author David Pilato
+ */
+public class WelcomeApiTest extends AbstractApiTest {
 
-import org.elasticsearch.common.logging.ESLogger;
-import org.elasticsearch.common.logging.ESLoggerFactory;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.client.RestTemplate;
-
-import fr.issamax.essearch.api.common.data.RestResponseWelcome;
-import fr.issamax.essearch.api.common.data.Welcome;
-
-public class WelcomeApiTest extends AbstractConfigurationIntegrationTest {
-	private static final String BASE_URL = "http://localhost:9090/essearch/api/_help";
-
-	private ESLogger logger = ESLoggerFactory.getLogger(WelcomeApiTest.class
-			.getName());
-
-	@Autowired private RestTemplate restTemplate;
-
-	@Test
-	public void asking_for_help() throws Exception {
-		RestResponseWelcome response = restTemplate.getForObject(BASE_URL, RestResponseWelcome.class);
-		assertNotNull(response);
-		assertTrue(response.isOk());
-		assertNotNull(response.getObject());
-		Welcome output = (Welcome) response.getObject();
-		assertNotNull(output);
-		assertNotNull(output.getApis());
-		assertTrue(output.getApis().length > 0);
+	/**
+	 * This is a test for the main entry point, so there is no module : null
+	 */
+	@Override
+	protected String getModuleApiUrl() {
+		return null;
 	}
-
 }
