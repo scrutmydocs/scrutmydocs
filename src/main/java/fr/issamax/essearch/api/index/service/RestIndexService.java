@@ -19,18 +19,12 @@
 
 package fr.issamax.essearch.api.index.service;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Date;
-import java.util.Map;
 
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequestBuilder;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingResponse;
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.ClusterState;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
@@ -43,8 +37,6 @@ import org.springframework.stereotype.Component;
 
 import fr.issamax.essearch.admin.river.service.RiverService;
 import fr.issamax.essearch.api.common.RestAPIException;
-import fr.issamax.essearch.api.document.data.Document;
-import fr.issamax.essearch.constant.ESSearchProperties;
 
 @Component
 public class RestIndexService {
