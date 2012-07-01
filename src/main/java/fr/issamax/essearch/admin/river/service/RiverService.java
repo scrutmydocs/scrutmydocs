@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.Map;
 
 import org.elasticsearch.action.admin.indices.close.CloseIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.close.CloseIndexResponse;
@@ -32,6 +33,7 @@ import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequestBuild
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingResponse;
 import org.elasticsearch.action.admin.indices.open.OpenIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.open.OpenIndexResponse;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.cluster.ClusterState;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
@@ -53,6 +55,38 @@ public class RiverService implements Serializable {
 	
 	@Autowired Client client;
 
+	/**
+	 * Check if the river exists and if it's started
+	 * @param river
+	 */
+	public boolean checkState(FSRiver river) {
+		if (logger.isDebugEnabled()) logger.debug("checkState({})", river);
+		// We only check the river if you provide its definition
+		if (river == null) return false;
+		
+		try {
+			GetResponse responseEs = client
+					.prepareGet("_river", river.getId(), "_status")
+					.execute().actionGet();
+			if(!responseEs.isExists() )  {
+				return false;
+			}
+			
+			// We can also check if status is ok
+			Map<String, Object> source = responseEs.sourceAsMap();
+			boolean status = FSRiverHelper.getSingleBooleanValue("ok", source);
+			
+			if (status) return true;
+			
+		} catch (Exception e) {
+			logger.warn("checkState({}) : Exception raised : {}", river, e.getClass());
+			if (logger.isDebugEnabled()) logger.debug("- Exception stacktrace :", e);
+		}
+		if (logger.isDebugEnabled()) logger.debug("/checkState({})", river);
+	
+		return false;
+	}
+	
 	/**
 	 * Update (or add) a river
 	 * @param river

@@ -175,4 +175,13 @@ public class FSRiverHelper {
 		List<Object> obj = XContentMapValues.extractRawValues(path, content);
 		return ((Integer) obj.get(0)).longValue();
 	}
+
+	public static Boolean getSingleBooleanValue(String path, Map<String, Object> content) {
+		List<Object> obj = XContentMapValues.extractRawValues(path, content);
+		if(obj.isEmpty()) 
+			return null;
+		else 
+			return ((Boolean) obj.get(0));
+	}
+	
 }

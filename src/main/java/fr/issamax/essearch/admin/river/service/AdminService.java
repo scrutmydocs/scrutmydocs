@@ -47,6 +47,7 @@ public class AdminService implements Serializable {
 	private ESLogger logger = Loggers.getLogger(getClass().getName());
 	
 	@Autowired Client client;
+	@Autowired RiverService riverService;
 
 	/**
 	 * Get the river definition by its name
@@ -96,7 +97,9 @@ public class AdminService implements Serializable {
 
 					// We only manage FS rivers
 					FSRiver fsriver = FSRiverHelper.toRiver(hit.sourceAsMap());
-					fsriver.setStart(true);
+					
+					// For each river, we check if the river is started or not
+					fsriver.setStart(riverService.checkState(fsriver));
 					rivers.add(fsriver);
 				}
 			}
