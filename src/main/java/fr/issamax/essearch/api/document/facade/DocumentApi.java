@@ -48,9 +48,11 @@ public class DocumentApi extends CommonBaseApi {
 	public Api[] helpApiList() {
 		Api[] apis = new Api[5];
 		apis[0] = new Api("/doc", "POST", "Add a document to the search engine");
-		apis[1] = new Api("/doc/{id}", "DELETE", "Delete a document");
-		apis[2] = new Api("/doc/{id}", "GET", "Get a document in the default index/type");
-		apis[3] = new Api("/doc/{index}/{id}", "GET", "Get a document in a specific index with default type");
+		apis[1] = new Api("/doc/{id}", "DELETE", "Delete a documentin the default index/type (doc/docs)");
+		apis[1] = new Api("/doc/{index}/{id}", "DELETE", "Delete a document in the default type (doc)");
+		apis[1] = new Api("/doc/{index}/{type}/{id}", "DELETE", "Delete a document ");
+		apis[2] = new Api("/doc/{id}", "GET", "Get a document in the default index/type  (doc/docs)");
+		apis[3] = new Api("/doc/{index}/{id}", "GET", "Get a document in a specific index with default type  (docs)");
 		apis[4] = new Api("/doc/{index}/{type}/{id}", "GET", "Get a document in a specific index/type");
 		return apis;
 	}
@@ -81,10 +83,43 @@ public class DocumentApi extends CommonBaseApi {
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
 	public @ResponseBody
 	RestResponseDocument delete(@PathVariable String id) {
-		restDocumentService.delete(id);
-		return new RestResponseDocument();
+		boolean result = restDocumentService.delete(null,null,id);
+		RestResponseDocument response = new RestResponseDocument();
+		response.setOk(result);
+		return response;
 	}
 
+
+	/**
+	 * Delete an existing document
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.DELETE, value = "{index}/{id}")
+	public @ResponseBody
+	RestResponseDocument delete(@PathVariable String index,@PathVariable String id) {
+		boolean result = restDocumentService.delete(index,null,id);
+		RestResponseDocument response = new RestResponseDocument();
+		response.setOk(result);
+		return response;
+	}
+
+	
+	/**
+	 * Delete an existing document
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.DELETE, value = "{index}/{type}/{id}")
+	public @ResponseBody
+	RestResponseDocument delete(@PathVariable String index,@PathVariable String type,@PathVariable String id) {
+		boolean result = restDocumentService.delete(index,type,id);
+		RestResponseDocument response = new RestResponseDocument();
+		response.setOk(result);
+		return response;
+	}
+
+	
 	/**
 	 * Get a document with its coordinates (index, type, id)
 	 * @param index

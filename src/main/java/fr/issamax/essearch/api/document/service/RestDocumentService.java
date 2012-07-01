@@ -24,6 +24,7 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import java.util.Date;
 import java.util.Map;
 
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
@@ -68,9 +69,18 @@ public class RestDocumentService {
 		return response;
 	}
 
-	public void delete(String id) {
-		// TODO Auto-generated method stub
+	public boolean delete(String index, String type, String id) {
+		if (index == null) {
+			index = ESSearchProperties.INDEX_NAME;
+		}
+		if (type == null) {
+			type = ESSearchProperties.INDEX_TYPE_DOC;
+		}
 
+		DeleteResponse response = client.prepareDelete(index, type, index)
+				.execute().actionGet();
+
+		return response.isNotFound();
 	}
 
 	public Document push(Document document) {
