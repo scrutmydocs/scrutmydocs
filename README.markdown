@@ -20,6 +20,13 @@ Setup
 RESTFul API
 -----------
 
+Each API provide help with the `_help` entry point.
+
+```sh
+curl 'localhost:8080/essearch/api/_help'    					 
+```
+
+
 ### POST
 
 ```sh
