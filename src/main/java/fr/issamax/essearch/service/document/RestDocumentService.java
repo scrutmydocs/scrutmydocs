@@ -84,6 +84,7 @@ public class RestDocumentService {
 	}
 
 	public Document push(Document document) {
+		if (logger.isDebugEnabled()) logger.debug("push({})", document);
 		if (document == null)
 			return null;
 
@@ -115,6 +116,7 @@ public class RestDocumentService {
 			logger.warn("Can not index document {}", document);
 		}
 
+		if (logger.isDebugEnabled()) logger.debug("/push()={}", document);
 		return document;
 	}
 

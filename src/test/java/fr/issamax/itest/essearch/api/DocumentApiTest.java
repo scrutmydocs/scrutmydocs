@@ -23,11 +23,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.elasticsearch.common.Base64;
 import org.junit.Test;
 
 import fr.issamax.essearch.api.document.data.Document;
 import fr.issamax.essearch.api.document.data.RestResponseDocument;
 import fr.issamax.essearch.constant.ESSearchProperties;
+import fr.issamax.essearch.util.ESHelper;
 
 /**
  * Test for module "doc/"
@@ -45,7 +47,10 @@ public class DocumentApiTest extends AbstractApiTest {
 
 	@Test
 	public void push_document() throws Exception {
-		Document input = new Document("nom.pdf", "BASE64CODE");
+		String content = ESHelper.readFileInClasspath("/integration/docs/LICENSE.txt");
+		String base64Content = Base64.encodeBytes(content.getBytes());
+		
+		Document input = new Document("nom.pdf", base64Content);
 
 		RestResponseDocument response = restTemplate.postForObject(buildFullApiUrl(),
 				input, RestResponseDocument.class, new Object[] {});
@@ -63,7 +68,11 @@ public class DocumentApiTest extends AbstractApiTest {
 
 	@Test
 	public void push_then_get_document() throws Exception {
-		Document input = new Document("nom2.pdf", "BASE64CODEO");
+		String content = ESHelper.readFileInClasspath("/integration/docs/LICENSE.txt");
+		String base64Content = Base64.encodeBytes(content.getBytes());
+		
+		Document input = new Document("nom2.pdf", base64Content);
+		
 		RestResponseDocument response = restTemplate.postForObject(buildFullApiUrl(),
 				input, RestResponseDocument.class, new Object[] {});
 		assertNotNull(response);

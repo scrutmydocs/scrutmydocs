@@ -124,7 +124,7 @@ public class FSRiverHelper {
 	 * @return An ES xcontent
 	 */
 	public static XContentBuilder toRiverMapping(FSRiver fsriver) {
-		return toRiverMapping(fsriver.getId(), fsriver.getAnalyzer());
+		return toRiverMapping(fsriver.getIndexname(), fsriver.getAnalyzer());
 	}
 
 	/**

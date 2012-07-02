@@ -22,6 +22,7 @@ package fr.issamax.essearch.api.document.data;
 import java.io.Serializable;
 
 import fr.issamax.essearch.constant.ESSearchProperties;
+import fr.issamax.essearch.util.StringTools;
 
 public class Document implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -178,4 +179,8 @@ public class Document implements Serializable {
 		return true;
 	}
 	
+	@Override
+	public String toString() {
+		return StringTools.toString(this);
+	}
 }

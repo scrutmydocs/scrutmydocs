@@ -173,7 +173,7 @@ public class ESHelper {
 	 * @return File content or null if file doesn't exist
 	 * @throws Exception
 	 */
-	private static String readFileInClasspath(String url) throws Exception {
+	public static String readFileInClasspath(String url) throws Exception {
 		StringBuffer bufferJSON = new StringBuffer();
 		
 		try {
