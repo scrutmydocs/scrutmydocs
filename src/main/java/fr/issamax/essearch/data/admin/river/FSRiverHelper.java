@@ -124,11 +124,20 @@ public class FSRiverHelper {
 	 * @return An ES xcontent
 	 */
 	public static XContentBuilder toRiverMapping(FSRiver fsriver) {
+		return toRiverMapping(fsriver.getId(), fsriver.getAnalyzer());
+	}
+
+	/**
+	 * Build a river mapping for FS
+	 * @param fsriver FSRiver used to generate mapping
+	 * @return An ES xcontent
+	 */
+	public static XContentBuilder toRiverMapping(String type, String analyzer) {
 		XContentBuilder xb = null;
 		try {
 			xb = jsonBuilder()
 					.startObject()
-						.startObject(fsriver.getTypename())
+						.startObject(type)
 							.startObject("properties")
 								.startObject("file")
 									.field("type", "attachment")
@@ -138,7 +147,7 @@ public class FSRiverHelper {
 											.field("type", "string")
 											.field("store", "yes")
 											.field("term_vector", "with_positions_offsets")
-											.field("analyzer", fsriver.getAnalyzer())
+											.field("analyzer", analyzer)
 										.endObject()
 										.startObject("author").field("type", "string").endObject()
 										.startObject("title").field("type", "string").field("store", "yes").endObject()
