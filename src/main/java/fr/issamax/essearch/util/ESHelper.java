@@ -157,6 +157,18 @@ public class ESHelper {
 	}
     
 	/**
+	 * Check if a type already exists
+	 * @param client Elasticsearch client
+	 * @param index Index name
+	 * @param type Type name
+	 * @return true if index already exists
+	 * @throws Exception
+	 */
+    public static boolean isTypeExist(Client client, String index, String type) throws Exception {
+		return client.admin().indices().prepareExists(index, type).execute().actionGet().isExists();
+	}
+    
+	/**
 	 * Read the mapping for a type.<br>
 	 * Shortcut to readFileInClasspath("/estemplate/" + type + ".json");
 	 * @param type Type name
