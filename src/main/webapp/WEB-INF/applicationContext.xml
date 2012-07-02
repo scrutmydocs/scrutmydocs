@@ -31,5 +31,53 @@
 	<context:annotation-config />
 	<task:annotation-driven />
 	<context:component-scan base-package="fr.issamax.essearch" />
+	
+	<mvc:annotation-driven />
 
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<bean
+					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- jackson configuration : http://stackoverflow.com/questions/3661769 -->
+	<bean id="jacksonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper" />
+	<bean id="jacksonSerializationConfig" class="org.codehaus.jackson.map.SerializationConfig"
+	    factory-bean="jacksonObjectMapper" factory-method="getSerializationConfig" />
+	<bean
+	    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+	    <property name="targetObject" ref="jacksonSerializationConfig" />
+	    <property name="targetMethod" value="setSerializationInclusion" />
+	    <property name="arguments">
+	        <list>
+	            <value type="org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion">NON_NULL</value>
+	        </list>
+	    </property>
+	</bean>
+
+	<bean id="jsonHttpMessageConverter"
+	    class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+	    <property name="prefixJson" value="false" />
+	    <property name="supportedMediaTypes" value="application/json" />
+	    <property name="objectMapper" ref="jacksonObjectMapper" />
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	
 </beans>
