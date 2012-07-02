@@ -114,7 +114,11 @@ public class IndexApi extends CommonBaseApi {
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{index}")
 	public @ResponseBody
 	RestResponseIndex delete(@PathVariable String index) {
-		restIndexService.delete(index);
+		try {
+			restIndexService.delete(index);
+		} catch (RestAPIException e) {
+			return new RestResponseIndex(e);
+		}
 		return new RestResponseIndex();
 	}
 

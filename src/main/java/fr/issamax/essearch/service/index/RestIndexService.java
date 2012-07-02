@@ -70,13 +70,14 @@ public class RestIndexService {
 	 * Delete an index
 	 * @param index
 	 */
-	public void delete(String index) {
+	public void delete(String index) throws RestAPIException {
 		if (logger.isDebugEnabled()) logger.debug("delete({})", index);
 		try {
 			DeleteIndexResponse dir = client.admin().indices().prepareDelete(index).execute().actionGet();
 			if (!dir.acknowledged()) throw new RestAPIException("ES did not acknowledge index removal...");
 		} catch (Exception e) {
 			logger.error("Can not delete Index({}) : {}", index, e.getMessage());
+			throw new RestAPIException("Error while removing index : " + e.getMessage());
 		}
 		if (logger.isDebugEnabled()) logger.debug("/delete({})", index);
 	}
