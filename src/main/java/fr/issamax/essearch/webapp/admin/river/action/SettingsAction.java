@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.admin.river.action;
+package fr.issamax.essearch.webapp.admin.river.action;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,10 +27,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import fr.issamax.essearch.admin.river.data.FSRiver;
-import fr.issamax.essearch.admin.river.service.AdminService;
-import fr.issamax.essearch.admin.river.service.RiverService;
 import fr.issamax.essearch.constant.ESSearchProperties;
+import fr.issamax.essearch.data.admin.river.FSRiver;
+import fr.issamax.essearch.service.admin.river.AdminService;
+import fr.issamax.essearch.service.admin.river.RiverService;
 
 @Component("settingsAction")
 @Scope("session")

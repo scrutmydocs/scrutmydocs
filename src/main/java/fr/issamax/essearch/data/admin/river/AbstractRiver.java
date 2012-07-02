@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.admin.river.data;
+package fr.issamax.essearch.data.admin.river;
 
 import java.io.Serializable;
 

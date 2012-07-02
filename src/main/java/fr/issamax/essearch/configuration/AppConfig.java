@@ -26,9 +26,9 @@ import org.elasticsearch.node.Node;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import fr.issamax.essearch.admin.river.data.FSRiver;
-import fr.issamax.essearch.admin.river.data.FSRiverHelper;
 import fr.issamax.essearch.constant.ESSearchProperties;
+import fr.issamax.essearch.data.admin.river.FSRiver;
+import fr.issamax.essearch.data.admin.river.FSRiverHelper;
 import fr.pilato.spring.elasticsearch.ElasticsearchClientFactoryBean;
 import fr.pilato.spring.elasticsearch.ElasticsearchNodeFactoryBean;
 

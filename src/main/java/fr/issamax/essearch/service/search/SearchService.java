@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.search.service;
+package fr.issamax.essearch.service.search;
 
 import static fr.issamax.essearch.constant.ESSearchProperties.INDEX_NAME;
 import static fr.issamax.essearch.constant.ESSearchProperties.INDEX_TYPE_DOC;

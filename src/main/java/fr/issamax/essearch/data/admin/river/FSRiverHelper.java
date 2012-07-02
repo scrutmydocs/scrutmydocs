@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.admin.river.data;
+package fr.issamax.essearch.data.admin.river;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -28,14 +28,14 @@ import java.util.Map;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.support.XContentMapValues;
 
-public class DropBoxRiverHelper {
+public class FSRiverHelper {
 	
 	/**
-	 * Build a river definition for DROPBOX
+	 * Build a river definition for FS
 	 * @param river The river definition
 	 * @return An ES xcontent
 	 */
-	public static XContentBuilder toXContent(DropBoxRiver river) {
+	public static XContentBuilder toXContent(FSRiver river) {
 		XContentBuilder xb = null;
 		try {
 			xb = jsonBuilder()
@@ -43,8 +43,6 @@ public class DropBoxRiverHelper {
 						.field("type", river.getType())
 						.startObject(river.getType())
 							.field("name", river.getId())
-							.field("token", river.getToken())
-							.field("secret", river.getSecret())
 							.field("url", river.getUrl())
 							.field("update_rate", river.getUpdateRate() * 1000)
 							.field("includes", river.getIncludes())
@@ -64,14 +62,12 @@ public class DropBoxRiverHelper {
 	
 	
 	/**
-	 * Build a DropBox river from a JSON definiton content such as :<pre>
+	 * Build a FS river from a JSON definiton content such as :<pre>
 {
-  "type" : "dropbox",
-  "dropbox" : {
+  "type" : "fs",
+  "fs" : {
 	  "update_rate" : 30000,
 	  "name" : "tmp",
-	  "token" : "XXXXXXXXXXXXXX",
-	  "secret" : "ZZZZZZZZZZZZZZ",
 	  "url" : "/tmp_es",
 	  "includes" : "*.doc,*.pdf",
 	  "excludes" : "resume.*",
@@ -84,33 +80,31 @@ public class DropBoxRiverHelper {
 }
 </pre>
 	 * @param content The JSON form
-	 * @return A DropBox River
+	 * @return An FS River
 	 */
-	public static DropBoxRiver toRiver(Map<String, Object> content) {
-		DropBoxRiver river = new DropBoxRiver();
+	public static FSRiver toRiver(Map<String, Object> content) {
+		FSRiver river = new FSRiver();
 		try {
-			// First we check that it's a dropbox type
+			// First we check that it's a fs type
 			if (!content.containsKey("type")) 
 				throw new RuntimeException("Your River object should be a river and contain \"type\":\"rivertype\"");
-			if (!(XContentMapValues.nodeStringValue(content.get("type"), "")).equalsIgnoreCase("dropbox")) 
-				throw new RuntimeException("Your DropBox River object should be a river and contain \"type\":\"dropbox\"");
+			if (!(XContentMapValues.nodeStringValue(content.get("type"), "")).equalsIgnoreCase("fs")) 
+				throw new RuntimeException("Your FSRiver object should be a river and contain \"type\":\"fs\"");
 			
 			// Then we dig into fs
-			if (!content.containsKey("dropbox")) 
-				throw new RuntimeException("A FSRiver must contain \"dropbox\":{...}");
+			if (!content.containsKey("fs")) 
+				throw new RuntimeException("A FSRiver must contain \"fs\":{...}");
 
-			river.setId(getSingleStringValue("dropbox.name", content));
-			river.setName(getSingleStringValue("dropbox.name", content));
-			river.setToken(getSingleStringValue("dropbox.token", content));
-			river.setSecret(getSingleStringValue("dropbox.secret", content));
-			river.setUrl(getSingleStringValue("dropbox.url", content));
-			river.setUpdateRate(getSingleLongValue("dropbox.update_rate", content) / 1000);
+			river.setId(getSingleStringValue("fs.name", content));
+			river.setName(getSingleStringValue("fs.name", content));
+			river.setUrl(getSingleStringValue("fs.url", content));
+			river.setUpdateRate(getSingleLongValue("fs.update_rate", content) / 1000);
 
 			// TODO Manage includes/excludes when arrays
-			river.setIncludes(getSingleStringValue("dropbox.includes", content));
-			river.setExcludes(getSingleStringValue("dropbox.excludes", content));
+			river.setIncludes(getSingleStringValue("fs.includes", content));
+			river.setExcludes(getSingleStringValue("fs.excludes", content));
 			
-			river.setAnalyzer(getSingleStringValue("dropbox.analyzer", content));
+			river.setAnalyzer(getSingleStringValue("fs.analyzer", content));
 			
 			// Then we dig into fs
 			if (content.containsKey("index")) {
@@ -125,16 +119,16 @@ public class DropBoxRiverHelper {
 	}
 	
 	/**
-	 * Build a river mapping for DropBox
-	 * @param river DropBoxRiver used to generate mapping
+	 * Build a river mapping for FS
+	 * @param fsriver FSRiver used to generate mapping
 	 * @return An ES xcontent
 	 */
-	public static XContentBuilder toRiverMapping(DropBoxRiver river) {
+	public static XContentBuilder toRiverMapping(FSRiver fsriver) {
 		XContentBuilder xb = null;
 		try {
 			xb = jsonBuilder()
 					.startObject()
-						.startObject(river.getTypename())
+						.startObject(fsriver.getTypename())
 							.startObject("properties")
 								.startObject("file")
 									.field("type", "attachment")
@@ -144,7 +138,7 @@ public class DropBoxRiverHelper {
 											.field("type", "string")
 											.field("store", "yes")
 											.field("term_vector", "with_positions_offsets")
-											.field("analyzer", river.getAnalyzer())
+											.field("analyzer", fsriver.getAnalyzer())
 										.endObject()
 										.startObject("author").field("type", "string").endObject()
 										.startObject("title").field("type", "string").field("store", "yes").endObject()
@@ -181,4 +175,13 @@ public class DropBoxRiverHelper {
 		List<Object> obj = XContentMapValues.extractRawValues(path, content);
 		return ((Integer) obj.get(0)).longValue();
 	}
+
+	public static Boolean getSingleBooleanValue(String path, Map<String, Object> content) {
+		List<Object> obj = XContentMapValues.extractRawValues(path, content);
+		if(obj.isEmpty()) 
+			return null;
+		else 
+			return ((Boolean) obj.get(0));
+	}
+	
 }

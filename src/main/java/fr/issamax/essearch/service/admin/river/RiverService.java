@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.admin.river.service;
+package fr.issamax.essearch.service.admin.river;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -44,8 +44,8 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import fr.issamax.essearch.admin.river.data.FSRiver;
-import fr.issamax.essearch.admin.river.data.FSRiverHelper;
+import fr.issamax.essearch.data.admin.river.FSRiver;
+import fr.issamax.essearch.data.admin.river.FSRiverHelper;
 
 @Component
 public class RiverService implements Serializable {

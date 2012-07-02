@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.api.document.service;
+package fr.issamax.essearch.service.document;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 

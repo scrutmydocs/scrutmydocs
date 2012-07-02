@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.admin.river.service;
+package fr.issamax.essearch.service.admin.river;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,9 +36,9 @@ import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import fr.issamax.essearch.admin.river.data.FSRiver;
-import fr.issamax.essearch.admin.river.data.FSRiverHelper;
 import fr.issamax.essearch.constant.ESSearchProperties;
+import fr.issamax.essearch.data.admin.river.FSRiver;
+import fr.issamax.essearch.data.admin.river.FSRiverHelper;
 
 @Component
 public class AdminService implements Serializable {

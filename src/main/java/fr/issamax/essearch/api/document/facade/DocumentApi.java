@@ -33,8 +33,8 @@ import fr.issamax.essearch.api.common.data.Api;
 import fr.issamax.essearch.api.common.facade.CommonBaseApi;
 import fr.issamax.essearch.api.document.data.Document;
 import fr.issamax.essearch.api.document.data.RestResponseDocument;
-import fr.issamax.essearch.api.document.service.RestDocumentService;
 import fr.issamax.essearch.constant.ESSearchProperties;
+import fr.issamax.essearch.service.document.RestDocumentService;
 
 @Controller
 @RequestMapping("/doc")

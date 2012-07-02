@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.api.index.service;
+package fr.issamax.essearch.service.index;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -35,8 +35,8 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import fr.issamax.essearch.admin.river.service.RiverService;
 import fr.issamax.essearch.api.common.RestAPIException;
+import fr.issamax.essearch.service.admin.river.RiverService;
 
 @Component
 public class RestIndexService {

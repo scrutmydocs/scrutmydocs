@@ -27,8 +27,8 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.highlight.HighlightField;
 
-import fr.issamax.essearch.admin.river.data.FSRiverHelper;
 import fr.issamax.essearch.constant.ESSearchProperties;
+import fr.issamax.essearch.data.admin.river.FSRiverHelper;
 
 public class Results {
 

@@ -23,9 +23,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import fr.issamax.essearch.admin.river.data.FSRiver;
-import fr.issamax.essearch.admin.river.service.RiverService;
 import fr.issamax.essearch.constant.ESSearchProperties;
+import fr.issamax.essearch.data.admin.river.FSRiver;
+import fr.issamax.essearch.service.admin.river.RiverService;
 
 public class RiverServiceTest extends AbstractConfigurationTest {
 

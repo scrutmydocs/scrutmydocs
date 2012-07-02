@@ -27,9 +27,9 @@ import org.elasticsearch.common.xcontent.XContentHelper;
 import org.junit.Assert;
 import org.junit.Test;
 
-import fr.issamax.essearch.admin.river.data.FSRiver;
-import fr.issamax.essearch.admin.river.data.FSRiverHelper;
 import fr.issamax.essearch.constant.ESSearchProperties;
+import fr.issamax.essearch.data.admin.river.FSRiver;
+import fr.issamax.essearch.data.admin.river.FSRiverHelper;
 
 public class FSRiverHelperTest {
 

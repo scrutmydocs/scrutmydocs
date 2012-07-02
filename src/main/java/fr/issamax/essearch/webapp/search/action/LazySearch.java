@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.search.action;
+package fr.issamax.essearch.webapp.search.action;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 
 import fr.issamax.essearch.data.Result;
 import fr.issamax.essearch.data.Results;
-import fr.issamax.essearch.search.service.SearchService;
+import fr.issamax.essearch.service.search.SearchService;
 
 /**
  * Dummy implementation of LazyDataModel that uses a list to mimic a real

@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package fr.issamax.essearch.search.action;
+package fr.issamax.essearch.webapp.search.action;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import fr.issamax.essearch.search.service.SearchService;
+import fr.issamax.essearch.service.search.SearchService;
 
 @Deprecated
 @Component("searchController")

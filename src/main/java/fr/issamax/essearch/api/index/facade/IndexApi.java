@@ -34,8 +34,8 @@ import fr.issamax.essearch.api.common.data.Api;
 import fr.issamax.essearch.api.common.facade.CommonBaseApi;
 import fr.issamax.essearch.api.index.data.Index;
 import fr.issamax.essearch.api.index.data.RestResponseIndex;
-import fr.issamax.essearch.api.index.service.RestIndexService;
 import fr.issamax.essearch.constant.ESSearchProperties;
+import fr.issamax.essearch.service.index.RestIndexService;
 
 /**
  * Index RESTFul API

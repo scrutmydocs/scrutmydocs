@@ -27,9 +27,9 @@ import org.elasticsearch.common.xcontent.XContentHelper;
 import org.junit.Assert;
 import org.junit.Test;
 
-import fr.issamax.essearch.admin.river.data.DropBoxRiver;
-import fr.issamax.essearch.admin.river.data.DropBoxRiverHelper;
 import fr.issamax.essearch.constant.ESSearchProperties;
+import fr.issamax.essearch.data.admin.river.DropBoxRiver;
+import fr.issamax.essearch.data.admin.river.DropBoxRiverHelper;
 
 public class DropBoxRiverHelperTest {
 
