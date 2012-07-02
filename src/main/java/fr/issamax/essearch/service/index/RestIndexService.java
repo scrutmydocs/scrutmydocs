@@ -19,6 +19,8 @@
 
 package fr.issamax.essearch.service.index;
 
+import org.elasticsearch.ElasticSearchException;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
@@ -26,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.issamax.essearch.api.common.RestAPIException;
+import fr.issamax.essearch.constant.ESSearchProperties;
 import fr.issamax.essearch.util.ESHelper;
 
 @Component
@@ -68,7 +71,13 @@ public class RestIndexService {
 	 * @param index
 	 */
 	public void delete(String index) {
-		// TODO Auto-generated method stub
-		
+		if (logger.isDebugEnabled()) logger.debug("delete({})", index);
+		try {
+			DeleteIndexResponse dir = client.admin().indices().prepareDelete(index).execute().actionGet();
+			if (!dir.acknowledged()) throw new RestAPIException("ES did not acknowledge index removal...");
+		} catch (Exception e) {
+			logger.error("Can not delete Index({}) : {}", index, e.getMessage());
+		}
+		if (logger.isDebugEnabled()) logger.debug("/delete({})", index);
 	}
 }
