@@ -33,6 +33,7 @@ import org.elasticsearch.common.logging.Loggers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import fr.issamax.essearch.api.common.RestAPIException;
 import fr.issamax.essearch.api.document.data.Document;
 import fr.issamax.essearch.constant.ESSearchProperties;
 
@@ -83,7 +84,7 @@ public class RestDocumentService {
 		return response.isNotFound();
 	}
 
-	public Document push(Document document) {
+	public Document push(Document document) throws RestAPIException {
 		if (logger.isDebugEnabled()) logger.debug("push({})", document);
 		if (document == null)
 			return null;
@@ -113,7 +114,8 @@ public class RestDocumentService {
 
 			document.setId(response.getId());
 		} catch (Exception e) {
-			logger.warn("Can not index document {}", document);
+			logger.warn("Can not index document {}", document.getName());
+			throw new RestAPIException("Can not index document : "+ document.getName() + ": "+e.getMessage());
 		}
 
 		if (logger.isDebugEnabled()) logger.debug("/push()={}", document);

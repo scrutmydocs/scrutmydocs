@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import fr.issamax.essearch.api.common.RestAPIException;
 import fr.issamax.essearch.api.common.data.Api;
 import fr.issamax.essearch.api.common.facade.CommonBaseApi;
 import fr.issamax.essearch.api.document.data.Document;
@@ -70,7 +71,11 @@ public class DocumentApi extends CommonBaseApi {
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody
 	RestResponseDocument push(@RequestBody Document doc) {
-		doc = restDocumentService.push(doc);
+		try {
+			doc = restDocumentService.push(doc);
+		} catch (RestAPIException e) {
+			return new RestResponseDocument(e);
+		}
 		RestResponseDocument response = new RestResponseDocument(doc);
 		return response;
 	}
