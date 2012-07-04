@@ -19,6 +19,7 @@
 
 package fr.issamax.essearch.webapp.search.action;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -39,7 +40,7 @@ import fr.issamax.essearch.service.search.SearchService;
  */
 @Component
 @Scope("request")
-public class LazySearch {
+public class LazySearch implements Serializable{
 
 	/**
 	 * 
@@ -97,7 +98,7 @@ public class LazySearch {
 
 	public List<Result> load(int first, int pageSize) {
 
-		results = searchService.google(this.search, first, pageSize, null,
+		results = searchService.google(formatSearch(this.search), first, pageSize, null,
 				null, null);
 
 		this.setTotalPages(1 + results.getSearchResponse().getHits()
@@ -137,6 +138,16 @@ public class LazySearch {
 
 		return results.getResults();
 	}
+	
+	
+	protected String formatSearch(String mysearch){
+		
+		if(mysearch==null || mysearch.isEmpty() ) return null;
+		mysearch = "*".concat(mysearch.toLowerCase()).concat("*");
+		
+		return mysearch;
+	}
+	
 
 	public SearchService getSearchService() {
 		return searchService;
