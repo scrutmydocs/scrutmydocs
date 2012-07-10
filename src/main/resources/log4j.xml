@@ -34,7 +34,7 @@
 	<!-- Limit categories -->
 	<!-- ================ -->
 
-	<category name="fr.issamax">
+	<category name="org.scrutmydocs.webapp">
 		<priority value="DEBUG" />
 	</category>
 

@@ -8,7 +8,7 @@
    ">
 
    <context:annotation-config />
-   <context:component-scan base-package="fr.issamax.itest.essearch" />
+   <context:component-scan base-package="org.scrutmydocs.webapp.itest" />
  
  	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">  
  	
