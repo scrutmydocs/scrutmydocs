@@ -141,10 +141,7 @@ public class LazySearch implements Serializable{
 	
 	
 	protected String formatSearch(String mysearch){
-		
 		if(mysearch==null || mysearch.isEmpty() ) return null;
-		mysearch = "*".concat(mysearch.toLowerCase()).concat("*");
-		
 		return mysearch;
 	}
 	
