@@ -65,9 +65,12 @@ public class RiverService implements Serializable {
 			
 			// We can also check if status is ok
 			Map<String, Object> source = responseEs.sourceAsMap();
-			boolean status = FSRiverHelper.getSingleBooleanValue("ok", source);
+			if (source != null) {
+				boolean status = FSRiverHelper.getSingleBooleanValue("ok", source);
+				if (status) return true;
+			}
 			
-			if (status) return true;
+			
 			
 		} catch (Exception e) {
 			logger.warn("checkState({}) : Exception raised : {}", river, e.getClass());
