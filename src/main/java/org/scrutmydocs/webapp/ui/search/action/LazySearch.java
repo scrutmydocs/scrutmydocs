@@ -101,8 +101,8 @@ public class LazySearch implements Serializable{
 		results = searchService.google(formatSearch(this.search), first, pageSize, null,
 				null, null);
 
-		this.setTotalPages(1 + results.getSearchResponse().getHits()
-				.getTotalHits() / 10);
+		this.setTotalPages(1 + ((results.getSearchResponse().getHits()
+				.getTotalHits()-1) / 10));
 
 		if (results.getSearchResponse().getHits().getTotalHits() > 0) {
 			hasResults = true;
