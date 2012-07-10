@@ -19,7 +19,7 @@
 	<packaging>war</packaging>
 	<name>scrutmydocs</name>
 	<version>0.0.1-SNAPSHOT</version>
-	<url>https://github.com/issamax/essearch</url>
+	<url>http://www.scrutmydocs.org</url>
 	<description>Search Engine Web Application based on Elasticsearch, JSF, Primefaces and Spring</description>
 
 	<inceptionYear>2012</inceptionYear>

@@ -1,10 +1,10 @@
-ES-Search
+Scrut My Docs
 =========
 
 Introduction
 ------------
 
-Es-search is an web application using elasticsearch.
+Scrut My Docs is a web application using elasticsearch.
 With ScrutMyDocs you can Send, Look for and find all your documents.
  
 
