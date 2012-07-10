@@ -58,7 +58,7 @@
 					<div class="row">
 						<div class="span10 offset1">
 							<center>
-								<h:graphicImage value="./img/logo-text.png" />
+								<h:outputLink action="home"><h:graphicImage value="./img/logo-text.png" /></h:outputLink>
 							</center>
 						</div>
 					</div>
@@ -67,7 +67,7 @@
 				<div class="row">
 					<p:outputPanel rendered="#{lazySearch.hasResults}">
 						<div class="span1">
-							<h:graphicImage value="./img/logo.png" />
+								<h:outputLink action="home"><h:graphicImage value="./img/logo.png" /></h:outputLink>
 						</div>
 					</p:outputPanel>
 
