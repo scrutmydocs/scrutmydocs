@@ -26,7 +26,7 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentHelper;
 import org.junit.Assert;
 import org.junit.Test;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.admin.river.FSRiver;
 import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
 
@@ -54,8 +54,8 @@ public class FSRiverHelperTest {
 	 * @throws IOException 
 	 */
 	@Test public void test_tofsriver() throws IOException {
-		FSRiver model = new FSRiver("tmp", ESSearchProperties.INDEX_NAME, 
-				ESSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
+		FSRiver model = new FSRiver("tmp", SMDSearchProperties.INDEX_NAME, 
+				SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
 		
 		XContentBuilder xb = FSRiverHelper.toXContent(model);		
 		String jsonContent = xb.string();

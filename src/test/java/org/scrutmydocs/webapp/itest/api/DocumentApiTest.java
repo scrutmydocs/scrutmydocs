@@ -27,7 +27,7 @@ import org.elasticsearch.common.Base64;
 import org.junit.Test;
 import org.scrutmydocs.webapp.api.document.data.Document;
 import org.scrutmydocs.webapp.api.document.data.RestResponseDocument;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.util.ESHelper;
 
 
@@ -60,8 +60,8 @@ public class DocumentApiTest extends AbstractApiTest {
 		Document output = (Document) response.getObject();
 		assertNotNull(output);
 		assertNotNull(output.getId());
-		assertEquals(ESSearchProperties.INDEX_NAME, output.getIndex());
-		assertEquals(ESSearchProperties.INDEX_TYPE_DOC, output.getType());
+		assertEquals(SMDSearchProperties.INDEX_NAME, output.getIndex());
+		assertEquals(SMDSearchProperties.INDEX_TYPE_DOC, output.getType());
 		input.setId(output.getId());
 		assertEquals(input, output);
 	}

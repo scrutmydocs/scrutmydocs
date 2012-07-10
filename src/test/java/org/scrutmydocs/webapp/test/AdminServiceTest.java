@@ -24,7 +24,7 @@ import java.util.Collection;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.junit.Assert;
 import org.junit.Test;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.admin.river.FSRiver;
 import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
 import org.scrutmydocs.webapp.service.admin.river.AdminService;
@@ -39,10 +39,10 @@ public class AdminServiceTest extends AbstractConfigurationTest {
 		Assert.assertNotNull(adminService);
 
 		XContentBuilder xb = FSRiverHelper.toXContent(
-				new FSRiver("mytestriver", ESSearchProperties.INDEX_NAME, 
-						ESSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false));		
+				new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
+						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false));		
 		
-		client.prepareIndex(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, "mytestriver").setSource(xb)
+		client.prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, "mytestriver").setSource(xb)
 				.execute().actionGet();
 		
 		// We have to wait for 1s
@@ -56,10 +56,10 @@ public class AdminServiceTest extends AbstractConfigurationTest {
 		Assert.assertNotNull(adminService);
 
 		XContentBuilder xb = FSRiverHelper.toXContent(
-				new FSRiver("mytestriver", ESSearchProperties.INDEX_NAME, 
-						ESSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false));		
+				new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
+						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false));		
 		
-		client.prepareIndex(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, "mytestriver").setSource(xb)
+		client.prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, "mytestriver").setSource(xb)
 				.execute().actionGet();
 		
 		// We have to wait for 1s

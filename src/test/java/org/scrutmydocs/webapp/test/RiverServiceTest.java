@@ -21,7 +21,7 @@ package org.scrutmydocs.webapp.test;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.admin.river.FSRiver;
 import org.scrutmydocs.webapp.service.admin.river.RiverService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +34,8 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 	@Test public void test_add_river() throws InterruptedException {
 		Assert.assertNotNull(riverService);
 
-		FSRiver fsriver = new FSRiver("mytestriver", ESSearchProperties.INDEX_NAME, 
-						ESSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false);		
+		FSRiver fsriver = new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
+						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false);		
 
 		riverService.add(fsriver);
 	}
@@ -43,8 +43,8 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 	@Test public void test_remove_river() throws InterruptedException {
 		Assert.assertNotNull(riverService);
 
-		FSRiver fsriver = new FSRiver("mytestriver", ESSearchProperties.INDEX_NAME, 
-						ESSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false);		
+		FSRiver fsriver = new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
+						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false);		
 
 		riverService.add(fsriver);
 		

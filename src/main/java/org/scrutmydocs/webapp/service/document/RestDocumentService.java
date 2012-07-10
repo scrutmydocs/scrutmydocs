@@ -32,7 +32,7 @@ import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.scrutmydocs.webapp.api.common.RestAPIException;
 import org.scrutmydocs.webapp.api.document.data.Document;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -72,10 +72,10 @@ public class RestDocumentService {
 
 	public boolean delete(String index, String type, String id) {
 		if (index == null) {
-			index = ESSearchProperties.INDEX_NAME;
+			index = SMDSearchProperties.INDEX_NAME;
 		}
 		if (type == null) {
-			type = ESSearchProperties.INDEX_TYPE_DOC;
+			type = SMDSearchProperties.INDEX_TYPE_DOC;
 		}
 
 		DeleteResponse response = client.prepareDelete(index, type, index)
@@ -90,10 +90,10 @@ public class RestDocumentService {
 			return null;
 
 		if (document.getIndex() == null || document.getIndex().isEmpty()) {
-			document.setIndex(ESSearchProperties.INDEX_NAME);
+			document.setIndex(SMDSearchProperties.INDEX_NAME);
 		}
 		if (document.getType() == null || document.getType().isEmpty()) {
-			document.setType(ESSearchProperties.INDEX_TYPE_DOC);
+			document.setType(SMDSearchProperties.INDEX_TYPE_DOC);
 		}
 		try {
 			IndexResponse response = client

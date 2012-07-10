@@ -40,7 +40,7 @@ import org.springframework.web.client.RestTemplate;
  *
  */
 public abstract class AbstractApiTest extends AbstractConfigurationIntegrationTest {
-	protected static final String BASE_URL = "http://localhost:9090/essearch/api/";
+	protected static final String BASE_URL = "http://localhost:9090/scrutmydocs/api/";
 
 	private ESLogger logger = ESLoggerFactory.getLogger(AbstractApiTest.class
 			.getName());

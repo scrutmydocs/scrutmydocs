@@ -21,7 +21,7 @@ package org.scrutmydocs.webapp.api.index.data;
 
 import java.io.Serializable;
 
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 
 
 public class Index implements Serializable {
@@ -36,7 +36,7 @@ public class Index implements Serializable {
 	 * <br>Builds a docs/doc index/type with default analyzer (english)
 	 */
 	public Index() {
-		this(ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, null);
+		this(SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, null);
 	}
 	
 	/**

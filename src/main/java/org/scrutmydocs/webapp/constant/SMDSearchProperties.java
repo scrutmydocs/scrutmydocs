@@ -19,7 +19,7 @@
 
 package org.scrutmydocs.webapp.constant;
 
-public interface ESSearchProperties {
+public interface SMDSearchProperties {
 
 	public static final String INDEX_NAME = "docs";
 	public static final String INDEX_TYPE_DOC = "doc";
@@ -37,7 +37,7 @@ public interface ESSearchProperties {
 	public static final String DIR_FIELD_VIRTUAL_PATH = "virtualpath";
 	public static final String DIR_FIELD_ROOT_PATH = "rootpath";
 	
-	public static final String ES_META_INDEX = "essearchadmin";
+	public static final String ES_META_INDEX = "smdadmin";
 	public static final String ES_META_RIVERS = "rivers";
 	
 }

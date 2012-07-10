@@ -33,7 +33,7 @@ import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.admin.river.FSRiver;
 import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +60,8 @@ public class AdminService implements Serializable {
 		FSRiver fsriver = null;
 		
 		if (name != null) {
-			GetRequestBuilder rb = new GetRequestBuilder(client, ESSearchProperties.ES_META_INDEX);
-			rb.setType(ESSearchProperties.ES_META_RIVERS);
+			GetRequestBuilder rb = new GetRequestBuilder(client, SMDSearchProperties.ES_META_INDEX);
+			rb.setType(SMDSearchProperties.ES_META_RIVERS);
 			rb.setId(name);
 			
 			GetResponse response = rb.execute().actionGet();
@@ -85,8 +85,8 @@ public class AdminService implements Serializable {
 		SearchRequestBuilder srb = new SearchRequestBuilder(client);
 
 		try {
-			srb.setIndices(ESSearchProperties.ES_META_INDEX);
-			srb.setTypes(ESSearchProperties.ES_META_RIVERS);
+			srb.setIndices(SMDSearchProperties.ES_META_INDEX);
+			srb.setTypes(SMDSearchProperties.ES_META_RIVERS);
 			
 			SearchResponse response = srb.execute().actionGet();
 			
@@ -121,7 +121,7 @@ public class AdminService implements Serializable {
 		XContentBuilder xb = FSRiverHelper.toXContent(river);		
 		
 		try {
-			client.prepareIndex(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, river.getId()).setSource(xb).setRefresh(true)
+			client.prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, river.getId()).setSource(xb).setRefresh(true)
 					.execute().actionGet();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -137,7 +137,7 @@ public class AdminService implements Serializable {
 	public void remove(FSRiver river) {
 		if (logger.isDebugEnabled()) logger.debug("remove({})", river);
 		try {
-			client.prepareDelete(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, river.getId()).execute().actionGet();
+			client.prepareDelete(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, river.getId()).execute().actionGet();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

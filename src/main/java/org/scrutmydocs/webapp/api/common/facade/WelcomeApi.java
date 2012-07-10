@@ -50,6 +50,6 @@ public class WelcomeApi extends CommonBaseApi {
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
 	RestResponseWelcome welcome() {
-		return new RestResponseWelcome(new Welcome("Welcome to ESSearch RESTFul Service..."));
+		return new RestResponseWelcome(new Welcome("Welcome to ScrutMyDocs RESTFul Service..."));
 	}
 }

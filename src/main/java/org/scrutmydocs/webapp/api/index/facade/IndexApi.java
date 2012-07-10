@@ -26,7 +26,7 @@ import org.scrutmydocs.webapp.api.common.data.Api;
 import org.scrutmydocs.webapp.api.common.facade.CommonBaseApi;
 import org.scrutmydocs.webapp.api.index.data.Index;
 import org.scrutmydocs.webapp.api.index.data.RestResponseIndex;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.service.index.RestIndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -102,7 +102,7 @@ public class IndexApi extends CommonBaseApi {
 	public @ResponseBody
 	RestResponseIndex create(@PathVariable String index, 
 			@RequestBody Index settings) {
-		return create(index, ESSearchProperties.INDEX_TYPE_DOC, settings);
+		return create(index, SMDSearchProperties.INDEX_TYPE_DOC, settings);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

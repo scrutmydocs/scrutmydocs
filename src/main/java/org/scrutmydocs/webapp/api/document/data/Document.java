@@ -21,7 +21,7 @@ package org.scrutmydocs.webapp.api.document.data;
 
 import java.io.Serializable;
 
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.util.StringTools;
 
 
@@ -87,7 +87,7 @@ public class Document implements Serializable {
 	 * @param content Base64 encoded file content
 	 */
 	public Document(String name, String content) {
-		this(null, ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, name, null, content);
+		this(null, SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, name, null, content);
 	}
 	
 	/**

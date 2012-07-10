@@ -26,7 +26,7 @@ import org.scrutmydocs.webapp.api.common.data.Api;
 import org.scrutmydocs.webapp.api.common.facade.CommonBaseApi;
 import org.scrutmydocs.webapp.api.document.data.Document;
 import org.scrutmydocs.webapp.api.document.data.RestResponseDocument;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.service.document.RestDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -148,7 +148,7 @@ public class DocumentApi extends CommonBaseApi {
 	@RequestMapping(method = RequestMethod.GET, value = "/{index}/{id}")
 	public @ResponseBody
 	Document get(@PathVariable String index, @PathVariable String id) {
-		return get(index, ESSearchProperties.INDEX_TYPE_DOC, id);
+		return get(index, SMDSearchProperties.INDEX_TYPE_DOC, id);
 	}
 
 	/**
@@ -159,7 +159,7 @@ public class DocumentApi extends CommonBaseApi {
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
 	public @ResponseBody
 	Document get(@PathVariable String id) {
-		return get(ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, id);
+		return get(SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, id);
 	}
 
 }

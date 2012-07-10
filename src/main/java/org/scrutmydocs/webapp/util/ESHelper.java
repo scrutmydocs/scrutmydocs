@@ -15,7 +15,7 @@ import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
 
 
@@ -104,15 +104,15 @@ public class ESHelper {
 	/**
 	 * Create an index with our default settings
 	 * @param client Elasticsearch client
-	 * @param index Index name : default to ESSearchProperties.INDEX_NAME
-	 * @param type Type name : ESSearchProperties.INDEX_TYPE_DOC
+	 * @param index Index name : default to SMDSearchProperties.INDEX_NAME
+	 * @param type Type name : SMDSearchProperties.INDEX_TYPE_DOC
 	 * @param analyzer Analyzer to apply : default to "default"
 	 */
 	public static void createIndexIfNeeded(Client client, String index, String type, String analyzer) {
 		if (logger.isDebugEnabled()) logger.debug("createIndexIfNeeded({}, {}, {})", index, type, analyzer);
 		
-		String indexName = index == null ? ESSearchProperties.INDEX_NAME : index;
-		String typeName = type == null ? ESSearchProperties.INDEX_TYPE_DOC : type;
+		String indexName = index == null ? SMDSearchProperties.INDEX_NAME : index;
+		String typeName = type == null ? SMDSearchProperties.INDEX_TYPE_DOC : type;
 		String analyzerName = analyzer == null ? "default" : analyzer;
 		
 		try {
@@ -133,7 +133,7 @@ public class ESHelper {
 			}
 			
 			// We create the mapping for the folder type
-			pushMapping(client, indexName, ESSearchProperties.INDEX_TYPE_FOLDER, null);
+			pushMapping(client, indexName, SMDSearchProperties.INDEX_TYPE_FOLDER, null);
 			
 			// We create the mapping for the doc type
 			pushMapping(client, indexName, typeName, FSRiverHelper.toRiverMapping(typeName, analyzerName));

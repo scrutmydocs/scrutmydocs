@@ -19,8 +19,8 @@
 
 package org.scrutmydocs.webapp.api;
 
-import static org.scrutmydocs.webapp.constant.ESSearchProperties.INDEX_NAME;
-import static org.scrutmydocs.webapp.constant.ESSearchProperties.INDEX_TYPE_DOC;
+import static org.scrutmydocs.webapp.constant.SMDSearchProperties.INDEX_NAME;
+import static org.scrutmydocs.webapp.constant.SMDSearchProperties.INDEX_TYPE_DOC;
 
 import java.io.IOException;
 import java.util.Map;

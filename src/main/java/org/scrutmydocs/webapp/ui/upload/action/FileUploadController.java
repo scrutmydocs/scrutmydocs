@@ -20,8 +20,8 @@
 package org.scrutmydocs.webapp.ui.upload.action;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-import static org.scrutmydocs.webapp.constant.ESSearchProperties.INDEX_NAME;
-import static org.scrutmydocs.webapp.constant.ESSearchProperties.INDEX_TYPE_DOC;
+import static org.scrutmydocs.webapp.constant.SMDSearchProperties.INDEX_NAME;
+import static org.scrutmydocs.webapp.constant.SMDSearchProperties.INDEX_TYPE_DOC;
 
 import java.io.IOException;
 import java.io.Serializable;

@@ -26,7 +26,7 @@ import java.util.List;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.highlight.HighlightField;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
 
 
@@ -49,9 +49,9 @@ public class Results {
 //			searchHit.getId();
 			
 			if (searchHit.getSource() != null) {
-				result.setTitle(FSRiverHelper.getSingleStringValue(ESSearchProperties.DOC_FIELD_NAME, searchHit.getSource()));
+				result.setTitle(FSRiverHelper.getSingleStringValue(SMDSearchProperties.DOC_FIELD_NAME, searchHit.getSource()));
 				result.setContentType(FSRiverHelper.getSingleStringValue("file._content_type", searchHit.getSource()));
-				result.setVirtualPath(FSRiverHelper.getSingleStringValue(ESSearchProperties.DOC_FIELD_VIRTUAL_PATH, searchHit.getSource()));
+				result.setVirtualPath(FSRiverHelper.getSingleStringValue(SMDSearchProperties.DOC_FIELD_VIRTUAL_PATH, searchHit.getSource()));
 			}
 
 			if (searchHit.getHighlightFields() != null) {

@@ -26,7 +26,7 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentHelper;
 import org.junit.Assert;
 import org.junit.Test;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.admin.river.DropBoxRiver;
 import org.scrutmydocs.webapp.data.admin.river.DropBoxRiverHelper;
 
@@ -56,8 +56,8 @@ public class DropBoxRiverHelperTest {
 	 * @throws IOException 
 	 */
 	@Test public void test_todropboxriver() throws IOException {
-		DropBoxRiver model = new DropBoxRiver("tmp", ESSearchProperties.INDEX_NAME, 
-				ESSearchProperties.INDEX_TYPE_DOC, "tmp", "mytoken", "mysecret", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
+		DropBoxRiver model = new DropBoxRiver("tmp", SMDSearchProperties.INDEX_NAME, 
+				SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "mytoken", "mysecret", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
 		
 		XContentBuilder xb = DropBoxRiverHelper.toXContent(model);		
 		String jsonContent = xb.string();

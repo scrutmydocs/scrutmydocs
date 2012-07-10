@@ -21,7 +21,7 @@ package org.scrutmydocs.webapp.data.admin.river;
 
 import java.io.Serializable;
 
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 
 
 /**
@@ -56,7 +56,7 @@ public abstract class AbstractRiver implements Serializable {
 	 * index/type : docs/doc
 	 */
 	public AbstractRiver(String id) {
-		this(id, ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, "My Dummy River", false);
+		this(id, SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "My Dummy River", false);
 	}
 	
 	/**

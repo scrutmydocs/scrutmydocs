@@ -25,7 +25,7 @@ import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.node.Node;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.admin.river.FSRiver;
 import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
 import org.scrutmydocs.webapp.util.ESHelper;
@@ -57,17 +57,17 @@ public class AppConfig {
 			logger.warn("TODO : remove automatic river creation. Just here for example purpose !");
 			// We are going to create the filesystem river if needed
 			XContentBuilder xb = FSRiverHelper.toXContent(
-					new FSRiver("myfirstriver", ESSearchProperties.INDEX_NAME, ESSearchProperties.INDEX_TYPE_DOC, "Scan tmp dir", "/tmp_es", 30L, "standard", false));		
+					new FSRiver("myfirstriver", SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "Scan tmp dir", "/tmp_es", 30L, "standard", false));		
 		
-			factory.getObject().prepareIndex(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, "myfirstriver").setSource(xb)
+			factory.getObject().prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, "myfirstriver").setSource(xb)
 					.execute().actionGet();
 
 			// We are going to create a second filesystem river to test multiple feeds
 			xb = FSRiverHelper.toXContent(
-					new FSRiver("mysecondriver", ESSearchProperties.INDEX_NAME,
-							ESSearchProperties.INDEX_TYPE_DOC, "Scan second dir", "/tmp_es_second", 30L, "standard", false));		
+					new FSRiver("mysecondriver", SMDSearchProperties.INDEX_NAME,
+							SMDSearchProperties.INDEX_TYPE_DOC, "Scan second dir", "/tmp_es_second", 30L, "standard", false));		
 			
-			factory.getObject().prepareIndex(ESSearchProperties.ES_META_INDEX, ESSearchProperties.ES_META_RIVERS, "mysecondriver").setSource(xb)
+			factory.getObject().prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, "mysecondriver").setSource(xb)
 					.execute().actionGet();
 			
 			ESHelper.createIndexIfNeeded(factory.getObject());

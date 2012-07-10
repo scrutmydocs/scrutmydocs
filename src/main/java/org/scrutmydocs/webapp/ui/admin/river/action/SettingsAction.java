@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.admin.river.FSRiver;
 import org.scrutmydocs.webapp.service.admin.river.AdminService;
 import org.scrutmydocs.webapp.service.admin.river.RiverService;
@@ -43,14 +43,14 @@ public class SettingsAction implements Serializable {
 
 	List<FSRiver> fsRivers = new ArrayList<FSRiver>();
 
-	FSRiver fsRiverSelect = new FSRiver("", ESSearchProperties.INDEX_NAME,
-			ESSearchProperties.INDEX_TYPE_DOC, "", "", null, "standard", false);
+	FSRiver fsRiverSelect = new FSRiver("", SMDSearchProperties.INDEX_NAME,
+			SMDSearchProperties.INDEX_TYPE_DOC, "", "", null, "standard", false);
 
 	public void add() {
 		riverService.add(fsRiverSelect);
 		fsRivers.add(fsRiverSelect);
-		fsRiverSelect = new FSRiver("", ESSearchProperties.INDEX_NAME,
-				ESSearchProperties.INDEX_TYPE_DOC, "", "", null, "standard", false);
+		fsRiverSelect = new FSRiver("", SMDSearchProperties.INDEX_NAME,
+				SMDSearchProperties.INDEX_TYPE_DOC, "", "", null, "standard", false);
 	}
 
 	public String init() {
@@ -59,8 +59,8 @@ public class SettingsAction implements Serializable {
 	}
 
 	public void resetFsRiverSelect() {
-		fsRiverSelect =new FSRiver(null, ESSearchProperties.INDEX_NAME,
-				ESSearchProperties.INDEX_TYPE_DOC, "", "", null, "standard", false);
+		fsRiverSelect =new FSRiver(null, SMDSearchProperties.INDEX_NAME,
+				SMDSearchProperties.INDEX_TYPE_DOC, "", "", null, "standard", false);
 	}
 
 	public void update() {

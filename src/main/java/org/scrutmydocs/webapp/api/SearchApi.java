@@ -21,7 +21,7 @@ package org.scrutmydocs.webapp.api;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.queryString;
-import static org.scrutmydocs.webapp.constant.ESSearchProperties.INDEX_NAME;
+import static org.scrutmydocs.webapp.constant.SMDSearchProperties.INDEX_NAME;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

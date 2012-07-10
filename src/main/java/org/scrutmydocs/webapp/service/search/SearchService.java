@@ -23,8 +23,8 @@ import static org.elasticsearch.index.query.FilterBuilders.prefixFilter;
 import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
 import static org.elasticsearch.index.query.QueryBuilders.queryString;
 import static org.elasticsearch.search.facet.FacetBuilders.termsFacet;
-import static org.scrutmydocs.webapp.constant.ESSearchProperties.INDEX_NAME;
-import static org.scrutmydocs.webapp.constant.ESSearchProperties.INDEX_TYPE_DOC;
+import static org.scrutmydocs.webapp.constant.SMDSearchProperties.INDEX_NAME;
+import static org.scrutmydocs.webapp.constant.SMDSearchProperties.INDEX_TYPE_DOC;
 
 import java.util.ArrayList;
 import java.util.List;

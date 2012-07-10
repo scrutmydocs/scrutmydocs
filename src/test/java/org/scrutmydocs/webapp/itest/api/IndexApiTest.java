@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.scrutmydocs.webapp.api.index.data.Index;
 import org.scrutmydocs.webapp.api.index.data.RestResponseIndex;
-import org.scrutmydocs.webapp.constant.ESSearchProperties;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 
 
 /**
@@ -52,8 +52,8 @@ public class IndexApiTest extends AbstractApiTest {
 		assertNotNull(response.getObject());
 		Index output = (Index) response.getObject();
 		assertNotNull(output);
-		assertEquals(ESSearchProperties.INDEX_NAME, output.getIndex());
-		assertEquals(ESSearchProperties.INDEX_TYPE_DOC, output.getType());
+		assertEquals(SMDSearchProperties.INDEX_NAME, output.getIndex());
+		assertEquals(SMDSearchProperties.INDEX_TYPE_DOC, output.getType());
 		assertNull(output.getAnalyzer());
 	}
 
