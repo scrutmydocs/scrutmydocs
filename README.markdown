@@ -30,21 +30,37 @@ If you want to use an external ElasticSearch cluster, you will have to set it up
 1. Download and install Elasticsearch
 ```sh
 curl -L -C - -O https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.19.8.deb
+```
+```sh
 dpkg -i elasticsearch-0.19.8.deb
 ```
 2. Add required plugins [mapper-attachment](https://github.com/elasticsearch/elasticsearch-mapper-attachments), [fsriver](https://github.com/dadoonet/fsriver)
 ```sh
 service elasticsearch stop
+```
+```sh
 /usr/local/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.4.0
+```
+```sh
 /usr/local/elasticsearch/bin/plugin -install dadoonet/fsriver/0.0.1
 ```
 3. Configure elasticsearch.yml node property file
 ```
 # Mandatory cluster Name. You should be able to modify it in a future release.
+```
+```
 cluster.name: scrutmydocs
+```
+```
 # If you want to check plugins before starting
+```
+```
 plugin.mandatory: mapper-attachments, river-fs
+```
+```
 # If you want to disable multicast
+```
+```
 discovery.zen.ping.multicast.enabled: false
 ```
 4. Launch Elasticsearch nodes
