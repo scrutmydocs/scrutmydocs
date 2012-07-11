@@ -29,11 +29,14 @@ import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.admin.river.FSRiver;
 import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
 import org.scrutmydocs.webapp.util.ESHelper;
+import org.scrutmydocs.webapp.util.PropertyScanner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import fr.pilato.spring.elasticsearch.ElasticsearchAbstractClientFactoryBean;
 import fr.pilato.spring.elasticsearch.ElasticsearchClientFactoryBean;
 import fr.pilato.spring.elasticsearch.ElasticsearchNodeFactoryBean;
+import fr.pilato.spring.elasticsearch.ElasticsearchTransportClientFactoryBean;
 
 @Configuration
 public class AppConfig {
@@ -41,16 +44,40 @@ public class AppConfig {
 	private ESLogger logger = Loggers.getLogger(getClass().getName());
 
 	@Bean
+	public ScrutMyDocsProperties smdProperties() throws Exception {
+		ScrutMyDocsProperties smdProperties = PropertyScanner.scanPropertyFile();
+		return smdProperties;
+	}
+
+	@Bean
 	public Node esNode() throws Exception {
-		ElasticsearchNodeFactoryBean factory = new ElasticsearchNodeFactoryBean();
-		factory.afterPropertiesSet();
-		return factory.getObject();
+		ScrutMyDocsProperties smdProperties = smdProperties();
+		
+		if (smdProperties.isNodeEmbedded()) {
+			logger.info("Starting embedded Node...");
+			ElasticsearchNodeFactoryBean factory = new ElasticsearchNodeFactoryBean();
+			factory.afterPropertiesSet();
+			return factory.getObject();
+		}
+		
+		return null;
 	}
 
 	@Bean
 	public Client esClient() throws Exception {
-		ElasticsearchClientFactoryBean factory = new ElasticsearchClientFactoryBean();
-		factory.setNode(esNode());
+		ScrutMyDocsProperties smdProperties = smdProperties();
+		ElasticsearchAbstractClientFactoryBean factory = null;
+		if (smdProperties.isNodeEmbedded()) {
+			logger.info("Starting client Node...");
+			factory = new ElasticsearchClientFactoryBean();
+			((ElasticsearchClientFactoryBean) factory).setNode(esNode());
+		} else {
+			logger.info("Starting client for cluster {} at {} ...", smdProperties.getClusterName(), smdProperties.getNodeAdresses());
+			factory = new ElasticsearchTransportClientFactoryBean();
+			((ElasticsearchTransportClientFactoryBean) factory).setEsNodes(smdProperties.getNodeAdresses());
+		}
+		// TODO Manage ES Settings
+		// factory.setSettings(settings)
 		factory.afterPropertiesSet();
 		
 		try {
