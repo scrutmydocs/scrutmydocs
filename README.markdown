@@ -95,7 +95,14 @@ curl 'localhost:8080/scrutmydocs/api/_help'
 
 ```sh
 # Add a document to the search engine
-curl -XPOST 'localhost:8080/scrutmydocs/api/doc/{index}/{type}/{id}/'    					 
+curl -XPOST 'localhost:8080/scrutmydocs/api/doc/{index}/{type}/{id}/   -d ' {
+     "id" :"",
+	 "index" :"docs",
+	 "type" : "doc",
+	 "name" : : "mydocument",
+	 "contentType" :"application/pdf",
+	 "content" "A base64 encoded file",
+    }'    					 
 ```
 
 ### GET
