@@ -41,7 +41,7 @@ dpkg -i elasticsearch-0.19.8.deb
 ```sh
 service elasticsearch stop
 /usr/local/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.4.0
-/usr/local/elasticsearch/bin/plugin -install dadoonet/fsriver/0.0.1
+/usr/local/elasticsearch/bin/plugin -install dadoonet/fsriver/0.0.2
 ```
 
 #### Configure elasticsearch.yml node property file
