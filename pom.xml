@@ -36,7 +36,7 @@
 		<spring.version>3.1.2.RELEASE</spring.version>
 		<elasticsearch.version>0.19.8</elasticsearch.version>
 		<spring.elasticsearch.version>0.0.2</spring.elasticsearch.version>
-		<fsriver.version>0.0.1-SNAPSHOT</fsriver.version>
+		<fsriver.version>0.0.2</fsriver.version>
 		<jsf.version>2.1.7</jsf.version>
 		<display_version>${project.version}-${BUILD_ID}</display_version>
 	</properties>
