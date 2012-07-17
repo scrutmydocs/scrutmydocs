@@ -22,7 +22,6 @@ package org.scrutmydocs.webapp.api.document.data;
 import java.io.Serializable;
 
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.util.StringTools;
 
 
 public class Document implements Serializable {
@@ -182,6 +181,19 @@ public class Document implements Serializable {
 	
 	@Override
 	public String toString() {
-		return StringTools.toString(this);
+		StringBuffer sbf = new StringBuffer();
+		sbf.append("Document=[ id=");
+		sbf.append(this.id);
+		sbf.append(", index=");
+		sbf.append(this.index);
+		sbf.append(", type");
+		sbf.append(this.type);
+		sbf.append(", name=");
+		sbf.append(this.name);
+		sbf.append(", contentType=");
+		sbf.append(this.contentType);
+		sbf.append(" ]");
+		return sbf.toString();
+		// return StringTools.toString(this);
 	}
 }
