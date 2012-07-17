@@ -40,6 +40,39 @@
 		<jsf.version>2.1.7</jsf.version>
 		<display_version>${project.version}-${BUILD_ID}</display_version>
 	</properties>
+	
+	
+	
+	<developers>
+		<developer>
+			<id>dadoonet</id>
+			<name>David Pilato</name>
+			<email>david+github@pilato.fr</email>
+			<url>http://dev.david.pilato.fr/</url>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>TheMalloum</id>
+			<name>Malloum Laya</name>
+			<email>malloum.laya+github@gmail.com</email>
+			<url>http://malloum.fr/</url>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+	
+	<scm>
+		<connection>scm:git:git@github.com:scrutmydocs/scrutmydocs.git</connection>
+		<url>scm:git:git@github.com:scrutmydocs/scrutmydocs.git</url>
+		<developerConnection>scm:git:git@github.com:scrutmydocs/scrutmydocs.git</developerConnection>
+	</scm>
+	
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/scrutmydocs/scrutmydocs/issues/</url>
+	</issueManagement>
+	
+	
+	
 
 	<dependencies>
 		<!-- Jackson JSON Mapper -->
