@@ -182,6 +182,14 @@
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 			</resource>
+			<resource>
+				<directory>${basedir}</directory>
+				<targetPath>META-INF</targetPath>
+				<includes>
+					<include>LICENSE</include>
+					<include>NOTICE</include>
+				</includes>
+			</resource>			
 		</resources>
 		<testResources>
 			<testResource>
@@ -199,7 +207,6 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
