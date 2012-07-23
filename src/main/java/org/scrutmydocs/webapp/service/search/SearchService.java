@@ -30,20 +30,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.facet.terms.TermsFacet;
 import org.elasticsearch.search.facet.terms.TermsFacet.Entry;
+import org.elasticsearch.search.highlight.HighlightField;
 import org.primefaces.model.SortOrder;
+import org.scrutmydocs.webapp.api.search.data.Hit;
+import org.scrutmydocs.webapp.api.search.data.SearchResponse;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.Results;
+import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 
 @Component
 public class SearchService {
@@ -53,15 +57,83 @@ public class SearchService {
 
 	private ESLogger logger = Loggers.getLogger(getClass().getName());
 
-	
+	public SearchResponse google(String search, int first, int pageSize) {
+		if (logger.isDebugEnabled())
+			logger.debug("google('{}', {}, {})", search, first, pageSize);
 
-	public Results google(String search,int first, int pageSize, String sortField,
-			SortOrder sortOrder, Map<String, String> filters) {
+		long totalHits = -1;
+		long took = -1;
+
+		SearchResponse searchResponse = null;
+
+		QueryBuilder qb;
+		if (search == null || search.trim().length() <= 0) {
+			qb = matchAllQuery();
+		} else {
+			qb = queryString(search);
+		}
+
+		org.elasticsearch.action.search.SearchResponse searchHits = esClient
+				.prepareSearch().setIndices(INDEX_NAME)
+				.setTypes(INDEX_TYPE_DOC)
+				.setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setQuery(qb)
+				.setFrom(first).setSize(pageSize).addHighlightedField("name")
+				.addHighlightedField("file")
+				.setHighlighterPreTags("<span class='badge badge-info'>")
+				.setHighlighterPostTags("</span>").execute().actionGet();
+
+		totalHits = searchHits.getHits().totalHits();
+		took = searchHits.tookInMillis();
+
+		List<Hit> hits = new ArrayList<Hit>();
+		for (SearchHit searchHit : searchHits.getHits()) {
+			Hit hit = new Hit();
+
+			hit.setIndex(searchHit.getIndex());
+			hit.setType(searchHit.getType());
+			hit.setId(searchHit.getId());
+			// hit.setSource(searchHit.getSourceAsString());
+
+			if (searchHit.getSource() != null) {
+				hit.setTitle(FSRiverHelper.getSingleStringValue(
+						SMDSearchProperties.DOC_FIELD_NAME,
+						searchHit.getSource()));
+				hit.setContentType(FSRiverHelper.getSingleStringValue(
+						"file._content_type", searchHit.getSource()));
+				// hit.setVirtualPath(FSRiverHelper.getSingleStringValue(SMDSearchProperties.DOC_FIELD_VIRTUAL_PATH,
+				// searchHit.getSource()));
+			}
+
+			if (searchHit.getHighlightFields() != null) {
+				for (HighlightField highlightField : searchHit
+						.getHighlightFields().values()) {
+
+					String[] fragmentsBuilder = highlightField.getFragments();
+
+					for (String fragment : fragmentsBuilder) {
+						hit.getHighlights().add(fragment);
+					}
+				}
+			}
+			hits.add(hit);
+		}
+
+		searchResponse = new SearchResponse(took, totalHits, hits);
+
+		if (logger.isDebugEnabled())
+			logger.debug("/google({}) : {}", search, totalHits);
+
+		return searchResponse;
+
+	}
+
+	public Results google(String search, int first, int pageSize,
+			String sortField, SortOrder sortOrder, Map<String, String> filters) {
 		if (logger.isDebugEnabled())
 			logger.debug("google('{}', {}, {})", search, first, pageSize);
 
 		long totalResults = -1;
-		
+
 		Results results = null;
 		try {
 			QueryBuilder qb;
@@ -71,15 +143,16 @@ public class SearchService {
 				qb = queryString(search);
 			}
 
-			SearchResponse searchHits = esClient.prepareSearch()
-					.setIndices(INDEX_NAME).setTypes(INDEX_TYPE_DOC)
+			org.elasticsearch.action.search.SearchResponse searchHits = esClient
+					.prepareSearch().setIndices(INDEX_NAME)
+					.setTypes(INDEX_TYPE_DOC)
 					.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
 					.setQuery(qb).setFrom(first).setSize(pageSize)
 					.addHighlightedField("name").addHighlightedField("file")
 					.setHighlighterPreTags("<span class='badge badge-info'>")
 					.setHighlighterPostTags("</span>").execute().actionGet();
 			totalResults = searchHits.getHits().totalHits();
-			
+
 			results = new Results(searchHits);
 
 		} catch (Exception e) {
@@ -90,7 +163,7 @@ public class SearchService {
 			logger.debug("/google({}) : {}", search, totalResults);
 
 		return results;
-		
+
 	}
 
 	/**
@@ -107,7 +180,7 @@ public class SearchService {
 			QueryBuilder qb = matchAllQuery();
 			FilterBuilder fb = prefixFilter("file", query);
 
-			SearchResponse searchHits = esClient
+			org.elasticsearch.action.search.SearchResponse searchHits = esClient
 					.prepareSearch()
 					.setIndices(INDEX_NAME)
 					.setTypes(INDEX_TYPE_DOC)

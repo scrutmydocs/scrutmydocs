@@ -17,22 +17,24 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.api.common;
+package org.scrutmydocs.webapp.api.search.data;
 
-/**
- * Define a REST API Exception
- * @author David
- *
- */
-public class RestAPIException extends Exception {
+import org.scrutmydocs.webapp.api.common.RestAPIException;
+import org.scrutmydocs.webapp.api.common.data.RestResponse;
+
+
+public class RestResponseSearchResponse extends RestResponse<SearchResponse> {
 	private static final long serialVersionUID = 1L;
 
-	public RestAPIException(String message) {
-		super(message);
+	public RestResponseSearchResponse(SearchResponse doc) {
+		super(doc);
 	}
 
-	public RestAPIException(Exception e) {
-		super(e.getMessage());
+	public RestResponseSearchResponse() {
+		super();
 	}
 
+	public RestResponseSearchResponse(RestAPIException e) {
+		super(e);
+	}
 }

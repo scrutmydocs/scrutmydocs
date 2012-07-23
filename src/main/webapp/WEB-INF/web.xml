@@ -42,15 +42,15 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>scrutmydocs-api</servlet-name>
-		<url-pattern>/api/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 	
+	<servlet-mapping>
+		<servlet-name>scrutmydocs-api</servlet-name>
+		<url-pattern>/1/*</url-pattern>
+	</servlet-mapping>
+
 <!-- 	<context-param> -->
 <!-- 		<param-name>contextConfigLocation</param-name> -->
 <!-- 		<param-value>/WEB-INF/search-es-api-servlet.xml</param-value> -->

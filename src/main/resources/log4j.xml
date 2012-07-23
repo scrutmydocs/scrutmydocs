@@ -54,6 +54,11 @@
 	<category name="org.apache">
 		<priority value="ERROR" />
 	</category>
+	
+	<category name="org.springframework.web">
+		<priority value="DEBUG" />
+	</category>
+	
 
 	<!-- ======================= -->
 	<!-- Setup the Root category -->
