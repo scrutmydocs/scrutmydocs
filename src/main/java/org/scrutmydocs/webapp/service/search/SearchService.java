@@ -127,6 +127,7 @@ public class SearchService {
 
 	}
 
+	@Deprecated
 	public Results google(String search, int first, int pageSize,
 			String sortField, SortOrder sortOrder, Map<String, String> filters) {
 		if (logger.isDebugEnabled())
