@@ -40,11 +40,30 @@ import org.springframework.web.client.RestTemplate;
  *
  */
 public abstract class AbstractApiTest extends AbstractConfigurationIntegrationTest {
-	protected static final String BASE_URL = "http://localhost:9090/scrutmydocs/1/";
+	protected static final String BASE_URL_SERVER = "localhost";
+	protected static final String BASE_URL_PORT = "9090";
+	protected static final String BASE_URL_SUFFIX = "/scrutmydocs/1/";
 
+	protected String hostname;
+	protected String port;
+	
 	private ESLogger logger = ESLoggerFactory.getLogger(AbstractApiTest.class
 			.getName());
 
+	/**
+	 * If you want to run test from your IDE:
+	 * <ul>
+	 * <li>Start ScrutMyDocs in your container
+	 * <li>Define -Dscrutmydocs.host=localhost -Dscrutmydocs.port=9090 with your server address
+	 * <li>By default, integration tests run on localhost:9090
+	 * </ul>
+	 */
+	public AbstractApiTest() {
+		// We check if we run tests outside maven integration tests
+		hostname = System.getProperty("scrutmydocs.host", BASE_URL_SERVER);
+		port = System.getProperty("scrutmydocs.port", BASE_URL_PORT);
+	}
+	
 	/**
 	 * Define your API URL to append to the common base, e.g.: doc/
 	 * @return
@@ -82,7 +101,11 @@ public abstract class AbstractApiTest extends AbstractConfigurationIntegrationTe
 	 * @return A full URL for test
 	 */
 	protected String buildFullApiUrl(String append) {
-		StringBuffer sbf = new StringBuffer(BASE_URL);
+		StringBuffer sbf = new StringBuffer("http://");
+		sbf.append(hostname);
+		sbf.append(":");
+		sbf.append(port);
+		sbf.append(BASE_URL_SUFFIX);
 		if (getModuleApiUrl() != null) sbf.append(getModuleApiUrl());
 		if (append != null) sbf.append(append);
 		return sbf.toString();
