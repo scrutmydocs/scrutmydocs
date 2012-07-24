@@ -102,5 +102,6 @@ public class RestResponse<T> implements Serializable {
 		Collection<String> errs = new ArrayList<String>();
 		if (this.errors != null) Collections.addAll(errs, this.errors);
 		errs.add(e.getMessage());
+		this.errors = (String[])errs.toArray(new String[errs.size()]);
 	}
 }
