@@ -20,7 +20,6 @@
 package org.scrutmydocs.webapp.api.common.data;
 
 import org.scrutmydocs.webapp.api.common.RestAPIException;
-import org.scrutmydocs.webapp.api.common.data.RestResponse;
 
 
 public class RestResponseWelcome extends RestResponse<Welcome> {
