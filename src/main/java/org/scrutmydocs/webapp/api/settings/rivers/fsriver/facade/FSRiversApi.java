@@ -89,6 +89,16 @@ public class FSRiversApi extends CommonBaseApi {
 	}
 	
 	/**
+	 * Create or Update a FS river
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST)
+	public @ResponseBody RestResponseFSRiver push(@RequestBody FSRiver fsriver) throws Exception {
+		RestResponseFSRiver response = new RestResponseFSRiver(new RestAPIException("Method is not yet available."));
+		return response;
+	}
+
+	/**
 	 * Remove an FS river
 	 * @return
 	 */

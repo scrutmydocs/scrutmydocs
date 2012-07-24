@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.support.XContentMapValues;
+import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 
 public class FSRiverHelper {
 	

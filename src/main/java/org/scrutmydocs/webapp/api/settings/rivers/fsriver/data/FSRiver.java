@@ -19,6 +19,8 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.fsriver.data;
 
+import org.codehaus.jackson.annotate.JacksonAnnotation;
+import org.junit.Ignore;
 import org.scrutmydocs.webapp.api.settings.rivers.data.AbstractRiver;
 import org.scrutmydocs.webapp.util.StringTools;
 
@@ -39,6 +41,8 @@ public class FSRiver extends AbstractRiver {
 	private String excludes;
 	private String analyzer;
 
+	private String type;
+	
 	/**
 	 * We implement here a "fs" river
 	 */
@@ -46,6 +50,15 @@ public class FSRiver extends AbstractRiver {
 	public String getType() {
 		return "fs";
 	}
+
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
 
 	public FSRiver() {
 		this("tmp", "/tmp", 60L);

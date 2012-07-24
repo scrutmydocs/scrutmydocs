@@ -21,8 +21,8 @@ package org.scrutmydocs.webapp.test;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.data.admin.river.FSRiver;
 import org.scrutmydocs.webapp.service.admin.river.RiverService;
 import org.springframework.beans.factory.annotation.Autowired;
 

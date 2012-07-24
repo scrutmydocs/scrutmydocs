@@ -20,11 +20,13 @@
 package org.scrutmydocs.webapp.itest.api;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.RestResponseFSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.RestResponseFSRivers;
+import org.springframework.http.HttpEntity;
 
 
 /**
@@ -51,13 +53,31 @@ public class FSRiversApiTest extends AbstractApiTest {
 
 	@Test
 	public void push_get_delete_river() throws Exception {
-//		restTemplate.put(buildFullApiUrl(), new FSRiver());
-//		
-//		String url = buildFullApiUrl("TODO");
-//		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
-//		assertNotNull(output);
-//		
-//		restTemplate.delete(url);
+		FSRiver fsRiver = new FSRiver();
+		HttpEntity<FSRiver> entity = new HttpEntity<FSRiver>(fsRiver);
+		restTemplate.put(buildFullApiUrl(), entity);
+
+		String url = buildFullApiUrl("TODO");
+		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		assertNotNull(output);
+		
+		restTemplate.delete(url);
+	}
+
+	@Test
+	public void push_with_post_get_delete_river() throws Exception {
+		FSRiver fsRiver = new FSRiver();
+		fsRiver.setId("mydummyfs");
+		RestResponseFSRiver response = restTemplate.postForObject(buildFullApiUrl(),
+				fsRiver, RestResponseFSRiver.class, new Object[] {});
+		assertNotNull(response);
+//		assertTrue(response.isOk());
+		
+		String url = buildFullApiUrl("/mydummyfs");
+		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		assertNotNull(output);
+		
+		restTemplate.delete(url);
 	}
 
 }

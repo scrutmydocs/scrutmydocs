@@ -23,8 +23,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.data.admin.river.FSRiver;
 import org.scrutmydocs.webapp.service.admin.river.AdminService;
 import org.scrutmydocs.webapp.service.admin.river.RiverService;
 import org.springframework.beans.factory.annotation.Autowired;

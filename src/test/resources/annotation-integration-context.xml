@@ -11,11 +11,10 @@
    <context:component-scan base-package="org.scrutmydocs.webapp.itest" />
  
  	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">  
- 	
- 	<property name="messageConverters">  
-      <list>  
-        <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-      </list>  
-    </property>
+	 	<property name="messageConverters">  
+	      <list>  
+	        <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+	      </list>  
+	    </property>
     </bean> 
 </beans>
