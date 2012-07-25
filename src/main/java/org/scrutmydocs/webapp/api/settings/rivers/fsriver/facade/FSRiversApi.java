@@ -158,7 +158,7 @@ public class FSRiversApi extends CommonBaseApi {
 				return new RestResponseFSRiver(new RestAPIException("River " + id + " does not exist."));
 			}
 			fsriver.setStart(true);
-			riverService.add(fsriver);
+			riverService.start(fsriver);
 		} catch (Exception e) {
 			return new RestResponseFSRiver(new RestAPIException(e));
 		}
@@ -179,7 +179,7 @@ public class FSRiversApi extends CommonBaseApi {
 				return new RestResponseFSRiver(new RestAPIException("River " + id + " does not exist."));
 			}
 			fsriver.setStart(false);
-			riverService.delete(fsriver);
+			riverService.stop(fsriver);
 		} catch (Exception e) {
 			return new RestResponseFSRiver(new RestAPIException(e));
 		}

@@ -47,7 +47,7 @@ public class SettingsAction implements Serializable {
 			SMDSearchProperties.INDEX_TYPE_DOC, "", "", null, "standard", false);
 
 	public void add() {
-		riverService.add(fsRiverSelect);
+		riverService.start(fsRiverSelect);
 		fsRivers.add(fsRiverSelect);
 		fsRiverSelect = new FSRiver("", SMDSearchProperties.INDEX_NAME,
 				SMDSearchProperties.INDEX_TYPE_DOC, "", "", null, "standard", false);
@@ -65,12 +65,12 @@ public class SettingsAction implements Serializable {
 
 	public void update() {
 		adminService.update(fsRiverSelect);
-		riverService.add(fsRiverSelect);
+		riverService.start(fsRiverSelect);
 		fsRivers = adminService.get();
 	}
 
 	public void remove() {
-		riverService.delete(fsRiverSelect);
+		riverService.stop(fsRiverSelect);
 		adminService.remove(fsRiverSelect);
 		fsRivers = adminService.get();
 	}
@@ -78,13 +78,13 @@ public class SettingsAction implements Serializable {
 	public void stop() {
 		fsRiverSelect.setStart(false);
 		adminService.update(fsRiverSelect);
-		riverService.delete(fsRiverSelect);
+		riverService.stop(fsRiverSelect);
 	}
 
 	public void start() {
 		fsRiverSelect.setStart(true);
 		adminService.update(fsRiverSelect);
-		riverService.add(fsRiverSelect);
+		riverService.start(fsRiverSelect);
 	}
 
 	public List<FSRiver> getFsRivers() {

@@ -82,10 +82,10 @@ public class RiverService implements Serializable {
 	}
 	
 	/**
-	 * Update (or add) a river
+	 * Start a river
 	 * @param river
 	 */
-	public void add(FSRiver river) {
+	public void start(FSRiver river) {
 		if (logger.isDebugEnabled()) logger.debug("add({})", river);
 		// We only add the river if the river is started
 		if (river == null || !river.isStart()) return;
@@ -95,8 +95,10 @@ public class RiverService implements Serializable {
 		XContentBuilder xb = FSRiverHelper.toXContent(river);		
 		
 		try {
-			client.prepareIndex("_river", river.getId(), "_meta").setSource(xb)
-					.execute().actionGet();
+			client.prepareIndex("_river", river.getId(), "_meta").setRefresh(true).setSource(xb)
+					.execute().isDone();
+			
+			
 		} catch (Exception e) {
 			logger.warn("add({}) : Exception raised : {}", river, e.getClass());
 			if (logger.isDebugEnabled()) logger.debug("- Exception stacktrace :", e);
@@ -105,10 +107,10 @@ public class RiverService implements Serializable {
 	}
 	
 	/**
-	 * Remove river
+	 * Stop a running river
 	 * @param river
 	 */
-	public void delete(FSRiver river) {
+	public void stop(FSRiver river) {
 		if (logger.isDebugEnabled()) logger.debug("delete({})", river);
 		if (river == null) return;
 		

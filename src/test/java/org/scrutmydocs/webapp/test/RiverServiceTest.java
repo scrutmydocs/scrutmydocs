@@ -37,7 +37,7 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 		FSRiver fsriver = new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
 						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false);		
 
-		riverService.add(fsriver);
+		riverService.start(fsriver);
 	}
 	
 	@Test public void test_remove_river() throws InterruptedException {
@@ -46,12 +46,12 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 		FSRiver fsriver = new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
 						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false);		
 
-		riverService.add(fsriver);
+		riverService.start(fsriver);
 		
 		// We have to wait for 1s
 		Thread.sleep(1000);
 		
-		riverService.delete(fsriver);
+		riverService.stop(fsriver);
 	}
 
 }
