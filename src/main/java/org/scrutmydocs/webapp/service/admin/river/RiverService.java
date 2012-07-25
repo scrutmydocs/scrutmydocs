@@ -98,7 +98,16 @@ public class RiverService implements Serializable {
 			client.prepareIndex("_river", river.getId(), "_meta").setRefresh(true).setSource(xb)
 					.execute().isDone();
 			
+			boolean riverStarted = false;
+			int nbChecks = 0;
 			
+			// We try 30 times before stopping
+			while (!riverStarted && nbChecks++ < 30) {
+				riverStarted = checkState(river);
+				
+				// We wait for 1 second
+				Thread.sleep(1000);
+			}
 		} catch (Exception e) {
 			logger.warn("add({}) : Exception raised : {}", river, e.getClass());
 			if (logger.isDebugEnabled()) logger.debug("- Exception stacktrace :", e);
