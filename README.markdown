@@ -464,4 +464,115 @@ curl -XPOST 'localhost:8080/scrutmydocs/1/search/apache -d '
 ```
 
 
+FileSystem Rivers (FSRivers)
+----------------------------
+
+You can manage your file system rivers with the FSRivers API.
+
+### REST Resources
+
+<table>
+	<thead>
+		<tr>
+			<th>Resource</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+	    <tr>
+			<td>GET 1/settings/rivers/fsriver/_help</td>
+			<td>Display help.</td>
+	    </tr>
+	    <tr>
+			<td>GET 1/settings/rivers/fsriver</td>
+			<td>Get all existing Filesystem rivers (it will provide an array of FSRiver objects).</td>
+	    </tr>
+	    <tr>
+			<td>GET 1/settings/rivers/fsriver/{name}</td>
+			<td>Get one filesystem river (see FSRiver object).</td>
+	    </tr>
+	    <tr>
+			<td>POST 1/settings/rivers/fsriver</td>
+			<td>Create or update a FSRiver (see FSRiver Object). The river is not automatically started.</td>
+	    </tr>
+	    <tr>
+			<td>PUT 1/settings/rivers/fsriver</td>
+			<td>Same as POST.</td>
+	    </tr>
+	    <tr>
+			<td>DELETE 1/settings/rivers/fsriver/{name}</td>
+			<td>Remove a filesystem river.</td>
+	    </tr>
+	    <tr>
+			<td>GET 1/settings/rivers/fsriver/{name}/start</td>
+			<td>Start a river</td>
+	    </tr>
+	    <tr>
+			<td>GET 1/settings/rivers/fsriver/{name}/stop</td>
+			<td>Stop a river</td>
+	    </tr>
+    </tbody>
+</table>
+
+### FSRiver Object
+
+A index object looks like:
+
+```javascript
+{
+	 "id" : "mydummyriver",
+	 "name" : "My Dummy River",
+	 "indexname" : "docs",
+	 "typename" : "doc",
+	 "start" : false,
+	 "url" :"/tmp/docs",
+	 "updateRate" : 300,
+	 "includes" : "*.doc",
+	 "excludes" : "resume*",
+	 "analyzer" : "french"
+}
+```
+
+Id is the unique name of your river. It will be used to get or delete the river.
+Name is a fancy name for the river.
+Indexname is where your documents will be send.
+Typename is the type name under your documents will be indexed.
+Start indicates if the river is running (true) or not (false).
+Url is the root where FS River begins to crawl.
+UpdateRate is the frequency (in seconds).
+Includes is used when you want to index only some files (can be null aka every file is indexed).
+Excludes is used when you want to exclude some files from the include list (can be null aka every file is indexed).
+Analyzer is the analyzer to apply for this river ("default" or "french" by now).
+
+
+### Examples
+
+
+```sh
+# CREATE a new river
+curl -XPUT 'localhost:8080/scrutmydocs/1/settings/rivers/fsriver/ -d '
+{
+	 "id" : "mydummyriver",
+	 "name" : "My Dummy River",
+	 "indexname" : "docs",
+	 "typename" : "doc",
+	 "start" : false,
+	 "url" :"/tmp/docs",
+	 "updateRate" : 300,
+	 "includes" : "*.doc",
+	 "excludes" : "resume*",
+	 "analyzer" : "french"
+}
+'    					 
+
+
+# START a river
+curl -XGET 'localhost:8080/scrutmydocs/1/settings/rivers/fsriver/mydummyriver/start'  
+
+# STOP a river
+curl -XGET 'localhost:8080/scrutmydocs/1/settings/rivers/fsriver/mydummyriver/stop'  
+
+# DELETE a river
+curl -XDELETE 'localhost:8080/scrutmydocs/1/settings/rivers/fsriver/mydummyriver'         
+```
 
