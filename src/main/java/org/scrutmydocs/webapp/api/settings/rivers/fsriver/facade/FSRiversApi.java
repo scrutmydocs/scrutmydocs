@@ -30,6 +30,7 @@ import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.RestResponseFSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.RestResponseFSRivers;
 import org.scrutmydocs.webapp.service.admin.river.AdminService;
+import org.scrutmydocs.webapp.service.admin.river.RiverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,18 +45,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class FSRiversApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	@Autowired
-	protected AdminService adminService;
+	@Autowired protected AdminService adminService;
+	@Autowired protected RiverService riverService;
 	
 
 	@Override
 	public Api[] helpApiList() {
-		Api[] apis = new Api[5];
+		Api[] apis = new Api[8];
 		apis[0] = new Api("/settings/rivers/fsriver", "GET", "Get all existing FileSystem rivers");
 		apis[1] = new Api("/settings/rivers/fsriver/{name}", "GET", "Get details about a FileSystem river");
 		apis[2] = new Api("/settings/rivers/fsriver", "PUT", "Create or update a FileSystem river");
 		apis[3] = new Api("/settings/rivers/fsriver", "POST", "Create or update a FileSystem river");
 		apis[4] = new Api("/settings/rivers/fsriver/{name}", "DELETE", "Delete an existing FileSystem river");
+		apis[5] = new Api("/settings/rivers/fsriver/{name}/start", "GET", "Start a river");
+		apis[6] = new Api("/settings/rivers/fsriver/{name}/stop", "GET", "Stop a river");
+		apis[7] = new Api("/settings/rivers/fsriver/{name}/status", "GET", "Get the river running status");
 		return apis;
 	}
 	
@@ -135,5 +139,45 @@ public class FSRiversApi extends CommonBaseApi {
 		return new RestResponseFSRiver();
 	}
 	
+	/**
+	 * Start a river
+	 * @return
+	 */
+	@RequestMapping(value = "{id}/start", method = RequestMethod.GET)
+	public @ResponseBody RestResponseFSRiver start(@PathVariable final String id) throws Exception {
+		FSRiver fsriver = null;
+		try {
+			fsriver = adminService.get(id);
+			if (fsriver == null) {
+				return new RestResponseFSRiver(new RestAPIException("River " + id + " does not exist."));
+			}
+			riverService.add(fsriver);
+		} catch (Exception e) {
+			return new RestResponseFSRiver(new RestAPIException(e));
+		}
+		
+		return new RestResponseFSRiver();
+	}
+
+	/**
+	 * Stop a river
+	 * @return
+	 */
+	@RequestMapping(value = "{id}/stop", method = RequestMethod.GET)
+	public @ResponseBody RestResponseFSRiver stop(@PathVariable final String id) throws Exception {
+		FSRiver fsriver = null;
+		try {
+			fsriver = adminService.get(id);
+			if (fsriver == null) {
+				return new RestResponseFSRiver(new RestAPIException("River " + id + " does not exist."));
+			}
+			riverService.delete(fsriver);
+		} catch (Exception e) {
+			return new RestResponseFSRiver(new RestAPIException(e));
+		}
+		
+		return new RestResponseFSRiver();
+	}
+
 
 }

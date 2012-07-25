@@ -118,6 +118,43 @@ public class FSRiversApiTest extends AbstractApiTest {
 		HttpEntity<FSRiver> entity = new HttpEntity<FSRiver>(fsRiver);
 		restTemplate.put(buildFullApiUrl(), entity);
 	}
+
+	
+	@Test
+	public void start_non_existing_river() throws Exception {
+		String url = buildFullApiUrl("start_mydummy/start");
+		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		assertNotNull(output);
+		assertFalse(output.isOk());
+	}
+
+	@Test
+	public void stop_non_existing_river() throws Exception {
+		String url = buildFullApiUrl("stop_mydummy/stop");
+		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		assertNotNull(output);
+		assertFalse(output.isOk());
+	}
+
+	@Test
+	public void start_and_stop_river() throws Exception {
+		FSRiver fsRiver = new FSRiver("start_stop_mydummy", "/thisdirshouldnotexist", 30L);
+		addRiver(fsRiver);
+
+		String url = buildFullApiUrl("start_stop_mydummy/start");
+		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		assertNotNull(output);
+		assertTrue(output.isOk());
+
+		url = buildFullApiUrl("start_stop_mydummy/stop");
+		output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		assertNotNull(output);
+		assertTrue(output.isOk());
+	}
+
+
+
+	
 	
 	/**
 	 * Prepare a test case

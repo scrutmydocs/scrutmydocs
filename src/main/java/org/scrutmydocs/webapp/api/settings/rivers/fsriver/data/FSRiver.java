@@ -19,8 +19,6 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.fsriver.data;
 
-import org.codehaus.jackson.annotate.JacksonAnnotation;
-import org.junit.Ignore;
 import org.scrutmydocs.webapp.api.settings.rivers.data.AbstractRiver;
 import org.scrutmydocs.webapp.util.StringTools;
 
