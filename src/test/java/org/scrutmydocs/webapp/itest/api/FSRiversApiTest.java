@@ -152,6 +152,30 @@ public class FSRiversApiTest extends AbstractApiTest {
 		assertTrue(output.isOk());
 	}
 
+	@Test
+	public void check_running_status_river() throws Exception {
+		FSRiver fsRiver = new FSRiver("start_stop_mydummy", "/thisdirshouldnotexist", 30L);
+		addRiver(fsRiver);
+
+		String url = buildFullApiUrl("start_stop_mydummy/start");
+		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		assertNotNull(output);
+		assertTrue(output.isOk());
+		
+		// We get now the river status
+		url = buildFullApiUrl("start_stop_mydummy");
+		output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		assertNotNull(output);
+		assertTrue(output.isOk());
+		assertTrue(((FSRiver)output.getObject()).isStart());
+		
+		url = buildFullApiUrl("start_stop_mydummy/stop");
+		output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		assertNotNull(output);
+		assertTrue(output.isOk());
+	}
+
+
 
 
 	

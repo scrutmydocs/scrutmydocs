@@ -51,7 +51,7 @@ public class FSRiversApi extends CommonBaseApi {
 
 	@Override
 	public Api[] helpApiList() {
-		Api[] apis = new Api[8];
+		Api[] apis = new Api[7];
 		apis[0] = new Api("/settings/rivers/fsriver", "GET", "Get all existing FileSystem rivers");
 		apis[1] = new Api("/settings/rivers/fsriver/{name}", "GET", "Get details about a FileSystem river");
 		apis[2] = new Api("/settings/rivers/fsriver", "PUT", "Create or update a FileSystem river");
@@ -59,7 +59,6 @@ public class FSRiversApi extends CommonBaseApi {
 		apis[4] = new Api("/settings/rivers/fsriver/{name}", "DELETE", "Delete an existing FileSystem river");
 		apis[5] = new Api("/settings/rivers/fsriver/{name}/start", "GET", "Start a river");
 		apis[6] = new Api("/settings/rivers/fsriver/{name}/stop", "GET", "Stop a river");
-		apis[7] = new Api("/settings/rivers/fsriver/{name}/status", "GET", "Get the river running status");
 		return apis;
 	}
 	
@@ -77,6 +76,12 @@ public class FSRiversApi extends CommonBaseApi {
 		List<FSRiver> fsrivers = null;
 		try {
 			fsrivers = adminService.get();
+			
+			// For each river, we must look if it's running or not
+			for (FSRiver fsRiver : fsrivers) {
+				fsRiver.setStart(riverService.checkState(fsRiver));
+			}
+			
 		} catch (Exception e) {
 			return new RestResponseFSRivers(new RestAPIException(e));
 		}
@@ -85,7 +90,7 @@ public class FSRiversApi extends CommonBaseApi {
 	}
 	
 	/**
-	 * Search for all FS rivers
+	 * Search for one FS river
 	 * @return
 	 */
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -93,6 +98,7 @@ public class FSRiversApi extends CommonBaseApi {
 		FSRiver fsriver = null;
 		try {
 			fsriver = adminService.get(id);
+			fsriver.setStart(riverService.checkState(fsriver));
 		} catch (Exception e) {
 			return new RestResponseFSRiver(new RestAPIException(e));
 		}
@@ -151,6 +157,7 @@ public class FSRiversApi extends CommonBaseApi {
 			if (fsriver == null) {
 				return new RestResponseFSRiver(new RestAPIException("River " + id + " does not exist."));
 			}
+			fsriver.setStart(true);
 			riverService.add(fsriver);
 		} catch (Exception e) {
 			return new RestResponseFSRiver(new RestAPIException(e));
@@ -171,6 +178,7 @@ public class FSRiversApi extends CommonBaseApi {
 			if (fsriver == null) {
 				return new RestResponseFSRiver(new RestAPIException("River " + id + " does not exist."));
 			}
+			fsriver.setStart(false);
 			riverService.delete(fsriver);
 		} catch (Exception e) {
 			return new RestResponseFSRiver(new RestAPIException(e));
