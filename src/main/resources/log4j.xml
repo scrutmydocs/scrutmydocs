@@ -55,9 +55,9 @@
 		<priority value="ERROR" />
 	</category>
 	
-	<category name="org.springframework.web">
+	<!-- category name="org.springframework.web">
 		<priority value="DEBUG" />
-	</category>
+	</category-->
 	
 
 	<!-- ======================= -->
