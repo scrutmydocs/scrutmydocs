@@ -19,6 +19,8 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.fsriver.facade;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.scrutmydocs.webapp.api.common.RestAPIException;
@@ -48,11 +50,12 @@ public class FSRiversApi extends CommonBaseApi {
 
 	@Override
 	public Api[] helpApiList() {
-		Api[] apis = new Api[4];
+		Api[] apis = new Api[5];
 		apis[0] = new Api("/settings/rivers/fsriver", "GET", "Get all existing FileSystem rivers");
 		apis[1] = new Api("/settings/rivers/fsriver/{name}", "GET", "Get details about a FileSystem river");
 		apis[2] = new Api("/settings/rivers/fsriver", "PUT", "Create or update a FileSystem river");
-		apis[3] = new Api("/settings/rivers/fsriver/{name}", "DELETE", "Delete an existing FileSystem river");
+		apis[3] = new Api("/settings/rivers/fsriver", "POST", "Create or update a FileSystem river");
+		apis[4] = new Api("/settings/rivers/fsriver/{name}", "DELETE", "Delete an existing FileSystem river");
 		return apis;
 	}
 	
@@ -67,7 +70,14 @@ public class FSRiversApi extends CommonBaseApi {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody RestResponseFSRivers get() throws Exception {
-		return new RestResponseFSRivers(new RestAPIException("Method is not yet available."));
+		List<FSRiver> fsrivers = null;
+		try {
+			fsrivers = adminService.get();
+		} catch (Exception e) {
+			return new RestResponseFSRivers(new RestAPIException(e));
+		}
+		
+		return new RestResponseFSRivers(fsrivers);
 	}
 	
 	/**
@@ -76,7 +86,14 @@ public class FSRiversApi extends CommonBaseApi {
 	 */
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public @ResponseBody RestResponseFSRiver get(@PathVariable final String id) throws Exception {
-		return new RestResponseFSRiver(new RestAPIException("Method is not yet available."));
+		FSRiver fsriver = null;
+		try {
+			fsriver = adminService.get(id);
+		} catch (Exception e) {
+			return new RestResponseFSRiver(new RestAPIException(e));
+		}
+		
+		return new RestResponseFSRiver(fsriver);
 	}
 
 	/**
@@ -85,7 +102,13 @@ public class FSRiversApi extends CommonBaseApi {
 	 */
 	@RequestMapping(method = RequestMethod.PUT)
 	public @ResponseBody RestResponseFSRiver put(@RequestBody FSRiver fsriver) throws Exception {
-		return new RestResponseFSRiver(new RestAPIException("Method is not yet available."));
+		try {
+			adminService.update(fsriver);
+		} catch (Exception e) {
+			return new RestResponseFSRiver(new RestAPIException(e));
+		}
+		
+		return new RestResponseFSRiver();
 	}
 	
 	/**
@@ -94,8 +117,7 @@ public class FSRiversApi extends CommonBaseApi {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public @ResponseBody RestResponseFSRiver push(@RequestBody FSRiver fsriver) throws Exception {
-		RestResponseFSRiver response = new RestResponseFSRiver(new RestAPIException("Method is not yet available."));
-		return response;
+		return put(fsriver);
 	}
 
 	/**
@@ -104,7 +126,13 @@ public class FSRiversApi extends CommonBaseApi {
 	 */
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public @ResponseBody RestResponseFSRiver delete(@PathVariable final String id) throws Exception {
-		return new RestResponseFSRiver(new RestAPIException("Method is not yet available."));
+		try {
+			adminService.remove(new FSRiver(id, null, null));
+		} catch (Exception e) {
+			return new RestResponseFSRiver(new RestAPIException(e));
+		}
+		
+		return new RestResponseFSRiver();
 	}
 	
 

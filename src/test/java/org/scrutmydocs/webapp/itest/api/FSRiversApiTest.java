@@ -19,8 +19,7 @@
 
 package org.scrutmydocs.webapp.itest.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
@@ -71,12 +70,16 @@ public class FSRiversApiTest extends AbstractApiTest {
 		RestResponseFSRiver response = restTemplate.postForObject(buildFullApiUrl(),
 				fsRiver, RestResponseFSRiver.class, new Object[] {});
 		assertNotNull(response);
-//		assertTrue(response.isOk());
+		assertTrue(response.isOk());
 		
-		String url = buildFullApiUrl("/mydummyfs");
+		String url = buildFullApiUrl("mydummyfs");
 		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
 		assertNotNull(output);
-		
+		assertTrue(output.isOk());
+		assertEquals(fsRiver.getId(), ((FSRiver)output.getObject()).getId());
+		assertEquals(fsRiver.getUrl(), ((FSRiver)output.getObject()).getUrl());
+		assertEquals(fsRiver.getUpdateRate(), ((FSRiver)output.getObject()).getUpdateRate());
+
 		restTemplate.delete(url);
 	}
 
