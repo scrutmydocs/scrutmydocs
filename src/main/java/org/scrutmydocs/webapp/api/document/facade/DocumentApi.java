@@ -47,14 +47,14 @@ public class DocumentApi extends CommonBaseApi {
 
 	@Override
 	public Api[] helpApiList() {
-		Api[] apis = new Api[5];
+		Api[] apis = new Api[7];
 		apis[0] = new Api("/doc", "POST", "Add a document to the search engine");
-		apis[1] = new Api("/doc/{id}", "DELETE", "Delete a documentin the default index/type (doc/docs)");
-		apis[1] = new Api("/doc/{index}/{id}", "DELETE", "Delete a document in the default type (doc)");
-		apis[1] = new Api("/doc/{index}/{type}/{id}", "DELETE", "Delete a document ");
-		apis[2] = new Api("/doc/{id}", "GET", "Get a document in the default index/type  (doc/docs)");
-		apis[3] = new Api("/doc/{index}/{id}", "GET", "Get a document in a specific index with default type  (docs)");
-		apis[4] = new Api("/doc/{index}/{type}/{id}", "GET", "Get a document in a specific index/type");
+		apis[1] = new Api("/doc/{id}", "DELETE", "Delete a document in the default index/type (doc/docs)");
+		apis[2] = new Api("/doc/{index}/{id}", "DELETE", "Delete a document in the default type (doc)");
+		apis[3] = new Api("/doc/{index}/{type}/{id}", "DELETE", "Delete a document ");
+		apis[4] = new Api("/doc/{id}", "GET", "Get a document in the default index/type (doc/docs)");
+		apis[5] = new Api("/doc/{index}/{id}", "GET", "Get a document in a specific index with default type (docs)");
+		apis[6] = new Api("/doc/{index}/{type}/{id}", "GET", "Get a document in a specific index/type");
 		return apis;
 	}
 	
