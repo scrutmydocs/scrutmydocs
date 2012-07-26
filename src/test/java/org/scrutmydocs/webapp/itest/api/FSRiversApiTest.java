@@ -19,7 +19,11 @@
 
 package org.scrutmydocs.webapp.itest.api;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +56,9 @@ public class FSRiversApiTest extends AbstractApiTest {
 	@Test
 	public void get_all() throws Exception {
 		// Add 3 rivers
-		addRiver(new FSRiver("all_mydummy1", "/dummydir1", 30L));
-		addRiver(new FSRiver("all_mydummy2", "/dummydir2", 60L));
-		addRiver(new FSRiver("all_mydummy3", "/dummydir3", 90L));
+		setupAddRiver(new FSRiver("all_mydummy1", "/dummydir1", 30L));
+		setupAddRiver(new FSRiver("all_mydummy2", "/dummydir2", 60L));
+		setupAddRiver(new FSRiver("all_mydummy3", "/dummydir3", 90L));
 		
 		
 		String url = buildFullApiUrl();
@@ -82,7 +86,7 @@ public class FSRiversApiTest extends AbstractApiTest {
 	public void get_one() throws Exception {
 		// Add one river
 		FSRiver fsRiver = new FSRiver("one_mydummy1", "/dummydir1", 30L);
-		addRiver(fsRiver);
+		setupAddRiver(fsRiver);
 		
 		String url = buildFullApiUrl("one_mydummy1");
 		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
@@ -139,7 +143,7 @@ public class FSRiversApiTest extends AbstractApiTest {
 	@Test
 	public void start_and_stop_river() throws Exception {
 		FSRiver fsRiver = new FSRiver("start_stop_mydummy", "/thisdirshouldnotexist", 30L);
-		addRiver(fsRiver);
+		setupAddRiver(fsRiver);
 
 		String url = buildFullApiUrl("start_stop_mydummy/start");
 		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
@@ -155,7 +159,7 @@ public class FSRiversApiTest extends AbstractApiTest {
 	@Test
 	public void check_running_status_river() throws Exception {
 		FSRiver fsRiver = new FSRiver("start_stop_mydummy", "/thisdirshouldnotexist", 30L);
-		addRiver(fsRiver);
+		setupAddRiver(fsRiver);
 
 		String url = buildFullApiUrl("start_stop_mydummy/start");
 		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
@@ -175,11 +179,50 @@ public class FSRiversApiTest extends AbstractApiTest {
 		assertTrue(output.isOk());
 	}
 
+	@Test
+	public void delete_running_river_should_stop_it() throws Exception {
+		FSRiver fsRiver = new FSRiver("stop_running_mydummy", "/thisdirshouldnotexist", 30L);
+		addRiver(fsRiver);
+
+		String url = buildFullApiUrl("stop_running_mydummy/start");
+		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		assertNotNull(output);
+		assertTrue(output.isOk());
+		
+		// We delete the river
+		deleteRiver("stop_running_mydummy");
+		
+		// We get now the river status
+		url = buildFullApiUrl("stop_running_mydummy");
+		output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		assertNotNull(output);
+		assertTrue(output.isOk());
+		
+		// We can not really check that the river has been removed but we can
+		// check at least that we don't get back a SMD administrative object
+		assertNull(output.getObject());
+	}
 
 
+	// Utility methods
+	/**
+	 * Add a river
+	 * @param fsriver
+	 */
+	protected void addRiver(FSRiver fsriver) {
+		HttpEntity<FSRiver> entity = new HttpEntity<FSRiver>(fsriver);
+		restTemplate.put(buildFullApiUrl(), entity);
+	}
 
-	
-	
+	/**
+	 * Clean a test case : Delete a river
+	 * @param id River Id
+	 */
+	protected void deleteRiver(String id) {
+		restTemplate.delete(buildFullApiUrl(id));
+	}
+
+	// Setup Methods
 	/**
 	 * Prepare a test case
 	 */
@@ -189,21 +232,12 @@ public class FSRiversApiTest extends AbstractApiTest {
 	}
 
 	/**
-	 * Prepare a test case : Add a river
+	 * Prepare a test case : Add a river and add it to the rivers to be released at end
 	 * @param fsriver
 	 */
-	protected void addRiver(FSRiver fsriver) {
-		HttpEntity<FSRiver> entity = new HttpEntity<FSRiver>(fsriver);
-		restTemplate.put(buildFullApiUrl(), entity);
+	protected void setupAddRiver(FSRiver fsriver) {
+		addRiver(fsriver);
 		_fsRivers.add(fsriver.getId());
-	}
-
-	/**
-	 * Clean a test case : Delete a river
-	 * @param id River Id
-	 */
-	protected void deleteRiver(String id) {
-		restTemplate.delete(buildFullApiUrl(id));
 	}
 
 	/**

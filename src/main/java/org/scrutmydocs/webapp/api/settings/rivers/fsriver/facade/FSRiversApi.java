@@ -98,7 +98,9 @@ public class FSRiversApi extends CommonBaseApi {
 		FSRiver fsriver = null;
 		try {
 			fsriver = adminService.get(id);
-			fsriver.setStart(riverService.checkState(fsriver));
+			if (fsriver != null) {
+				fsriver.setStart(riverService.checkState(fsriver));
+			}
 		} catch (Exception e) {
 			return new RestResponseFSRiver(new RestAPIException(e));
 		}
