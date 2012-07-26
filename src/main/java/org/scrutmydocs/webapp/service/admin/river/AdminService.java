@@ -136,12 +136,15 @@ public class AdminService implements Serializable {
 	 */
 	public void remove(FSRiver river) {
 		if (logger.isDebugEnabled()) logger.debug("remove({})", river);
-		try {
-			client.prepareDelete(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, river.getId()).execute().actionGet();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		// We stop the river if running
+		if (riverService.checkState(river)) {
+			riverService.stop(river);
 		}
+
+		// We remove the river in the database
+		client.prepareDelete(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, river.getId()).execute().actionGet();
+			
 		if (logger.isDebugEnabled()) logger.debug("/remove({})", river);
 	}
 
