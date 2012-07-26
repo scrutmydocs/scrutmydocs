@@ -29,9 +29,16 @@ If you want to use an external ElasticSearch cluster, you will have to set it up
 
 #### Download and install Elasticsearch
 
+##### Linux (Debian-like)
 ```sh
 curl -L -C - -O https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.19.8.deb
 dpkg -i elasticsearch-0.19.8.deb
+```
+
+##### OSX
+With [Homebrew](http://mxcl.github.com/homebrew/)
+```sh
+brew install elasticsearch
 ```
 
 #### Add required plugins

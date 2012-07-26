@@ -3,3 +3,6 @@
 /.classpath
 /pom.properties
 /target
+/.externalToolBuilders/
+/maven-eclipse.xml
+/src/main/webapp/css/main.css

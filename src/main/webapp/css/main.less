@@ -1,0 +1,94 @@
+// Import Boostrap Styles
+@import "bootstrap/bootstrap.less";
+@import "bootstrap/responsive.less";
+
+// Import JQueryUI Theme
+@import "jquery-ui-bootstrap.css";
+// Import File upload
+@import "jquery.fileupload-ui.css";
+
+// Variables
+@bodyPadding: 60px;
+
+// Body
+body {
+	padding-top: @bodyPadding;
+	padding-bottom: 0px;
+}
+
+.center {
+	text-align: center;
+}
+
+// Forms
+#logo-small {
+	width: 70px;
+}
+
+#results li img {
+	height: 16px;
+}
+
+.form-actions {
+	text-align: right;
+}
+
+.status-actions {
+	border-bottom: 1px solid #e5e5e5;
+	text-align: right;
+	padding-bottom: 16px;
+	margin-bottom: 8px;
+}
+
+form.well .form-actions {
+	padding-bottom: O;
+	margin-bottom: -18px;	
+}
+
+#river-fs-rates-slider {
+	margin-top: 8px;
+}
+
+// Search results
+#results li a {
+	text-decoration: underline !important;
+	font-size: 16px !important;
+	img {
+		margin-right: 8px;
+	}
+}
+
+// Menu
+#leftMenu .nav-list li.active span.badge {
+	border: thin solid white;
+}
+
+// Upload
+
+#uploadInfo ul {
+	li {
+
+	}
+}
+.bar {
+    height: 18px;
+}
+
+// Footer
+footer {
+	position: relative;
+	height: 3em;
+	clear: both; 
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	text-align: center;
+}
+
+// Scaffolding
+@media (max-width: 979px) {
+	body {
+		padding-top: 0px;
+		padding-bottom: 0px;
+	}	
+}
