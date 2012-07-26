@@ -1,19 +1,21 @@
 package org.scrutmydocs.webapp.util;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.commons.io.FileUtils;
 import org.scrutmydocs.webapp.configuration.ScrutMyDocsProperties;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.StringUtils;
 
+import com.google.common.io.Files;
+
 public class PropertyScanner {
-	
-	public static ScrutMyDocsProperties scanPropertyFile() throws IOException {
+
+    public static ScrutMyDocsProperties scanPropertyFile() throws IOException {
 		ScrutMyDocsProperties smdProps = new ScrutMyDocsProperties();
 		
 		String userHome = System.getProperty("user.home");
@@ -29,8 +31,12 @@ public class PropertyScanner {
 			// Build the file from the Classpath
 			FileSystemResource configDir = new FileSystemResource(userHome + "/.scrutmydocs/config/");
 			ClassPathResource classPathResource = new ClassPathResource("/scrutmydocs/config/scrutmydocs.properties");
-			FileUtils.forceMkdir(configDir.getFile());
-			FileUtils.copyFileToDirectory(classPathResource.getFile(), configDir.getFile());
+			
+			File from = classPathResource.getFile();
+			File dest = new File(configDir.getFile(),from.getName());
+			Files.createParentDirs(dest);
+			Files.copy(from, dest);
+
 			props = PropertiesLoaderUtils.loadProperties(resource);
 		}
 		
@@ -53,24 +59,29 @@ public class PropertyScanner {
 		
 		return smdProps;
 	}
-	
-	private static boolean getProperty(Properties props, String path, boolean defaultValue) {
-		String sValue = getProperty(props, path, Boolean.toString(defaultValue));
-		if (sValue == null) return false;
-		return Boolean.parseBoolean(sValue);
-	}
-	
-	private static String getProperty(Properties props, String path, String defaultValue) {
-		return props.getProperty(path, defaultValue);
-	}
-	
-	private static String[] getPropertyAsArray(Properties props, String path, String defaultValue) {
-		String sValue = getProperty(props, path, defaultValue);
-		if (sValue == null) return null;
-		
-		// Remove spaces and split results with comma
-		String[] arrStr  = StringUtils.commaDelimitedListToStringArray(sValue);
-		
-		return arrStr;
-	}
+
+    private static boolean getProperty(Properties props, String path,
+	    boolean defaultValue) {
+	String sValue = getProperty(props, path, Boolean.toString(defaultValue));
+	if (sValue == null)
+	    return false;
+	return Boolean.parseBoolean(sValue);
+    }
+
+    private static String getProperty(Properties props, String path,
+	    String defaultValue) {
+	return props.getProperty(path, defaultValue);
+    }
+
+    private static String[] getPropertyAsArray(Properties props, String path,
+	    String defaultValue) {
+	String sValue = getProperty(props, path, defaultValue);
+	if (sValue == null)
+	    return null;
+
+	// Remove spaces and split results with comma
+	String[] arrStr = StringUtils.commaDelimitedListToStringArray(sValue);
+
+	return arrStr;
+    }
 }
