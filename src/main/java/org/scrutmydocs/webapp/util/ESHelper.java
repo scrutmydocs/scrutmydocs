@@ -16,7 +16,7 @@ import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
+import org.scrutmydocs.webapp.helpers.FSRiverHelper;
 
 
 public class ESHelper {

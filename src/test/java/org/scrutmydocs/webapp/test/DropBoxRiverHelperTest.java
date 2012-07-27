@@ -28,7 +28,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.admin.river.DropBoxRiver;
-import org.scrutmydocs.webapp.data.admin.river.DropBoxRiverHelper;
+import org.scrutmydocs.webapp.helpers.DropBoxRiverHelper;
 
 
 public class DropBoxRiverHelperTest {

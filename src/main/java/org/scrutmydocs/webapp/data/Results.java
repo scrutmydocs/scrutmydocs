@@ -27,7 +27,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.highlight.HighlightField;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
+import org.scrutmydocs.webapp.helpers.FSRiverHelper;
 
 
 public class Results {

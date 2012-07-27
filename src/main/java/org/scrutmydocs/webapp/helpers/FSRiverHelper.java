@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.data.admin.river;
+package org.scrutmydocs.webapp.helpers;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 

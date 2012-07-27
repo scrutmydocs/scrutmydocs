@@ -32,7 +32,7 @@ import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
-import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
+import org.scrutmydocs.webapp.helpers.FSRiverHelper;
 import org.scrutmydocs.webapp.util.ESHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

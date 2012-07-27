@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.data.admin.river;
+package org.scrutmydocs.webapp.helpers;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.support.XContentMapValues;
+import org.scrutmydocs.webapp.data.admin.river.DropBoxRiver;
 
 public class DropBoxRiverHelper {
 	

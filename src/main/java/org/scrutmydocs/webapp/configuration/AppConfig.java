@@ -27,7 +27,7 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.node.Node;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
+import org.scrutmydocs.webapp.helpers.FSRiverHelper;
 import org.scrutmydocs.webapp.util.ESHelper;
 import org.scrutmydocs.webapp.util.PropertyScanner;
 import org.springframework.context.annotation.Bean;

@@ -28,7 +28,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
+import org.scrutmydocs.webapp.helpers.FSRiverHelper;
 
 
 public class FSRiverHelperTest {

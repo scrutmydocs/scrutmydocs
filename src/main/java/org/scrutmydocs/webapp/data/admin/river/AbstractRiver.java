@@ -29,6 +29,7 @@ import org.scrutmydocs.webapp.constant.SMDSearchProperties;
  * @author PILATO
  *
  */
+@Deprecated
 public abstract class AbstractRiver implements Serializable {
 	private static final long serialVersionUID = 1L;
 

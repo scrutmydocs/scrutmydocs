@@ -45,7 +45,7 @@ import org.scrutmydocs.webapp.api.search.data.Hit;
 import org.scrutmydocs.webapp.api.search.data.SearchResponse;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.data.Results;
-import org.scrutmydocs.webapp.data.admin.river.FSRiverHelper;
+import org.scrutmydocs.webapp.helpers.FSRiverHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
