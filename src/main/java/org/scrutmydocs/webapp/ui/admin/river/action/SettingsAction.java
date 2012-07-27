@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.service.admin.river.AdminService;
+import org.scrutmydocs.webapp.service.admin.river.AdminFSRiverService;
 import org.scrutmydocs.webapp.service.admin.river.RiverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -39,7 +39,7 @@ public class SettingsAction implements Serializable {
 	private static final long serialVersionUID = -582985573033101693L;
 
 	@Autowired RiverService riverService;
-	@Autowired AdminService adminService;
+	@Autowired AdminFSRiverService adminService;
 
 	List<FSRiver> fsRivers = new ArrayList<FSRiver>();
 

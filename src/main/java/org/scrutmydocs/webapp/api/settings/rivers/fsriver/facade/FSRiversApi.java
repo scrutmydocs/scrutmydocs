@@ -26,10 +26,11 @@ import org.apache.commons.logging.LogFactory;
 import org.scrutmydocs.webapp.api.common.RestAPIException;
 import org.scrutmydocs.webapp.api.common.data.Api;
 import org.scrutmydocs.webapp.api.common.facade.CommonBaseApi;
+import org.scrutmydocs.webapp.api.settings.rivers.data.BasicRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.RestResponseFSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.RestResponseFSRivers;
-import org.scrutmydocs.webapp.service.admin.river.AdminService;
+import org.scrutmydocs.webapp.service.admin.river.AdminFSRiverService;
 import org.scrutmydocs.webapp.service.admin.river.RiverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,7 +46,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class FSRiversApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	@Autowired protected AdminService adminService;
+	@Autowired protected AdminFSRiverService adminService;
 	@Autowired protected RiverService riverService;
 	
 
@@ -78,7 +79,7 @@ public class FSRiversApi extends CommonBaseApi {
 			fsrivers = adminService.get();
 			
 			// For each river, we must look if it's running or not
-			for (FSRiver fsRiver : fsrivers) {
+			for (BasicRiver fsRiver : fsrivers) {
 				fsRiver.setStart(riverService.checkState(fsRiver));
 			}
 			

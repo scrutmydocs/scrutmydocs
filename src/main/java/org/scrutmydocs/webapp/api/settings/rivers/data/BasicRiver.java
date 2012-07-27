@@ -29,7 +29,7 @@ import org.scrutmydocs.webapp.constant.SMDSearchProperties;
  * @author PILATO
  *
  */
-public abstract class AbstractRiver implements Serializable {
+public class BasicRiver implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
@@ -38,16 +38,30 @@ public abstract class AbstractRiver implements Serializable {
 	private String typename;
 	private boolean start;
 	
+	// Just to avoid problems with JSon coding/decoding
+	@SuppressWarnings("unused")
+	private String type;
+	
 	/**
 	 * @return The river implementation type, for example: fs, dropbox, rss
 	 */
-	public abstract String getType();
+	public String getType() {
+		return "dummy";
+	}
 	
+	/**
+	 * Just to avoid problems with JSon coding/decoding
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	/**
 	 * Default constructor using a dummy name and defaults to
 	 * index/type : docs/doc
 	 */
-	public AbstractRiver() {
+	public BasicRiver() {
 		this("dummy");
 	}
 	
@@ -55,7 +69,7 @@ public abstract class AbstractRiver implements Serializable {
 	 * Default constructor using a dummy name and defaults to
 	 * index/type : docs/doc
 	 */
-	public AbstractRiver(String id) {
+	public BasicRiver(String id) {
 		this(id, SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "My Dummy River", false);
 	}
 	
@@ -66,7 +80,7 @@ public abstract class AbstractRiver implements Serializable {
 	 * @param name The human readable name for this river
 	 * @param start Started ?
 	 */
-	public AbstractRiver(String id, String indexname, String typename, String name, boolean start) {
+	public BasicRiver(String id, String indexname, String typename, String name, boolean start) {
 		this.id = id;
 		this.indexname = indexname;
 		this.typename = typename;

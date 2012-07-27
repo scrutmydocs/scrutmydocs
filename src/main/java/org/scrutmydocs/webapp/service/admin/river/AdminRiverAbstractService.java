@@ -33,15 +33,15 @@ import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
-import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.data.BasicRiver;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.helpers.FSRiverHelper;
+import org.scrutmydocs.webapp.helpers.AbstractRiverHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
 @Component
-public class AdminService implements Serializable {
+public abstract class AdminRiverAbstractService<T extends BasicRiver> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private ESLogger logger = Loggers.getLogger(getClass().getName());
@@ -49,38 +49,44 @@ public class AdminService implements Serializable {
 	@Autowired Client client;
 	@Autowired RiverService riverService;
 
+	abstract protected AbstractRiverHelper<T> getHelper();
+	abstract protected T buildInstance();
+	
 	/**
 	 * Get the river definition by its name
 	 * @param name
 	 * @return
 	 */
-	public FSRiver get(String name) {
+	public T get(String name) {
 		if (logger.isDebugEnabled()) logger.debug("get({})", name);
-		
-		FSRiver fsriver = null;
+		T river = null;
 		
 		if (name != null) {
 			GetRequestBuilder rb = new GetRequestBuilder(client, SMDSearchProperties.ES_META_INDEX);
 			rb.setType(SMDSearchProperties.ES_META_RIVERS);
 			rb.setId(name);
 			
-			GetResponse response = rb.execute().actionGet();
-			if (response.exists()) {
-				fsriver = FSRiverHelper.toRiver(response.sourceAsMap());
+			try {
+				GetResponse response = rb.execute().actionGet();
+				if (response.exists()) {
+					river = getHelper().toRiver(buildInstance(), response.sourceAsMap());
+				}
+			} catch (IndexMissingException e) {
+				// Index does not exists, so RIVER does not exist...
 			}
 		}
 
-		if (logger.isDebugEnabled()) logger.debug("/get({})={}", name, fsriver);
-		return fsriver;
+		if (logger.isDebugEnabled()) logger.debug("/get({})={}", name, river);
+		return river;
 	}
 
 	/**
 	 * Get all active rivers
 	 * @return
 	 */
-	public List<FSRiver> get() {
+	public List<T> get() {
 		if (logger.isDebugEnabled()) logger.debug("get()");
-		List<FSRiver> rivers = new ArrayList<FSRiver>();
+		List<T> rivers = new ArrayList<T>();
 		
 		SearchRequestBuilder srb = new SearchRequestBuilder(client);
 
@@ -93,14 +99,18 @@ public class AdminService implements Serializable {
 			if (response.hits().totalHits() > 0) {
 				
 				for (int i = 0; i < response.hits().hits().length; i++) {
+					T river = buildInstance();
+
 					SearchHit hit = response.hits().hits()[i];
 
-					// We only manage FS rivers
-					FSRiver fsriver = FSRiverHelper.toRiver(hit.sourceAsMap());
-					
-					// For each river, we check if the river is started or not
-					fsriver.setStart(riverService.checkState(fsriver));
-					rivers.add(fsriver);
+					// We only manage rivers for type getHelper().type()
+					river = getHelper().toRiver(river, hit.sourceAsMap());
+
+					if (river.getType().equals(getHelper().type())) {
+						// For each river, we check if the river is started or not
+						river.setStart(riverService.checkState(river));
+						rivers.add(river);
+					}
 				}
 			}
 			
@@ -116,9 +126,9 @@ public class AdminService implements Serializable {
 	 * Update (or add) a river
 	 * @param river
 	 */
-	public void update(FSRiver river) {
+	public void update(T river) {
 		if (logger.isDebugEnabled()) logger.debug("update({})", river);
-		XContentBuilder xb = FSRiverHelper.toXContent(river);		
+		XContentBuilder xb = getHelper().toXContent(river);		
 		
 		try {
 			client.prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, river.getId()).setSource(xb).setRefresh(true)
@@ -134,7 +144,7 @@ public class AdminService implements Serializable {
 	 * Remove river
 	 * @param river
 	 */
-	public void remove(FSRiver river) {
+	public void remove(T river) {
 		if (logger.isDebugEnabled()) logger.debug("remove({})", river);
 		
 		// We stop the river if running

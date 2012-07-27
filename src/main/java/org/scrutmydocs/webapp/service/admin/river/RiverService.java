@@ -31,6 +31,7 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.scrutmydocs.webapp.api.settings.rivers.data.BasicRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 import org.scrutmydocs.webapp.helpers.FSRiverHelper;
 import org.scrutmydocs.webapp.util.ESHelper;
@@ -50,7 +51,7 @@ public class RiverService implements Serializable {
 	 * Check if the river exists and if it's started
 	 * @param river
 	 */
-	public boolean checkState(FSRiver river) {
+	public boolean checkState(BasicRiver river) {
 		if (logger.isDebugEnabled()) logger.debug("checkState({})", river);
 		// We only check the river if you provide its definition
 		if (river == null) return false;
@@ -92,7 +93,7 @@ public class RiverService implements Serializable {
 		
 		createIndexIfNeeded(river);
 		
-		XContentBuilder xb = FSRiverHelper.toXContent(river);		
+		XContentBuilder xb = new FSRiverHelper().toXContent(river);		
 		
 		try {
 			client.prepareIndex("_river", river.getId(), "_meta").setRefresh(true).setSource(xb)
@@ -119,7 +120,7 @@ public class RiverService implements Serializable {
 	 * Stop a running river
 	 * @param river
 	 */
-	public void stop(FSRiver river) {
+	public void stop(BasicRiver river) {
 		if (logger.isDebugEnabled()) logger.debug("delete({})", river);
 		if (river == null) return;
 		

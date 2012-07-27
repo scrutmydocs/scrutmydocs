@@ -17,26 +17,30 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.api.settings.rivers.data;
+package org.scrutmydocs.webapp.service.admin.river;
 
-import java.util.List;
+import org.scrutmydocs.webapp.api.settings.rivers.data.BasicRiver;
+import org.scrutmydocs.webapp.helpers.AbstractRiverHelper;
+import org.scrutmydocs.webapp.helpers.RiverHelper;
+import org.springframework.stereotype.Component;
 
-import org.scrutmydocs.webapp.api.common.RestAPIException;
-import org.scrutmydocs.webapp.api.common.data.RestResponse;
-
-
-public class RestResponseRivers extends RestResponse<List<BasicRiver>> {
+/**
+ * River Service Implementation for all Rivers
+ * @author PILATO
+ *
+ */
+@Component
+public class AdminRiverService extends AdminRiverAbstractService<BasicRiver> {
 	private static final long serialVersionUID = 1L;
 
-	public RestResponseRivers(List<BasicRiver> rivers) {
-		super(rivers);
+	@Override
+	protected AbstractRiverHelper<BasicRiver> getHelper() {
+		return new RiverHelper();
 	}
 
-	public RestResponseRivers() {
-		super();
+	@Override
+	protected BasicRiver buildInstance() {
+		return new BasicRiver();
 	}
 
-	public RestResponseRivers(RestAPIException e) {
-		super(e);
-	}
 }

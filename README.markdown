@@ -471,6 +471,64 @@ curl -XPOST 'localhost:8080/scrutmydocs/1/search/apache -d '
 ```
 
 
+Rivers (Common API for all Rivers)
+----------------------------------
+
+You can manage get information on all rivers with the Rivers API.
+
+### REST Resources
+
+<table>
+	<thead>
+		<tr>
+			<th>Resource</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+	    <tr>
+			<td>GET 1/settings/rivers/_help</td>
+			<td>Display help.</td>
+	    </tr>
+	    <tr>
+			<td>GET 1/settings/rivers</td>
+			<td>Get all existing rivers (it will provide an array of River objects).</td>
+	    </tr>
+    </tbody>
+</table>
+
+### River Object
+
+A river object looks like:
+
+```javascript
+{
+	 "id" : "mydummyriver",
+	 "name" : "My Dummy River",
+	 "indexname" : "docs",
+	 "typename" : "doc",
+	 "start" : false,
+	 ... plus some metadata depending on each river ...
+}
+```
+
+Id is the unique name of your river. It will be used to get or delete the river.
+Name is a fancy name for the river.
+Indexname is where your documents will be send.
+Typename is the type name under your documents will be indexed.
+Start indicates if the river is running (true) or not (false).
+
+
+### Examples
+
+
+```sh
+# GET all existing rivers
+curl -XGET 'localhost:8080/scrutmydocs/1/settings/rivers/'
+```
+
+
+
 FileSystem Rivers (FSRivers)
 ----------------------------
 
@@ -523,7 +581,7 @@ You can manage your file system rivers with the FSRivers API.
 
 ### FSRiver Object
 
-A index object looks like:
+A fsriver object looks like:
 
 ```javascript
 {
@@ -557,7 +615,7 @@ Analyzer is the analyzer to apply for this river ("default" or "french" by now).
 
 ```sh
 # CREATE a new river
-curl -XPUT 'localhost:8080/scrutmydocs/1/settings/rivers/fsriver/ -d '
+curl -XPUT 'localhost:8080/scrutmydocs/1/settings/rivers/fsriver/' -d '
 {
 	 "id" : "mydummyriver",
 	 "name" : "My Dummy River",

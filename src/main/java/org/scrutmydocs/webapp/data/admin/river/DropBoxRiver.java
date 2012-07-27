@@ -19,7 +19,7 @@
 
 package org.scrutmydocs.webapp.data.admin.river;
 
-import org.scrutmydocs.webapp.api.settings.rivers.data.AbstractRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.data.BasicRiver;
 import org.scrutmydocs.webapp.util.StringTools;
 
 
@@ -30,7 +30,7 @@ import org.scrutmydocs.webapp.util.StringTools;
  * @author PILATO
  *
  */
-public class DropBoxRiver extends AbstractRiver {
+public class DropBoxRiver extends BasicRiver {
 	private static final long serialVersionUID = 1L;
 	
 	private String token;

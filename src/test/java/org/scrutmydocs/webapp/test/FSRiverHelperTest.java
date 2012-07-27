@@ -57,12 +57,12 @@ public class FSRiverHelperTest {
 		FSRiver model = new FSRiver("tmp", SMDSearchProperties.INDEX_NAME, 
 				SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
 		
-		XContentBuilder xb = FSRiverHelper.toXContent(model);		
+		XContentBuilder xb = new FSRiverHelper().toXContent(model);		
 		String jsonContent = xb.string();
 
 		Map<String, Object> map = XContentHelper.convertToMap(jsonContent.getBytes(), 0, jsonContent.length(), false).v2();
 		
-		FSRiver fsriver = FSRiverHelper.toRiver(map);
+		FSRiver fsriver = new FSRiverHelper().toRiver(new FSRiver(), map);
 		
 		Assert.assertEquals(model.getId(), fsriver.getId());
 		Assert.assertEquals(model.getType(), fsriver.getType());

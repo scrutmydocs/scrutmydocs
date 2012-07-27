@@ -83,14 +83,14 @@ public class AppConfig {
 		try {
 			logger.warn("TODO : remove automatic river creation. Just here for example purpose !");
 			// We are going to create the filesystem river if needed
-			XContentBuilder xb = FSRiverHelper.toXContent(
+			XContentBuilder xb = new FSRiverHelper().toXContent(
 					new FSRiver("myfirstriver", SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "Scan tmp dir", "/tmp_es", 30L, "standard", false));		
 		
 			factory.getObject().prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, "myfirstriver").setSource(xb)
 					.execute().actionGet();
 
 			// We are going to create a second filesystem river to test multiple feeds
-			xb = FSRiverHelper.toXContent(
+			xb = new FSRiverHelper().toXContent(
 					new FSRiver("mysecondriver", SMDSearchProperties.INDEX_NAME,
 							SMDSearchProperties.INDEX_TYPE_DOC, "Scan second dir", "/tmp_es_second", 30L, "standard", false));		
 			

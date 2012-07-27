@@ -17,26 +17,30 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.api.settings.rivers.data;
+package org.scrutmydocs.webapp.service.admin.river;
 
-import java.util.List;
+import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
+import org.scrutmydocs.webapp.helpers.FSRiverHelper;
+import org.scrutmydocs.webapp.helpers.AbstractRiverHelper;
+import org.springframework.stereotype.Component;
 
-import org.scrutmydocs.webapp.api.common.RestAPIException;
-import org.scrutmydocs.webapp.api.common.data.RestResponse;
-
-
-public class RestResponseRivers extends RestResponse<List<BasicRiver>> {
+/**
+ * River Service Implementation for File System Rivers (aka FS Rivers)
+ * @author PILATO
+ *
+ */
+@Component
+public class AdminFSRiverService extends AdminRiverAbstractService<FSRiver> {
 	private static final long serialVersionUID = 1L;
 
-	public RestResponseRivers(List<BasicRiver> rivers) {
-		super(rivers);
+	@Override
+	protected AbstractRiverHelper<FSRiver> getHelper() {
+		return new FSRiverHelper();
 	}
 
-	public RestResponseRivers() {
-		super();
+	@Override
+	protected FSRiver buildInstance() {
+		return new FSRiver();
 	}
 
-	public RestResponseRivers(RestAPIException e) {
-		super(e);
-	}
 }

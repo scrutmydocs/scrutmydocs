@@ -22,48 +22,55 @@ package org.scrutmydocs.webapp.helpers;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.support.XContentMapValues;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 
-public class FSRiverHelper {
-	
+public class FSRiverHelper extends AbstractRiverHelper<FSRiver> {
+
 	/**
-	 * Build a river definition for FS
-	 * @param river The river definition
-	 * @return An ES xcontent
+	 * We manage :
+	 * <ul>
+	 * <li>url
+	 * <li>update_rate
+	 * <li>includes
+	 * <li>excludes
+	 * <li>analyzer
+	 * </ul>
 	 */
-	public static XContentBuilder toXContent(FSRiver river) {
-		XContentBuilder xb = null;
-		try {
-			xb = jsonBuilder()
-					.startObject()
-						.field("type", river.getType())
-						.startObject(river.getType())
-							.field("name", river.getId())
-							.field("url", river.getUrl())
-							.field("update_rate", river.getUpdateRate() * 1000)
-							.field("includes", river.getIncludes())
-							.field("excludes", river.getExcludes())
-							.field("analyzer", river.getAnalyzer())
-						.endObject()
-						.startObject("index")
-							.field("index", river.getIndexname())
-							.field("type", river.getTypename())
-						.endObject()
-					.endObject();
-		} catch (IOException e) {
-			// TODO Log when error
-		}		
-		return xb;
+	@Override
+	public XContentBuilder addMeta(XContentBuilder xcb, FSRiver river) throws IOException {
+		xcb	
+			.field("url", river.getUrl())
+			.field("update_rate", river.getUpdateRate() * 1000)
+			.field("includes", river.getIncludes())
+			.field("excludes", river.getExcludes())
+			.field("analyzer", river.getAnalyzer());
+
+		return xcb;
 	}
-	
-	
+
+
 	/**
-	 * Build a FS river from a JSON definiton content such as :<pre>
+	 * We build "fs" rivers.
+	 */
+	@Override
+	public String type() {
+		return "fs";
+	}
+
+
+	/**
+	 * We manage :
+	 * <ul>
+	 * <li>url
+	 * <li>update_rate
+	 * <li>includes
+	 * <li>excludes
+	 * <li>analyzer
+	 * </ul>
+	 * JSON definiton :<pre>
 {
   "type" : "fs",
   "fs" : {
@@ -80,44 +87,21 @@ public class FSRiverHelper {
   }
 }
 </pre>
-	 * @param content The JSON form
-	 * @return An FS River
 	 */
-	public static FSRiver toRiver(Map<String, Object> content) {
-		FSRiver river = new FSRiver();
-		try {
-			// First we check that it's a fs type
-			if (!content.containsKey("type")) 
-				throw new RuntimeException("Your River object should be a river and contain \"type\":\"rivertype\"");
-			if (!(XContentMapValues.nodeStringValue(content.get("type"), "")).equalsIgnoreCase("fs")) 
-				throw new RuntimeException("Your FSRiver object should be a river and contain \"type\":\"fs\"");
-			
-			// Then we dig into fs
-			if (!content.containsKey("fs")) 
-				throw new RuntimeException("A FSRiver must contain \"fs\":{...}");
+	@Override
+	public FSRiver parseMeta(FSRiver river, Map<String, Object> content) {
+		river.setUrl(getSingleStringValue("fs.url", content));
+		river.setUpdateRate(getSingleLongValue("fs.update_rate", content) / 1000);
 
-			river.setId(getSingleStringValue("fs.name", content));
-			river.setName(getSingleStringValue("fs.name", content));
-			river.setUrl(getSingleStringValue("fs.url", content));
-			river.setUpdateRate(getSingleLongValue("fs.update_rate", content) / 1000);
-
-			// TODO Manage includes/excludes when arrays
-			river.setIncludes(getSingleStringValue("fs.includes", content));
-			river.setExcludes(getSingleStringValue("fs.excludes", content));
-			
-			river.setAnalyzer(getSingleStringValue("fs.analyzer", content));
-			
-			// Then we dig into fs
-			if (content.containsKey("index")) {
-				river.setIndexname(getSingleStringValue("index.index", content));
-				river.setTypename(getSingleStringValue("index.type", content));
-				// TODO Add support for fancy river name ???
-			}
-		} catch (Exception e) {
-			// TODO Log when error
-		}		
+		// TODO Manage includes/excludes when arrays
+		river.setIncludes(getSingleStringValue("fs.includes", content));
+		river.setExcludes(getSingleStringValue("fs.excludes", content));
+		
+		river.setAnalyzer(getSingleStringValue("fs.analyzer", content));
+		
 		return river;
-	}
+	}	
+
 	
 	/**
 	 * Build a river mapping for FS
@@ -171,27 +155,4 @@ public class FSRiverHelper {
 		}		
 		return xb;
 	}
-
-	
-	public static String getSingleStringValue(String path, Map<String, Object> content) {
-		List<Object> obj = XContentMapValues.extractRawValues(path, content);
-		if(obj.isEmpty()) 
-			return null;
-		else 
-			return ((String) obj.get(0));
-	}
-	
-	public static Long getSingleLongValue(String path, Map<String, Object> content) {
-		List<Object> obj = XContentMapValues.extractRawValues(path, content);
-		return ((Integer) obj.get(0)).longValue();
-	}
-
-	public static Boolean getSingleBooleanValue(String path, Map<String, Object> content) {
-		List<Object> obj = XContentMapValues.extractRawValues(path, content);
-		if(obj.isEmpty()) 
-			return null;
-		else 
-			return ((Boolean) obj.get(0));
-	}
-	
 }

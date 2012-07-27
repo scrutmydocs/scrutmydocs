@@ -17,26 +17,34 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.api.settings.rivers.data;
+package org.scrutmydocs.webapp.helpers;
 
-import java.util.List;
+import java.io.IOException;
+import java.util.Map;
 
-import org.scrutmydocs.webapp.api.common.RestAPIException;
-import org.scrutmydocs.webapp.api.common.data.RestResponse;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.scrutmydocs.webapp.api.settings.rivers.data.BasicRiver;
 
+public class RiverHelper extends AbstractRiverHelper<BasicRiver> {
 
-public class RestResponseRivers extends RestResponse<List<BasicRiver>> {
-	private static final long serialVersionUID = 1L;
-
-	public RestResponseRivers(List<BasicRiver> rivers) {
-		super(rivers);
+	@Override
+	public XContentBuilder addMeta(XContentBuilder xcb, BasicRiver river) throws IOException {
+		return xcb;
 	}
 
-	public RestResponseRivers() {
-		super();
+
+	/**
+	 * We build "dummy" rivers.
+	 */
+	@Override
+	public String type() {
+		return "dummy";
 	}
 
-	public RestResponseRivers(RestAPIException e) {
-		super(e);
-	}
+
+	@Override
+	public BasicRiver parseMeta(BasicRiver river, Map<String, Object> content) {
+		return river;
+	}	
+
 }

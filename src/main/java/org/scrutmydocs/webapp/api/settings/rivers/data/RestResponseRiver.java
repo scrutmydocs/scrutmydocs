@@ -19,24 +19,22 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.data;
 
-import java.util.List;
-
 import org.scrutmydocs.webapp.api.common.RestAPIException;
 import org.scrutmydocs.webapp.api.common.data.RestResponse;
 
 
-public class RestResponseRivers extends RestResponse<List<BasicRiver>> {
+public class RestResponseRiver extends RestResponse<BasicRiver> {
 	private static final long serialVersionUID = 1L;
 
-	public RestResponseRivers(List<BasicRiver> rivers) {
-		super(rivers);
+	public RestResponseRiver(BasicRiver doc) {
+		super(doc);
 	}
 
-	public RestResponseRivers() {
+	public RestResponseRiver() {
 		super();
 	}
 
-	public RestResponseRivers(RestAPIException e) {
+	public RestResponseRiver(RestAPIException e) {
 		super(e);
 	}
 }

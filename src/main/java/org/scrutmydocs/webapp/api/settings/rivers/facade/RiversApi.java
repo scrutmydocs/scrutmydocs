@@ -19,13 +19,17 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.facade;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.scrutmydocs.webapp.api.common.RestAPIException;
 import org.scrutmydocs.webapp.api.common.data.Api;
 import org.scrutmydocs.webapp.api.common.facade.CommonBaseApi;
+import org.scrutmydocs.webapp.api.settings.rivers.data.BasicRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.data.RestResponseRivers;
-import org.scrutmydocs.webapp.service.admin.river.AdminService;
+import org.scrutmydocs.webapp.service.admin.river.AdminRiverService;
+import org.scrutmydocs.webapp.service.admin.river.RiverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,9 +42,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class RiversApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	@Autowired
-	protected AdminService adminService;
-	
+	@Autowired	protected AdminRiverService adminService;
+	@Autowired	protected RiverService riverService;
+
 
 	@Override
 	public Api[] helpApiList() {
@@ -60,6 +64,19 @@ public class RiversApi extends CommonBaseApi {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody RestResponseRivers get() throws Exception {
-		return new RestResponseRivers(new RestAPIException("Method is not yet available."));
+		List<BasicRiver> fsrivers = null;
+		try {
+			fsrivers = adminService.get();
+			
+			// For each river, we must look if it's running or not
+			for (BasicRiver fsRiver : fsrivers) {
+				fsRiver.setStart(riverService.checkState(fsRiver));
+			}
+			
+		} catch (Exception e) {
+			return new RestResponseRivers(new RestAPIException(e));
+		}
+		
+		return new RestResponseRivers(fsrivers);
 	}
 }

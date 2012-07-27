@@ -27,18 +27,18 @@ import org.junit.Test;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.helpers.FSRiverHelper;
-import org.scrutmydocs.webapp.service.admin.river.AdminService;
+import org.scrutmydocs.webapp.service.admin.river.AdminFSRiverService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-public class AdminServiceTest extends AbstractConfigurationTest {
+public class AdminFSRiverServiceTest extends AbstractConfigurationTest {
 
-	@Autowired AdminService adminService;
+	@Autowired AdminFSRiverService adminService;
 	
 	@Test public void test_add_river() throws InterruptedException {
 		Assert.assertNotNull(adminService);
 
-		XContentBuilder xb = FSRiverHelper.toXContent(
+		XContentBuilder xb = new FSRiverHelper().toXContent(
 				new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
 						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false));		
 		
@@ -55,7 +55,7 @@ public class AdminServiceTest extends AbstractConfigurationTest {
 	@Test public void test_get_one_river() throws InterruptedException {
 		Assert.assertNotNull(adminService);
 
-		XContentBuilder xb = FSRiverHelper.toXContent(
+		XContentBuilder xb = new FSRiverHelper().toXContent(
 				new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
 						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false));		
 		

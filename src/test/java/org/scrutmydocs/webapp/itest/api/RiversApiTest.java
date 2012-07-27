@@ -29,7 +29,8 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.scrutmydocs.webapp.api.settings.rivers.data.AbstractRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.data.BasicRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.data.RestResponseRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.data.RestResponseRivers;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 import org.springframework.http.HttpEntity;
@@ -66,12 +67,12 @@ public class RiversApiTest extends AbstractApiTest {
 		assertTrue(output.isOk());
 
 		// We should have at least 3 rivers
-		List<AbstractRiver> rivers = (List<AbstractRiver>) output.getObject();
+		List<BasicRiver> rivers = (List<BasicRiver>) output.getObject();
 		assertNotNull(rivers);
 		
 		int riverMatches = 0;
 		// We should find our 3 rivers
-		for (AbstractRiver river : rivers) {
+		for (BasicRiver river : rivers) {
 			if (river.getId().equals("all_mydummy1") || 
 					river.getId().equals("all_mydummy2") ||
 					river.getId().equals("all_mydummy3")) riverMatches++;
@@ -87,7 +88,7 @@ public class RiversApiTest extends AbstractApiTest {
 	 */
 	protected void addRiver(FSRiver fsriver) {
 		HttpEntity<FSRiver> entity = new HttpEntity<FSRiver>(fsriver);
-		restTemplate.put(buildFullApiUrl("fsrivers/"), entity);
+		restTemplate.put(buildFullApiUrl("fsriver/"), entity);
 	}
 
 	/**
@@ -95,7 +96,7 @@ public class RiversApiTest extends AbstractApiTest {
 	 * @param id River Id
 	 */
 	protected void deleteRiver(String id) {
-		restTemplate.delete(buildFullApiUrl("fsrivers/" + id));
+		restTemplate.delete(buildFullApiUrl("fsriver/" + id));
 	}
 
 	// Setup Methods
