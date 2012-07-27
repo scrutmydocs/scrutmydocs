@@ -28,7 +28,6 @@ import static org.scrutmydocs.webapp.constant.SMDSearchProperties.INDEX_TYPE_DOC
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
@@ -40,11 +39,9 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.facet.terms.TermsFacet;
 import org.elasticsearch.search.facet.terms.TermsFacet.Entry;
 import org.elasticsearch.search.highlight.HighlightField;
-import org.primefaces.model.SortOrder;
 import org.scrutmydocs.webapp.api.search.data.Hit;
 import org.scrutmydocs.webapp.api.search.data.SearchResponse;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.data.Results;
 import org.scrutmydocs.webapp.helpers.FSRiverHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -124,46 +121,6 @@ public class SearchService {
 			logger.debug("/google({}) : {}", search, totalHits);
 
 		return searchResponse;
-
-	}
-
-	@Deprecated
-	public Results google(String search, int first, int pageSize,
-			String sortField, SortOrder sortOrder, Map<String, String> filters) {
-		if (logger.isDebugEnabled())
-			logger.debug("google('{}', {}, {})", search, first, pageSize);
-
-		long totalResults = -1;
-
-		Results results = null;
-		try {
-			QueryBuilder qb;
-			if (search == null || search.trim().length() <= 0) {
-				qb = matchAllQuery();
-			} else {
-				qb = queryString(search);
-			}
-
-			org.elasticsearch.action.search.SearchResponse searchHits = esClient
-					.prepareSearch().setIndices(INDEX_NAME)
-					.setTypes(INDEX_TYPE_DOC)
-					.setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-					.setQuery(qb).setFrom(first).setSize(pageSize)
-					.addHighlightedField("name").addHighlightedField("file")
-					.setHighlighterPreTags("<span class='badge badge-info'>")
-					.setHighlighterPostTags("</span>").execute().actionGet();
-			totalResults = searchHits.getHits().totalHits();
-
-			results = new Results(searchHits);
-
-		} catch (Exception e) {
-			logger.error("/google() : {}", e.getMessage());
-		}
-
-		if (logger.isDebugEnabled())
-			logger.debug("/google({}) : {}", search, totalResults);
-
-		return results;
 
 	}
 

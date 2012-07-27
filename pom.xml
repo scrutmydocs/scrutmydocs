@@ -40,16 +40,13 @@
 		<elasticsearch.version>0.19.8</elasticsearch.version>
 		<spring.elasticsearch.version>0.0.2</spring.elasticsearch.version>
 		<fsriver.version>0.0.2</fsriver.version>
-		<jsf.version>2.1.7</jsf.version>
 		<jackson.version>1.7.1</jackson.version>
 		<guava.version>12.0.1</guava.version>
 		<commons.file-upload.version>1.2</commons.file-upload.version>
 		<log4j.version>1.2.13</log4j.version>
 		<junit.version>4.10</junit.version>
-		<primefaces.rocket.version>1.0.3</primefaces.rocket.version>
 		<commons.io.version>1.4</commons.io.version>
 		<atmosphere.version>0.4.1</atmosphere.version>
-		<primefaces.version>3.3.1</primefaces.version>
 
 		<!-- Plugins versions -->
 		<maven.compiler.version>2.5</maven.compiler.version>
@@ -152,31 +149,7 @@
 			<version>${fsriver.version}</version>
 		</dependency>
 		
-		<!--Primefaces dependencies -->
-		<dependency>
-			<groupId>org.primefaces.themes</groupId>
-			<artifactId>rocket</artifactId>
-			<version>${primefaces.rocket.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>${primefaces.version}</version>
-		</dependency>
-
-
 		<!-- Standard dependencies -->
-		<dependency>
-			<groupId>com.sun.faces</groupId>
-			<artifactId>jsf-api</artifactId>
-			<version>${jsf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.faces</groupId>
-			<artifactId>jsf-impl</artifactId>
-			<version>${jsf.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>

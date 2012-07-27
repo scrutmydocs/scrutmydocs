@@ -30,12 +30,6 @@
 	</welcome-file-list>
 	
 	<servlet>
-		<servlet-name>Faces Servlet</servlet-name>
-		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-
-	<servlet>
 		<servlet-name>scrutmydocs-api</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
@@ -52,11 +46,6 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.jsf</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
 		<servlet-name>scrutmydocs-api</servlet-name>
 		<url-pattern>/1/*</url-pattern>
 	</servlet-mapping>
@@ -71,31 +60,6 @@
 		<url-pattern>/upload/*</url-pattern>
 	</servlet-mapping>
 
-<!-- 	<context-param> -->
-<!-- 		<param-name>contextConfigLocation</param-name> -->
-<!-- 		<param-value>/WEB-INF/search-es-api-servlet.xml</param-value> -->
-<!-- 	</context-param> -->
-	<context-param>
-		<param-name>javax.faces.FACELETS_LIBRARIES</param-name>
-		<param-value>/WEB-INF/composants/scrutmydocs.taglib.xml</param-value>
-	</context-param>
-	<context-param>
-		<param-name>javax.faces.PROJECT_STAGE</param-name>
-		<param-value>Development</param-value>
-	</context-param>
-	<context-param>
-		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-		<param-value>.xhtml</param-value>
-	</context-param>
-	<context-param>
-		<param-name>javax.faces.CHARACTER_ENCODING_KEY</param-name>
-		<param-value>UTF-8</param-value>
-	</context-param>
-	<context-param>
-		<param-name>primefaces.THEME</param-name>
-		<param-value>rocket</param-value>
-	</context-param>
-	
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
@@ -103,13 +67,4 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 	
-	<filter>
-		<filter-name>PrimeFaces FileUpload Filter</filter-name>
-		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
-	</filter>
-	
-	<filter-mapping>
-		<filter-name>PrimeFaces FileUpload Filter</filter-name>
-		<servlet-name>Faces Servlet</servlet-name>
-	</filter-mapping>
 </web-app>
