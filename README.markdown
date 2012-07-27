@@ -507,8 +507,8 @@ A river object looks like:
 	 "name" : "My Dummy River",
 	 "indexname" : "docs",
 	 "typename" : "doc",
-	 "start" : false,
-	 ... plus some metadata depending on each river ...
+	 "start" : false
+	 //, ... plus some metadata depending on each river ...
 }
 ```
 
