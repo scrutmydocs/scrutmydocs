@@ -19,6 +19,7 @@
 
 package org.scrutmydocs.webapp.data.admin.river;
 
+import org.scrutmydocs.webapp.api.settings.rivers.data.AbstractRiver;
 import org.scrutmydocs.webapp.util.StringTools;
 
 
