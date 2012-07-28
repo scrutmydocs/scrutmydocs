@@ -59,6 +59,7 @@
 		<!-- Others properties -->
 		<java.version>1.6</java.version>
 		<encoding>UTF-8</encoding>
+		<BUILD_ID>LOCAL</BUILD_ID>
 		<display_version>${project.version}-${BUILD_ID}</display_version>
 	</properties>
 
@@ -365,7 +366,6 @@
 					<nonFilteredFileExtensions>
 						<nonFilteredFileExtension>gif</nonFilteredFileExtension>
 						<nonFilteredFileExtension>xml</nonFilteredFileExtension>
-						<nonFilteredFileExtension>jsp</nonFilteredFileExtension>
 						<nonFilteredFileExtension>ico</nonFilteredFileExtension>
 						<nonFilteredFileExtension>jpg</nonFilteredFileExtension>
 						<nonFilteredFileExtension>png</nonFilteredFileExtension>
