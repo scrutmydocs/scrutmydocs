@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.itest.api;
+package org.scrutmydocs.webapp.itest.api.settings.rivers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -33,6 +33,7 @@ import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.basic.data.RestResponseRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.basic.data.RestResponseRivers;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
+import org.scrutmydocs.webapp.itest.api.AbstractApiTest;
 import org.springframework.http.HttpEntity;
 
 

@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.itest.api;
+package org.scrutmydocs.webapp.itest.api.settings.rivers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -31,49 +31,71 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.fs.data.RestResponseFSRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.fs.data.RestResponseFSRivers;
+import org.scrutmydocs.webapp.api.common.data.RestResponse;
+import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.data.AbstractFSRiver;
+import org.scrutmydocs.webapp.itest.api.AbstractApiTest;
 import org.springframework.http.HttpEntity;
 
 
 /**
- * Test for module "settings/rivers/fsriver/"
+ * Abstract Test for module "settings/rivers/T/" where T depends on implementation
  * @author David Pilato
  */
-public class FSRiversApiTest extends AbstractApiTest {
+public abstract class AbstractFSRiversApiTest<T extends AbstractFSRiver, U extends RestResponse<T>, V extends RestResponse<List<T>>> extends AbstractApiTest {
 
 	private List<String> _fsRivers = null;
 	
 	/**
-	 * Module is "settings/rivers/fs/"
+	 * @return The type you want to test
+	 */
+	abstract protected String type();
+	
+	/**
+	 * @return The RestResponse<T> class implementation for your type
+	 */
+	abstract protected Class<U> getClassForSingleResponse();
+	
+	/**
+	 * @return The RestResponse<List<T>>> class implementation for your type
+	 */
+	abstract protected Class<V> getClassForMultipleResponse();
+	
+	/**
+	 * Module is "settings/rivers/abstractfs/" where abstractfs
+	 * is replaced with {@link #type()}
 	 */
 	@Override
 	protected String getModuleApiUrl() {
-		return "settings/rivers/fs/";
+		return "settings/rivers/" + type() + "/";
 	}
 
+	/**
+	 * Build a river instance of your type
+	 * @param name
+	 */
+	abstract protected T buildRiverInstance(String name); 
+	
 	@Test
 	public void get_all() throws Exception {
 		// Add 3 rivers
-		setupAddRiver(new FSRiver("all_mydummy1", "/dummydir1", 30L));
-		setupAddRiver(new FSRiver("all_mydummy2", "/dummydir2", 60L));
-		setupAddRiver(new FSRiver("all_mydummy3", "/dummydir3", 90L));
+		setupAddRiver(buildRiverInstance("all_mydummy1"));
+		setupAddRiver(buildRiverInstance("all_mydummy2"));
+		setupAddRiver(buildRiverInstance("all_mydummy3"));
 		
 		
 		String url = buildFullApiUrl();
 
-		RestResponseFSRivers output = restTemplate.getForObject(url, RestResponseFSRivers.class);
+		V output = restTemplate.getForObject(url, getClassForMultipleResponse());
 		assertNotNull(output);
 		assertTrue(output.isOk());
 
 		// We should have at least 3 rivers
-		List<FSRiver> fsRivers = (List<FSRiver>) output.getObject();
+		List<T> fsRivers = (List<T>) output.getObject();
 		assertNotNull(fsRivers);
 		
 		int riverMatches = 0;
 		// We should find our 3 rivers
-		for (FSRiver fsRiver : fsRivers) {
+		for (T fsRiver : fsRivers) {
 			if (fsRiver.getId().equals("all_mydummy1") || 
 					fsRiver.getId().equals("all_mydummy2") ||
 					fsRiver.getId().equals("all_mydummy3")) riverMatches++;
@@ -85,41 +107,39 @@ public class FSRiversApiTest extends AbstractApiTest {
 	@Test
 	public void get_one() throws Exception {
 		// Add one river
-		FSRiver fsRiver = new FSRiver("one_mydummy1", "/dummydir1", 30L);
+		T fsRiver = buildRiverInstance("one_mydummy1");
 		setupAddRiver(fsRiver);
 		
 		String url = buildFullApiUrl("one_mydummy1");
-		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		U output = restTemplate.getForObject(url, getClassForSingleResponse());
 		assertNotNull(output);
 		assertTrue(output.isOk());
-		assertEquals(fsRiver.getId(), ((FSRiver)output.getObject()).getId());
-		assertEquals(fsRiver.getUrl(), ((FSRiver)output.getObject()).getUrl());
-		assertEquals(fsRiver.getUpdateRate(), ((FSRiver)output.getObject()).getUpdateRate());
+		assertEquals(fsRiver.getId(), ((T)output.getObject()).getId());
+		assertEquals(fsRiver.getUrl(), ((T)output.getObject()).getUrl());
+		assertEquals(fsRiver.getUpdateRate(), ((T)output.getObject()).getUpdateRate());
 	}
 
 	@Test
 	public void push_with_post() throws Exception {
-		FSRiver fsRiver = new FSRiver();
-		fsRiver.setId("post_mydummyfs");
+		T fsRiver = buildRiverInstance("post_mydummyfs");
 		
 		// We just add the created river to be cleaned after test
 		_fsRivers.add("post_mydummyfs");
 		
-		RestResponseFSRiver response = restTemplate.postForObject(buildFullApiUrl(),
-				fsRiver, RestResponseFSRiver.class, new Object[] {});
+		U response = restTemplate.postForObject(buildFullApiUrl(),
+				fsRiver, getClassForSingleResponse(), new Object[] {});
 		assertNotNull(response);
 		assertTrue(response.isOk());
 	}
 	
 	@Test
 	public void push_with_put() throws Exception {
-		FSRiver fsRiver = new FSRiver();
-		fsRiver.setId("put_mydummyfs");
+		T fsRiver = buildRiverInstance("put_mydummyfs");
 		
 		// We just add the created river to be cleaned after test
 		_fsRivers.add("put_mydummyfs");
 		
-		HttpEntity<FSRiver> entity = new HttpEntity<FSRiver>(fsRiver);
+		HttpEntity<T> entity = new HttpEntity<T>(fsRiver);
 		restTemplate.put(buildFullApiUrl(), entity);
 	}
 
@@ -127,7 +147,7 @@ public class FSRiversApiTest extends AbstractApiTest {
 	@Test
 	public void start_non_existing_river() throws Exception {
 		String url = buildFullApiUrl("start_mydummy/start");
-		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		U output = restTemplate.getForObject(url, getClassForSingleResponse());
 		assertNotNull(output);
 		assertFalse(output.isOk());
 	}
@@ -135,57 +155,57 @@ public class FSRiversApiTest extends AbstractApiTest {
 	@Test
 	public void stop_non_existing_river() throws Exception {
 		String url = buildFullApiUrl("stop_mydummy/stop");
-		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		U output = restTemplate.getForObject(url, getClassForSingleResponse());
 		assertNotNull(output);
 		assertFalse(output.isOk());
 	}
 
 	@Test
 	public void start_and_stop_river() throws Exception {
-		FSRiver fsRiver = new FSRiver("start_stop_mydummy", "/thisdirshouldnotexist", 30L);
+		T fsRiver = buildRiverInstance("start_stop_mydummy");
 		setupAddRiver(fsRiver);
 
 		String url = buildFullApiUrl("start_stop_mydummy/start");
-		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		U output = restTemplate.getForObject(url, getClassForSingleResponse());
 		assertNotNull(output);
 		assertTrue(output.isOk());
 
 		url = buildFullApiUrl("start_stop_mydummy/stop");
-		output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		output = restTemplate.getForObject(url, getClassForSingleResponse());
 		assertNotNull(output);
 		assertTrue(output.isOk());
 	}
 
 	@Test
 	public void check_running_status_river() throws Exception {
-		FSRiver fsRiver = new FSRiver("start_stop_mydummy", "/thisdirshouldnotexist", 30L);
+		T fsRiver = buildRiverInstance("start_stop_mydummy");
 		setupAddRiver(fsRiver);
 
 		String url = buildFullApiUrl("start_stop_mydummy/start");
-		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		U output = restTemplate.getForObject(url, getClassForSingleResponse());
 		assertNotNull(output);
 		assertTrue(output.isOk());
 		
 		// We get now the river status
 		url = buildFullApiUrl("start_stop_mydummy");
-		output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		output = restTemplate.getForObject(url, getClassForSingleResponse());
 		assertNotNull(output);
 		assertTrue(output.isOk());
-		assertTrue(((FSRiver)output.getObject()).isStart());
+		assertTrue(((T)output.getObject()).isStart());
 		
 		url = buildFullApiUrl("start_stop_mydummy/stop");
-		output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		output = restTemplate.getForObject(url, getClassForSingleResponse());
 		assertNotNull(output);
 		assertTrue(output.isOk());
 	}
 
 	@Test
 	public void delete_running_river_should_stop_it() throws Exception {
-		FSRiver fsRiver = new FSRiver("stop_running_mydummy", "/thisdirshouldnotexist", 30L);
+		T fsRiver = buildRiverInstance("stop_running_mydummy");
 		addRiver(fsRiver);
 
 		String url = buildFullApiUrl("stop_running_mydummy/start");
-		RestResponseFSRiver output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		U output = restTemplate.getForObject(url, getClassForSingleResponse());
 		assertNotNull(output);
 		assertTrue(output.isOk());
 		
@@ -194,7 +214,7 @@ public class FSRiversApiTest extends AbstractApiTest {
 		
 		// We get now the river status
 		url = buildFullApiUrl("stop_running_mydummy");
-		output = restTemplate.getForObject(url, RestResponseFSRiver.class);
+		output = restTemplate.getForObject(url, getClassForSingleResponse());
 		assertNotNull(output);
 		assertTrue(output.isOk());
 		
@@ -207,10 +227,10 @@ public class FSRiversApiTest extends AbstractApiTest {
 	// Utility methods
 	/**
 	 * Add a river
-	 * @param fsriver
+	 * @param fsRiver
 	 */
-	protected void addRiver(FSRiver fsriver) {
-		HttpEntity<FSRiver> entity = new HttpEntity<FSRiver>(fsriver);
+	protected void addRiver(T fsRiver) {
+		HttpEntity<T> entity = new HttpEntity<T>(fsRiver);
 		restTemplate.put(buildFullApiUrl(), entity);
 	}
 
@@ -235,7 +255,7 @@ public class FSRiversApiTest extends AbstractApiTest {
 	 * Prepare a test case : Add a river and add it to the rivers to be released at end
 	 * @param fsriver
 	 */
-	protected void setupAddRiver(FSRiver fsriver) {
+	protected void setupAddRiver(T fsriver) {
 		addRiver(fsriver);
 		_fsRivers.add(fsriver.getId());
 	}
