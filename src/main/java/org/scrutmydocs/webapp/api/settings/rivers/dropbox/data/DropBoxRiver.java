@@ -19,7 +19,7 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.dropbox.data;
 
-import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.data.AbstractFSRiver;
 import org.scrutmydocs.webapp.util.StringTools;
 
 
@@ -30,16 +30,11 @@ import org.scrutmydocs.webapp.util.StringTools;
  * @author PILATO
  *
  */
-public class DropBoxRiver extends BasicRiver {
+public class DropBoxRiver extends AbstractFSRiver {
 	private static final long serialVersionUID = 1L;
 	
 	private String token;
 	private String secret;
-	private String url;
-	private Long updateRate;
-	private String includes;
-	private String excludes;
-	private String analyzer;
 	
 	/**
 	 * We implement here a "dropbox" river
@@ -61,12 +56,9 @@ public class DropBoxRiver extends BasicRiver {
 	 * @param updateRate Update Rate (in seconds)
 	 */
 	public DropBoxRiver(String id, String token, String secret, String url, Long updateRate) {
-		super(id);
+		super(id, url, updateRate);
 		this.token = token;
 		this.secret = secret;
-		this.url = url;
-		this.updateRate = updateRate;
-		this.analyzer = "standard";
 	}
 
 
@@ -103,80 +95,11 @@ public class DropBoxRiver extends BasicRiver {
 	 */
 	public DropBoxRiver(String id, String indexname, String typename, String name,
 			String token, String secret, String url, Long updateRate, String includes, String excludes, String analyzer, boolean started) {
-		super(id, indexname, typename, name, started);
+		super(id, indexname, typename, name, url, updateRate, includes, excludes, analyzer, started);
 		this.token = token;
 		this.secret = secret;
-		this.url = url;
-		this.updateRate = updateRate;
-		this.includes = includes;
-		this.excludes = excludes;
-		this.analyzer = analyzer;
 	}
 
-	/**
-	 * @return URL where to fetch content
-	 */
-	public String getUrl() {
-		return url;
-	}
-	
-	/**
-	 * @param url URL where to fetch content
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	
-	/**
-	 * @return Update Rate (in seconds)
-	 */
-	public Long getUpdateRate() {
-		return updateRate;
-	}
-	
-	/**
-	 * @param updateRate Update Rate (in seconds)
-	 */
-	public void setUpdateRate(Long updateRate) {
-		this.updateRate = updateRate;
-	}
-
-	/**
-	 * @return Include list (comma separator)
-	 */
-	public String getIncludes() {
-		return includes;
-	}
-
-	/**
-	 * @param includes Include list (comma separator)
-	 */
-	public void setIncludes(String includes) {
-		this.includes = includes;
-	}
-
-	/**
-	 * @return Exclude list (comma separator)
-	 */
-	public String getExcludes() {
-		return excludes;
-	}
-
-	/**
-	 * @param excludes Exclude list (comma separator)
-	 */
-	public void setExcludes(String excludes) {
-		this.excludes = excludes;
-	}
-
-	public String getAnalyzer() {
-		return analyzer;
-	}
-
-	public void setAnalyzer(String analyzer) {
-		this.analyzer = analyzer;
-	}
-	
 	/**
 	 * @return DropBox Token
 	 */

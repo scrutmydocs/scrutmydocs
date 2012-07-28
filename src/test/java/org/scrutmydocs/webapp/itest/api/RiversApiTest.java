@@ -88,7 +88,7 @@ public class RiversApiTest extends AbstractApiTest {
 	 */
 	protected void addRiver(FSRiver fsriver) {
 		HttpEntity<FSRiver> entity = new HttpEntity<FSRiver>(fsriver);
-		restTemplate.put(buildFullApiUrl("fsriver/"), entity);
+		restTemplate.put(buildFullApiUrl("fs/"), entity);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class RiversApiTest extends AbstractApiTest {
 	 * @param id River Id
 	 */
 	protected void deleteRiver(String id) {
-		restTemplate.delete(buildFullApiUrl("fsriver/" + id));
+		restTemplate.delete(buildFullApiUrl("fs/" + id));
 	}
 
 	// Setup Methods

@@ -121,6 +121,7 @@ public abstract class AbstractRiverHelper<T extends BasicRiver> {
 			river.setId(getSingleStringValue(type+".name", content));
 			river.setName(getSingleStringValue(type+".name", content));
 			
+			// We parse specific metadata depending on the river type
 			river = parseMeta(river, content);
 			
 			// Then we dig into index

@@ -130,13 +130,9 @@ public abstract class AdminRiverAbstractService<T extends BasicRiver> implements
 		if (logger.isDebugEnabled()) logger.debug("update({})", river);
 		XContentBuilder xb = getHelper().toXContent(river);		
 		
-		try {
-			client.prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, river.getId()).setSource(xb).setRefresh(true)
-					.execute().actionGet();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		client.prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, river.getId()).setSource(xb).setRefresh(true)
+				.execute().actionGet();
+		
 		if (logger.isDebugEnabled()) logger.debug("/update({})", river);
 	}
 	
@@ -170,6 +166,20 @@ public abstract class AdminRiverAbstractService<T extends BasicRiver> implements
 		riverService.start(river, getHelper().toXContent(river));
 		
 		if (logger.isDebugEnabled()) logger.debug("/start({})", river);		
+	}
+	
+	/**
+	 * Stop a river
+	 * @param river
+	 */
+	public void stop(T river) {
+		if (logger.isDebugEnabled()) logger.debug("stop({})", river);
+		// We only add the river if the river is started
+		if (river == null || !river.isStart()) return;
+		
+		riverService.stop(river);
+		
+		if (logger.isDebugEnabled()) logger.debug("/stop({})", river);		
 	}
 	
 	

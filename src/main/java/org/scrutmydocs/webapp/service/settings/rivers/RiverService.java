@@ -31,8 +31,8 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.data.AbstractFSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.helper.FSRiverHelper;
 import org.scrutmydocs.webapp.util.ESHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +81,7 @@ public class RiverService implements Serializable {
 	
 		return false;
 	}
-	
+
 	/**
 	 * Start a river
 	 * @param river The river to start
@@ -90,9 +90,9 @@ public class RiverService implements Serializable {
 	public void start(BasicRiver river, XContentBuilder xb) {
 		if (logger.isDebugEnabled()) logger.debug("add({})", river);
 		
-		// TODO By now we keep the compatibility with previous version
-		if (river instanceof FSRiver) {
-			FSRiver fsriver = (FSRiver) river;
+		// If our river is a FS River for document, we can manage the index creation
+		if (river instanceof AbstractFSRiver) {
+			AbstractFSRiver fsriver = (AbstractFSRiver) river;
 			createIndexIfNeeded(fsriver);
 		}
 		
@@ -170,16 +170,16 @@ public class RiverService implements Serializable {
 	/**
 	 * Create an index for the river if needed.
 	 * <br>It helps to manage language analyzers
-	 * @param river
+	 * @param fsriver
 	 */
-	public void createIndexIfNeeded(FSRiver river) {
-		if (logger.isDebugEnabled()) logger.debug("createIndexIfNeeded({})", river);
+	public void createIndexIfNeeded(AbstractFSRiver fsriver) {
+		if (logger.isDebugEnabled()) logger.debug("createIndexIfNeeded({})", fsriver);
 		
 		// We only add the river if the river is started
-		if (river == null || !river.isStart()) return;
+		if (fsriver == null || !fsriver.isStart()) return;
 		
-		ESHelper.createIndexIfNeeded(client, river.getIndexname(), river.getTypename(), river.getAnalyzer());
+		ESHelper.createIndexIfNeeded(client, fsriver.getIndexname(), fsriver.getTypename(), fsriver.getAnalyzer());
 		
-		if (logger.isDebugEnabled()) logger.debug("/createIndexIfNeeded({})", river);
+		if (logger.isDebugEnabled()) logger.debug("/createIndexIfNeeded({})", fsriver);
 	}
 }

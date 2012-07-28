@@ -19,46 +19,14 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.dropbox.helper;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.support.XContentMapValues;
-import org.scrutmydocs.webapp.api.settings.rivers.AbstractRiverHelper;
+import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.helper.AbstractFSRiverHelper;
 import org.scrutmydocs.webapp.api.settings.rivers.dropbox.data.DropBoxRiver;
 
-public class DropBoxRiverHelper extends AbstractRiverHelper<DropBoxRiver> {
-
-	
-	/**
-	 * We manage :
-	 * <ul>
-	 * <li>token
-	 * <li>secret
-	 * <li>url
-	 * <li>update_rate
-	 * <li>includes
-	 * <li>excludes
-	 * <li>analyzer
-	 * </ul>
-	 */
-	@Override
-	public XContentBuilder addMeta(XContentBuilder xcb, DropBoxRiver river) throws IOException {
-		xcb	
-			.field("token", river.getToken())
-			.field("secret", river.getSecret())
-			.field("url", river.getUrl())
-			.field("update_rate", river.getUpdateRate() * 1000)
-			.field("includes", river.getIncludes())
-			.field("excludes", river.getExcludes())
-			.field("analyzer", river.getAnalyzer());
-
-		return xcb;
-	}
-
+public class DropBoxRiverHelper extends AbstractFSRiverHelper<DropBoxRiver> {
 
 	/**
 	 * We build "dropbox" rivers.
@@ -74,11 +42,24 @@ public class DropBoxRiverHelper extends AbstractRiverHelper<DropBoxRiver> {
 	 * <ul>
 	 * <li>token
 	 * <li>secret
-	 * <li>url
-	 * <li>update_rate
-	 * <li>includes
-	 * <li>excludes
-	 * <li>analyzer
+	 * </ul>
+	 */
+	@Override
+	public XContentBuilder addFSMeta(XContentBuilder xcb, DropBoxRiver river)
+			throws IOException {
+		xcb	
+			.field("token", river.getToken())
+			.field("secret", river.getSecret());
+
+		return xcb;
+	}
+
+
+	/**
+	 * We manage :
+	 * <ul>
+	 * <li>token
+	 * <li>secret
 	 * </ul>
 	 * JSON definiton :<pre>
 {
@@ -101,77 +82,10 @@ public class DropBoxRiverHelper extends AbstractRiverHelper<DropBoxRiver> {
 </pre>
 	 */
 	@Override
-	public DropBoxRiver parseMeta(DropBoxRiver river, Map<String, Object> content) {
-		river.setUrl(getSingleStringValue("dropbox.url", content));
-		river.setUpdateRate(getSingleLongValue("dropbox.update_rate", content) / 1000);
-
+	public DropBoxRiver parseFSMeta(DropBoxRiver river,
+			Map<String, Object> content) {
 		river.setToken(getSingleStringValue("dropbox.token", content));
 		river.setSecret(getSingleStringValue("dropbox.secret", content));
-
-		// TODO Manage includes/excludes when arrays
-		river.setIncludes(getSingleStringValue("dropbox.includes", content));
-		river.setExcludes(getSingleStringValue("dropbox.excludes", content));
-		
-		river.setAnalyzer(getSingleStringValue("dropbox.analyzer", content));
-		
 		return river;
-	}	
-	
-	/**
-	 * Build a river mapping for DropBox
-	 * @param river DropBoxRiver used to generate mapping
-	 * @return An ES xcontent
-	 */
-	public static XContentBuilder toRiverMapping(DropBoxRiver river) {
-		XContentBuilder xb = null;
-		try {
-			xb = jsonBuilder()
-					.startObject()
-						.startObject(river.getTypename())
-							.startObject("properties")
-								.startObject("file")
-									.field("type", "attachment")
-									.field("path", "full")
-									.startObject("fields")
-										.startObject("file")
-											.field("type", "string")
-											.field("store", "yes")
-											.field("term_vector", "with_positions_offsets")
-											.field("analyzer", river.getAnalyzer())
-										.endObject()
-										.startObject("author").field("type", "string").endObject()
-										.startObject("title").field("type", "string").field("store", "yes").endObject()
-										.startObject("name").field("type", "string").endObject()
-										.startObject("date").field("type", "date").field("format", "dateOptionalTime").endObject()
-										.startObject("keywords").field("type", "string").endObject()
-										.startObject("content_type").field("type", "string").endObject()
-									.endObject()
-								.endObject()
-								.startObject("name").field("type", "string").field("analyzer", "keyword").endObject()
-								.startObject("pathEncoded").field("type", "string").field("analyzer", "keyword").endObject()
-								.startObject("postDate").field("type", "date").field("format", "dateOptionalTime").endObject()
-								.startObject("rootpath").field("type", "string").field("analyzer", "keyword").endObject()
-								.startObject("virtualpath").field("type", "string").field("analyzer", "keyword").endObject()
-							.endObject()
-						.endObject()
-					.endObject();
-		} catch (IOException e) {
-			// TODO Log when error
-		}		
-		return xb;
-	}
-
-	
-	public static String getSingleStringValue(String path, Map<String, Object> content) {
-		List<Object> obj = XContentMapValues.extractRawValues(path, content);
-		if(obj.isEmpty()) 
-			return null;
-		else 
-			return ((String) obj.get(0));
-	}
-	
-	public static Long getSingleLongValue(String path, Map<String, Object> content) {
-		List<Object> obj = XContentMapValues.extractRawValues(path, content);
-		return ((Integer) obj.get(0)).longValue();
 	}
 }

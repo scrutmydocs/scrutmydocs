@@ -15,7 +15,7 @@ import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.scrutmydocs.webapp.api.settings.rivers.fs.helper.FSRiverHelper;
+import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.helper.AbstractFSRiverHelper;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 
 
@@ -136,7 +136,7 @@ public class ESHelper {
 			pushMapping(client, indexName, SMDSearchProperties.INDEX_TYPE_FOLDER, null);
 			
 			// We create the mapping for the doc type
-			pushMapping(client, indexName, typeName, FSRiverHelper.toRiverMapping(typeName, analyzerName));
+			pushMapping(client, indexName, typeName, AbstractFSRiverHelper.toRiverMapping(typeName, analyzerName));
 		} catch (Exception e) {
 			logger.warn("createIndexIfNeeded() : Exception raised : {}", e.getClass());
 			if (logger.isDebugEnabled()) logger.debug("- Exception stacktrace :", e);

@@ -46,11 +46,11 @@ public class FSRiversApiTest extends AbstractApiTest {
 	private List<String> _fsRivers = null;
 	
 	/**
-	 * Module is "settings/rivers/fsriver/"
+	 * Module is "settings/rivers/fs/"
 	 */
 	@Override
 	protected String getModuleApiUrl() {
-		return "settings/rivers/fsriver/";
+		return "settings/rivers/fs/";
 	}
 
 	@Test
