@@ -63,7 +63,7 @@ var initRiverFS = function(){
 	$("#btnFSRiverUpdate").click(doUpdateFSRiver);
 
 	// Load rivers
-	$.getJSON("1/settings/rivers/fsriver",function(json) {
+	$.getJSON("1/settings/rivers/fs",function(json) {
 		// Handle errors
 		if (!json.ok) {
 			showRestError(json);
@@ -102,7 +102,7 @@ var openFSRiver = function(id) {
 	$("#"+id).addClass("active");
 
 	var riverId = id.substring("river-fs-".length);
-	$.getJSON("1/settings/rivers/fsriver/" + riverId, function(json) {
+	$.getJSON("1/settings/rivers/fs/" + riverId, function(json) {
 		// Handle errors
 		if (!json.ok) {
 			showRestError(json);
@@ -185,7 +185,7 @@ var doCreateFSRiver = function(e) {
 
 	var data = getFSRiver();
 	data.start = false;
-	$.postJSON("1/settings/rivers/fsriver/", data, function(json) {
+	$.postJSON("1/settings/rivers/fs/", data, function(json) {
 		// Handle errors
 		if (!json.ok) {
 			showRestError(json);
@@ -215,7 +215,7 @@ var doCreateFSRiver = function(e) {
 var doDeleteFSRiver = function(e) {
 	var data = getFSRiver();
 	$.ajax({
-		url: "1/settings/rivers/fsriver/" + data.id,
+		url: "1/settings/rivers/fs/" + data.id,
 		type: "DELETE",
 		success: function(json) {
 			// Handle errors
@@ -248,7 +248,7 @@ var doUpdateFSRiver = function(e) {
 	}
 	
 	var data = getFSRiver();
-	$.postJSON("1/settings/rivers/fsriver/", data, function(json) {
+	$.postJSON("1/settings/rivers/fs/", data, function(json) {
 		// Handle errors
 		if (!json.ok) {
 			showRestError(json);
@@ -274,7 +274,7 @@ var doStartFSRiver = function(e) {
 	$("#btnFSRiverStart").button("loading");
 	var data = getFSRiver();
 	data.start = true;
-	$.getJSON("1/settings/rivers/fsriver/" + data.id + "/start", null, function (json){
+	$.getJSON("1/settings/rivers/fs/" + data.id + "/start", null, function (json){
 		// Handle errors
 		if (!json.ok) {
 			showRestError(json);
@@ -301,7 +301,7 @@ var doStopFSRiver = function(e) {
 	$("#btnFSRiverStop").button("loading");
 	var data = getFSRiver();
 	data.start = false;
-	$.getJSON("1/settings/rivers/fsriver/" + data.id + "/stop", null, function (json){
+	$.getJSON("1/settings/rivers/fs/" + data.id + "/stop", null, function (json){
 		// Handle errors
 		if (!json.ok) {
 			showRestError(json);
