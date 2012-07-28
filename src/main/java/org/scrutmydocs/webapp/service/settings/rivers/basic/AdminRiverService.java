@@ -17,28 +17,31 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.test;
+package org.scrutmydocs.webapp.service.settings.rivers.basic;
 
-
-import org.elasticsearch.client.Client;
-import org.elasticsearch.node.Node;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.scrutmydocs.webapp.api.settings.rivers.AbstractRiverHelper;
+import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.basic.helper.BasicRiverHelper;
+import org.scrutmydocs.webapp.service.settings.rivers.AdminRiverAbstractService;
+import org.springframework.stereotype.Component;
 
 /**
- * Just launch the Spring factory
+ * River Service Implementation for all Rivers
  * @author PILATO
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
-		"classpath:annotation-context.xml"
-		})
-public abstract class AbstractConfigurationTest {
-	
-	@Autowired protected Node node;
+@Component
+public class AdminRiverService extends AdminRiverAbstractService<BasicRiver> {
+	private static final long serialVersionUID = 1L;
 
-	@Autowired	protected Client client;
+	@Override
+	public AbstractRiverHelper<BasicRiver> getHelper() {
+		return new BasicRiverHelper();
+	}
+
+	@Override
+	public BasicRiver buildInstance() {
+		return new BasicRiver();
+	}
+
 }

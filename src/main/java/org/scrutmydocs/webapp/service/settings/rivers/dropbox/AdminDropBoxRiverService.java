@@ -17,28 +17,31 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.test;
+package org.scrutmydocs.webapp.service.settings.rivers.dropbox;
 
-
-import org.elasticsearch.client.Client;
-import org.elasticsearch.node.Node;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.scrutmydocs.webapp.api.settings.rivers.AbstractRiverHelper;
+import org.scrutmydocs.webapp.api.settings.rivers.dropbox.data.DropBoxRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.dropbox.helper.DropBoxRiverHelper;
+import org.scrutmydocs.webapp.service.settings.rivers.AdminRiverAbstractService;
+import org.springframework.stereotype.Component;
 
 /**
- * Just launch the Spring factory
+ * River Service Implementation for DropBox Rivers
  * @author PILATO
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {
-		"classpath:annotation-context.xml"
-		})
-public abstract class AbstractConfigurationTest {
-	
-	@Autowired protected Node node;
+@Component
+public class AdminDropBoxRiverService extends AdminRiverAbstractService<DropBoxRiver> {
+	private static final long serialVersionUID = 1L;
 
-	@Autowired	protected Client client;
+	@Override
+	public AbstractRiverHelper<DropBoxRiver> getHelper() {
+		return new DropBoxRiverHelper();
+	}
+
+	@Override
+	public DropBoxRiver buildInstance() {
+		return new DropBoxRiver();
+	}
+
 }

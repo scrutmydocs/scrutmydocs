@@ -31,9 +31,9 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.RestResponseFSRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.RestResponseFSRivers;
+import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.fs.data.RestResponseFSRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.fs.data.RestResponseFSRivers;
 import org.springframework.http.HttpEntity;
 
 

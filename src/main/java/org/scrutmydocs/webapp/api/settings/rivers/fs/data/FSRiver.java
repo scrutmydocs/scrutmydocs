@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.api.settings.rivers.dropbox.data;
+package org.scrutmydocs.webapp.api.settings.rivers.fs.data;
 
 import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
 import org.scrutmydocs.webapp.util.StringTools;
@@ -26,44 +26,38 @@ import org.scrutmydocs.webapp.util.StringTools;
 
 
 /**
- * Manage DropBoxRiver Rivers metadata
+ * Manage Filesystem Rivers metadata
  * @author PILATO
  *
  */
-public class DropBoxRiver extends BasicRiver {
+public class FSRiver extends BasicRiver {
 	private static final long serialVersionUID = 1L;
 	
-	private String token;
-	private String secret;
 	private String url;
 	private Long updateRate;
 	private String includes;
 	private String excludes;
 	private String analyzer;
-	
+
 	/**
-	 * We implement here a "dropbox" river
+	 * We implement here a "fs" river
 	 */
 	@Override
 	public String getType() {
-		return "dropbox";
+		return "fs";
 	}
 
-	public DropBoxRiver() {
-		this(null, null, "tmp", "/tmp", 60L);
+	public FSRiver() {
+		this("tmp", "/tmp", 60L);
 	}
 	
 	/**
 	 * @param id The unique id of this river
-	 * @param token Dropbox Token
-	 * @param secret Dropbox Secret
 	 * @param url URL where to fetch content
 	 * @param updateRate Update Rate (in seconds)
 	 */
-	public DropBoxRiver(String id, String token, String secret, String url, Long updateRate) {
+	public FSRiver(String id, String url, Long updateRate) {
 		super(id);
-		this.token = token;
-		this.secret = secret;
 		this.url = url;
 		this.updateRate = updateRate;
 		this.analyzer = "standard";
@@ -75,16 +69,14 @@ public class DropBoxRiver extends BasicRiver {
 	 * @param indexname The ES index where we store our docs
 	 * @param typename The ES type we use to store docs
 	 * @param name The human readable name for this river
-	 * @param token Dropbox Token
-	 * @param secret Dropbox Secret
 	 * @param url URL where to fetch content
 	 * @param updateRate Update Rate (in seconds)
 	 * @param analyzer Analyzer to use
 	 * @param started Is the river already started ?
 	 */
-	public DropBoxRiver(String id, String indexname, String typename, String name,
-			String token, String secret, String url, Long updateRate, String analyzer, boolean started) {
-		this(id, indexname, typename, name, token, secret, url, updateRate, null, null, analyzer, started);
+	public FSRiver(String id, String indexname, String typename, String name,
+			String url, Long updateRate, String analyzer, boolean started) {
+		this(id, indexname, typename, name, url, updateRate, null, null, analyzer, started);
 	}
 
 	/**
@@ -92,8 +84,6 @@ public class DropBoxRiver extends BasicRiver {
 	 * @param indexname The ES index where we store our docs
 	 * @param typename The ES type we use to store docs
 	 * @param name The human readable name for this river
-	 * @param token Dropbox Token
-	 * @param secret Dropbox Secret
 	 * @param url URL where to fetch content
 	 * @param updateRate Update Rate (in seconds)
 	 * @param includes Include list (comma separator)
@@ -101,11 +91,9 @@ public class DropBoxRiver extends BasicRiver {
 	 * @param analyzer Analyzer to use
 	 * @param started Is the river already started ?
 	 */
-	public DropBoxRiver(String id, String indexname, String typename, String name,
-			String token, String secret, String url, Long updateRate, String includes, String excludes, String analyzer, boolean started) {
+	public FSRiver(String id, String indexname, String typename, String name,
+			String url, Long updateRate, String includes, String excludes, String analyzer, boolean started) {
 		super(id, indexname, typename, name, started);
-		this.token = token;
-		this.secret = secret;
 		this.url = url;
 		this.updateRate = updateRate;
 		this.includes = includes;
@@ -177,34 +165,6 @@ public class DropBoxRiver extends BasicRiver {
 		this.analyzer = analyzer;
 	}
 	
-	/**
-	 * @return DropBox Token
-	 */
-	public String getToken() {
-		return token;
-	}
-
-	/**
-	 * @param token DropBox Token
-	 */
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	/**
-	 * @return DropBox Secret
-	 */
-	public String getSecret() {
-		return secret;
-	}
-
-	/**
-	 * @param secret DropBox Secret
-	 */
-	public void setSecret(String secret) {
-		this.secret = secret;
-	}
-
 	@Override
 	public String toString() {
 		return StringTools.toString(this);

@@ -17,24 +17,35 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.test;
+package org.scrutmydocs.webapp.api.settings.rivers.basic.helper;
 
 import java.io.IOException;
+import java.util.Map;
 
-import junit.framework.Assert;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.scrutmydocs.webapp.api.settings.rivers.AbstractRiverHelper;
+import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
 
-import org.junit.Test;
-import org.scrutmydocs.webapp.configuration.ScrutMyDocsProperties;
-import org.scrutmydocs.webapp.util.PropertyScanner;
+public class BasicRiverHelper extends AbstractRiverHelper<BasicRiver> {
 
-
-public class PropertyScannerTest {
-
-	@Test public void test_scan_for_home_dir() throws IOException {
-		ScrutMyDocsProperties myprops = PropertyScanner.scanPropertyFile();
-		Assert.assertNotNull(myprops);
-		Assert.assertNotNull(myprops.getClusterName());
-		Assert.assertNotNull(myprops.getPathData());
+	@Override
+	public XContentBuilder addMeta(XContentBuilder xcb, BasicRiver river) throws IOException {
+		return xcb;
 	}
-	
+
+
+	/**
+	 * We build "dummy" rivers.
+	 */
+	@Override
+	public String type() {
+		return "dummy";
+	}
+
+
+	@Override
+	public BasicRiver parseMeta(BasicRiver river, Map<String, Object> content) {
+		return river;
+	}	
+
 }

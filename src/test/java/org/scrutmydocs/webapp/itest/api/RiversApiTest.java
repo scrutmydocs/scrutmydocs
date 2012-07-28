@@ -29,10 +29,10 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.scrutmydocs.webapp.api.settings.rivers.data.BasicRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.data.RestResponseRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.data.RestResponseRivers;
-import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.basic.data.RestResponseRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.basic.data.RestResponseRivers;
+import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
 import org.springframework.http.HttpEntity;
 
 

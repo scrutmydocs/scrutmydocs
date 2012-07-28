@@ -41,8 +41,8 @@ import org.elasticsearch.search.facet.terms.TermsFacet.Entry;
 import org.elasticsearch.search.highlight.HighlightField;
 import org.scrutmydocs.webapp.api.search.data.Hit;
 import org.scrutmydocs.webapp.api.search.data.SearchResponse;
+import org.scrutmydocs.webapp.api.settings.rivers.fs.helper.FSRiverHelper;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.helpers.FSRiverHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

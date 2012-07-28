@@ -17,24 +17,24 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.test;
+package org.scrutmydocs.webapp.api.settings.rivers.fs.data;
 
-import java.io.IOException;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-import org.scrutmydocs.webapp.configuration.ScrutMyDocsProperties;
-import org.scrutmydocs.webapp.util.PropertyScanner;
+import org.scrutmydocs.webapp.api.common.RestAPIException;
+import org.scrutmydocs.webapp.api.common.data.RestResponse;
 
 
-public class PropertyScannerTest {
+public class RestResponseFSRiver extends RestResponse<FSRiver> {
+	private static final long serialVersionUID = 1L;
 
-	@Test public void test_scan_for_home_dir() throws IOException {
-		ScrutMyDocsProperties myprops = PropertyScanner.scanPropertyFile();
-		Assert.assertNotNull(myprops);
-		Assert.assertNotNull(myprops.getClusterName());
-		Assert.assertNotNull(myprops.getPathData());
+	public RestResponseFSRiver(FSRiver river) {
+		super(river);
 	}
-	
+
+	public RestResponseFSRiver() {
+		super();
+	}
+
+	public RestResponseFSRiver(RestAPIException e) {
+		super(e);
+	}
 }

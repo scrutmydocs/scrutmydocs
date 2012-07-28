@@ -27,7 +27,7 @@ import org.scrutmydocs.webapp.api.common.facade.CommonBaseApi;
 import org.scrutmydocs.webapp.api.index.data.Index;
 import org.scrutmydocs.webapp.api.index.data.RestResponseIndex;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.service.index.RestIndexService;
+import org.scrutmydocs.webapp.service.index.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,7 +52,7 @@ public class IndexApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	@Autowired
-	RestIndexService restIndexService;
+	IndexService indexService;
 
 	@Override
 	public Api[] helpApiList() {
@@ -90,7 +90,7 @@ public class IndexApi extends CommonBaseApi {
 				}
 				analyzer = settings.getAnalyzer();
 			}
-			restIndexService.createIndex(index, type, analyzer);
+			indexService.createIndex(index, type, analyzer);
 		} catch (RestAPIException e) {
 			return new RestResponseIndex(e);
 		}
@@ -115,7 +115,7 @@ public class IndexApi extends CommonBaseApi {
 	public @ResponseBody
 	RestResponseIndex delete(@PathVariable String index) {
 		try {
-			restIndexService.delete(index);
+			indexService.delete(index);
 		} catch (RestAPIException e) {
 			return new RestResponseIndex(e);
 		}

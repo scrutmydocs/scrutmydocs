@@ -27,7 +27,7 @@ import org.scrutmydocs.webapp.api.common.facade.CommonBaseApi;
 import org.scrutmydocs.webapp.api.document.data.Document;
 import org.scrutmydocs.webapp.api.document.data.RestResponseDocument;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.service.document.RestDocumentService;
+import org.scrutmydocs.webapp.service.document.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,7 +43,7 @@ public class DocumentApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	@Autowired
-	RestDocumentService restDocumentService;
+	DocumentService documentService;
 
 	@Override
 	public Api[] helpApiList() {
@@ -72,7 +72,7 @@ public class DocumentApi extends CommonBaseApi {
 	public @ResponseBody
 	RestResponseDocument push(@RequestBody Document doc) {
 		try {
-			doc = restDocumentService.push(doc);
+			doc = documentService.push(doc);
 		} catch (RestAPIException e) {
 			return new RestResponseDocument(e);
 		}
@@ -88,7 +88,7 @@ public class DocumentApi extends CommonBaseApi {
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
 	public @ResponseBody
 	RestResponseDocument delete(@PathVariable String id) {
-		boolean result = restDocumentService.delete(null,null,id);
+		boolean result = documentService.delete(null,null,id);
 		RestResponseDocument response = new RestResponseDocument();
 		response.setOk(result);
 		return response;
@@ -103,7 +103,7 @@ public class DocumentApi extends CommonBaseApi {
 	@RequestMapping(method = RequestMethod.DELETE, value = "{index}/{id}")
 	public @ResponseBody
 	RestResponseDocument delete(@PathVariable String index,@PathVariable String id) {
-		boolean result = restDocumentService.delete(index,null,id);
+		boolean result = documentService.delete(index,null,id);
 		RestResponseDocument response = new RestResponseDocument();
 		response.setOk(result);
 		return response;
@@ -118,7 +118,7 @@ public class DocumentApi extends CommonBaseApi {
 	@RequestMapping(method = RequestMethod.DELETE, value = "{index}/{type}/{id}")
 	public @ResponseBody
 	RestResponseDocument delete(@PathVariable String index,@PathVariable String type,@PathVariable String id) {
-		boolean result = restDocumentService.delete(index,type,id);
+		boolean result = documentService.delete(index,type,id);
 		RestResponseDocument response = new RestResponseDocument();
 		response.setOk(result);
 		return response;
@@ -136,7 +136,7 @@ public class DocumentApi extends CommonBaseApi {
 	public @ResponseBody
 	Document get(@PathVariable String index, @PathVariable String type,
 			@PathVariable String id) {
-		return restDocumentService.get(index, type, id);
+		return documentService.get(index, type, id);
 	}
 
 	/**
