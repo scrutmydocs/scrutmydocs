@@ -84,16 +84,17 @@ public class RiverService implements Serializable {
 	
 	/**
 	 * Start a river
-	 * @param river
+	 * @param river The river to start
+	 * @param xb JSON River definition
 	 */
-	public void start(FSRiver river) {
+	public void start(BasicRiver river, XContentBuilder xb) {
 		if (logger.isDebugEnabled()) logger.debug("add({})", river);
-		// We only add the river if the river is started
-		if (river == null || !river.isStart()) return;
 		
-		createIndexIfNeeded(river);
-		
-		XContentBuilder xb = new FSRiverHelper().toXContent(river);		
+		// TODO By now we keep the compatibility with previous version
+		if (river instanceof FSRiver) {
+			FSRiver fsriver = (FSRiver) river;
+			createIndexIfNeeded(fsriver);
+		}
 		
 		try {
 			client.prepareIndex("_river", river.getId(), "_meta").setRefresh(true).setSource(xb)

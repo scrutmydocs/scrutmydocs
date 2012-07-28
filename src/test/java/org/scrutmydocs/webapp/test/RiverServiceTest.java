@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
+import org.scrutmydocs.webapp.helpers.FSRiverHelper;
 import org.scrutmydocs.webapp.service.admin.river.RiverService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,7 +38,7 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 		FSRiver fsriver = new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
 						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false);		
 
-		riverService.start(fsriver);
+		riverService.start(fsriver, new FSRiverHelper().toXContent(fsriver));
 	}
 	
 	@Test public void test_remove_river() throws InterruptedException {
@@ -46,7 +47,7 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 		FSRiver fsriver = new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
 						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false);		
 
-		riverService.start(fsriver);
+		riverService.start(fsriver, new FSRiverHelper().toXContent(fsriver));
 		
 		// We have to wait for 1s
 		Thread.sleep(1000);

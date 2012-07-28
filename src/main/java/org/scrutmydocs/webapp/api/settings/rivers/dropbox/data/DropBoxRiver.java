@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.data.admin.river;
+package org.scrutmydocs.webapp.api.settings.rivers.dropbox.data;
 
 import org.scrutmydocs.webapp.api.settings.rivers.data.BasicRiver;
 import org.scrutmydocs.webapp.util.StringTools;

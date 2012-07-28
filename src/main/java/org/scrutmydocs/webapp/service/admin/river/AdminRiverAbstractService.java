@@ -49,8 +49,8 @@ public abstract class AdminRiverAbstractService<T extends BasicRiver> implements
 	@Autowired Client client;
 	@Autowired RiverService riverService;
 
-	abstract protected AbstractRiverHelper<T> getHelper();
-	abstract protected T buildInstance();
+	abstract public AbstractRiverHelper<T> getHelper();
+	abstract public T buildInstance();
 	
 	/**
 	 * Get the river definition by its name
@@ -158,4 +158,19 @@ public abstract class AdminRiverAbstractService<T extends BasicRiver> implements
 		if (logger.isDebugEnabled()) logger.debug("/remove({})", river);
 	}
 
+	/**
+	 * Start a river
+	 * @param river
+	 */
+	public void start(T river) {
+		if (logger.isDebugEnabled()) logger.debug("start({})", river);
+		// We only add the river if the river is started
+		if (river == null || !river.isStart()) return;
+		
+		riverService.start(river, getHelper().toXContent(river));
+		
+		if (logger.isDebugEnabled()) logger.debug("/start({})", river);		
+	}
+	
+	
 }

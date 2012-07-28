@@ -17,48 +17,30 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.data;
+package org.scrutmydocs.webapp.service.admin.river;
 
-public class User {
-	protected String login;
-	protected String password;
-	protected String email;
+import org.scrutmydocs.webapp.api.settings.rivers.dropbox.data.DropBoxRiver;
+import org.scrutmydocs.webapp.helpers.AbstractRiverHelper;
+import org.scrutmydocs.webapp.helpers.DropBoxRiverHelper;
+import org.springframework.stereotype.Component;
 
-	/**
-	 * @return the login
-	 */
-	public String getLogin() {
-		return login;
+/**
+ * River Service Implementation for DropBox Rivers
+ * @author PILATO
+ *
+ */
+@Component
+public class AdminDropBoxRiverService extends AdminRiverAbstractService<DropBoxRiver> {
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	public AbstractRiverHelper<DropBoxRiver> getHelper() {
+		return new DropBoxRiverHelper();
 	}
 
-	/**
-	 * @param login
-	 *            the login to set
-	 */
-	public void setLogin(String login) {
-		this.login = login;
+	@Override
+	public DropBoxRiver buildInstance() {
+		return new DropBoxRiver();
 	}
 
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
-
-	/**
-	 * @param password
-	 *            the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
 }

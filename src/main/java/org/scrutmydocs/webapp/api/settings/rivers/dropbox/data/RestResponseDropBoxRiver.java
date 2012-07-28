@@ -17,30 +17,24 @@
  * under the License.
  */
 
-package org.scrutmydocs.webapp.service.admin.river;
+package org.scrutmydocs.webapp.api.settings.rivers.dropbox.data;
 
-import org.scrutmydocs.webapp.api.settings.rivers.fsriver.data.FSRiver;
-import org.scrutmydocs.webapp.helpers.FSRiverHelper;
-import org.scrutmydocs.webapp.helpers.AbstractRiverHelper;
-import org.springframework.stereotype.Component;
+import org.scrutmydocs.webapp.api.common.RestAPIException;
+import org.scrutmydocs.webapp.api.common.data.RestResponse;
 
-/**
- * River Service Implementation for File System Rivers (aka FS Rivers)
- * @author PILATO
- *
- */
-@Component
-public class AdminFSRiverService extends AdminRiverAbstractService<FSRiver> {
+
+public class RestResponseDropBoxRiver extends RestResponse<DropBoxRiver> {
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public AbstractRiverHelper<FSRiver> getHelper() {
-		return new FSRiverHelper();
+	public RestResponseDropBoxRiver(DropBoxRiver river) {
+		super(river);
 	}
 
-	@Override
-	public FSRiver buildInstance() {
-		return new FSRiver();
+	public RestResponseDropBoxRiver() {
+		super();
 	}
 
+	public RestResponseDropBoxRiver(RestAPIException e) {
+		super(e);
+	}
 }

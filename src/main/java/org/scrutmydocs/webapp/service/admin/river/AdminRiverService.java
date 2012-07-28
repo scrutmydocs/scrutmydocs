@@ -34,12 +34,12 @@ public class AdminRiverService extends AdminRiverAbstractService<BasicRiver> {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected AbstractRiverHelper<BasicRiver> getHelper() {
+	public AbstractRiverHelper<BasicRiver> getHelper() {
 		return new RiverHelper();
 	}
 
 	@Override
-	protected BasicRiver buildInstance() {
+	public BasicRiver buildInstance() {
 		return new BasicRiver();
 	}
 
