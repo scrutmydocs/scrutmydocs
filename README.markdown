@@ -545,35 +545,35 @@ You can manage your file system rivers with the FSRivers API.
 	</thead>
 	<tbody>
 	    <tr>
-			<td>GET 1/settings/rivers/fsriver/_help</td>
+			<td>GET 1/settings/rivers/fs/_help</td>
 			<td>Display help.</td>
 	    </tr>
 	    <tr>
-			<td>GET 1/settings/rivers/fsriver</td>
+			<td>GET 1/settings/rivers/fs</td>
 			<td>Get all existing Filesystem rivers (it will provide an array of FSRiver objects).</td>
 	    </tr>
 	    <tr>
-			<td>GET 1/settings/rivers/fsriver/{name}</td>
+			<td>GET 1/settings/rivers/fs/{name}</td>
 			<td>Get one filesystem river (see FSRiver object).</td>
 	    </tr>
 	    <tr>
-			<td>POST 1/settings/rivers/fsriver</td>
+			<td>POST 1/settings/rivers/fs</td>
 			<td>Create or update a FSRiver (see FSRiver Object). The river is not automatically started.</td>
 	    </tr>
 	    <tr>
-			<td>PUT 1/settings/rivers/fsriver</td>
+			<td>PUT 1/settings/rivers/fs</td>
 			<td>Same as POST.</td>
 	    </tr>
 	    <tr>
-			<td>DELETE 1/settings/rivers/fsriver/{name}</td>
+			<td>DELETE 1/settings/rivers/fs/{name}</td>
 			<td>Remove a filesystem river.</td>
 	    </tr>
 	    <tr>
-			<td>GET 1/settings/rivers/fsriver/{name}/start</td>
+			<td>GET 1/settings/rivers/fs/{name}/start</td>
 			<td>Start a river</td>
 	    </tr>
 	    <tr>
-			<td>GET 1/settings/rivers/fsriver/{name}/stop</td>
+			<td>GET 1/settings/rivers/fs/{name}/stop</td>
 			<td>Stop a river</td>
 	    </tr>
     </tbody>
@@ -615,7 +615,7 @@ Analyzer is the analyzer to apply for this river ("default" or "french" by now).
 
 ```sh
 # CREATE a new river
-curl -XPUT 'localhost:8080/scrutmydocs/1/settings/rivers/fsriver/' -d '
+curl -XPUT 'localhost:8080/scrutmydocs/1/settings/rivers/fs/' -d '
 {
 	 "id" : "mydummyriver",
 	 "name" : "My Dummy River",
@@ -632,12 +632,12 @@ curl -XPUT 'localhost:8080/scrutmydocs/1/settings/rivers/fsriver/' -d '
 
 
 # START a river
-curl -XGET 'localhost:8080/scrutmydocs/1/settings/rivers/fsriver/mydummyriver/start'  
+curl -XGET 'localhost:8080/scrutmydocs/1/settings/rivers/fs/mydummyriver/start'  
 
 # STOP a river
-curl -XGET 'localhost:8080/scrutmydocs/1/settings/rivers/fsriver/mydummyriver/stop'  
+curl -XGET 'localhost:8080/scrutmydocs/1/settings/rivers/fs/mydummyriver/stop'  
 
 # DELETE a river
-curl -XDELETE 'localhost:8080/scrutmydocs/1/settings/rivers/fsriver/mydummyriver'         
+curl -XDELETE 'localhost:8080/scrutmydocs/1/settings/rivers/fs/mydummyriver'         
 ```
 
