@@ -14,6 +14,43 @@ Installation
 Download the Web Application aRchive (WAR) and drop it in the deploy folder of your favorite container (Tomcat, JBoss, ...).
 In your browser, open <http://localhost:8080/scrutmydocs/>
 
+### Deploy locally
+
+If you don't have a Java container (like Tomcat, JBoss, ...) but wont to test ScrutMyDocs into your local machine can try tu run it with the following command (tested on Ubuntu).
+
+Download jetty-runner from official repository:
+
+ * http://repo2.maven.org/maven2/org/mortbay/jetty/jetty-runner/
+
+currently latest version is 8.1.5.v20120716 so:
+
+```sh
+wget http://repo2.maven.org/maven2/org/mortbay/jetty/jetty-runner/8.1.5.v20120716/jetty-runner-8.1.5.v20120716.jar
+```
+
+install required SDK:
+
+```sh
+sudo apt-get install openjdk-6-jdk
+```
+
+download ScrutMyDocs:
+
+```sh
+wget https://github.com/downloads/scrutmydocs/scrutmydocs/scrutmydocs-0.1.0.war
+```
+
+and run application with:
+
+```sh
+java -jar jetty-runner-8.1.5.v20120716.jar scrutmydocs-0.1.0.war
+```
+
+now you can see ScrutMyDocs on your local machine, open the browser and open the page:
+
+ * http://localhost:8080/
+
+NOTE: please configure also _elasticasearch_, see next section.
 
 Setup
 -----
