@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
-@RequestMapping("/doc")
+@RequestMapping("/1/doc")
 public class DocumentApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -48,19 +48,19 @@ public class DocumentApi extends CommonBaseApi {
 	@Override
 	public Api[] helpApiList() {
 		Api[] apis = new Api[7];
-		apis[0] = new Api("/doc", "POST", "Add a document to the search engine");
-		apis[1] = new Api("/doc/{id}", "DELETE", "Delete a document in the default index/type (doc/docs)");
-		apis[2] = new Api("/doc/{index}/{id}", "DELETE", "Delete a document in the default type (doc)");
-		apis[3] = new Api("/doc/{index}/{type}/{id}", "DELETE", "Delete a document ");
-		apis[4] = new Api("/doc/{id}", "GET", "Get a document in the default index/type (doc/docs)");
-		apis[5] = new Api("/doc/{index}/{id}", "GET", "Get a document in a specific index with default type (docs)");
-		apis[6] = new Api("/doc/{index}/{type}/{id}", "GET", "Get a document in a specific index/type");
+		apis[0] = new Api("/1/doc", "POST", "Add a document to the search engine");
+		apis[1] = new Api("/1/doc/{id}", "DELETE", "Delete a document in the default index/type (doc/docs)");
+		apis[2] = new Api("/1/doc/{index}/{id}", "DELETE", "Delete a document in the default type (doc)");
+		apis[3] = new Api("/1/doc/{index}/{type}/{id}", "DELETE", "Delete a document ");
+		apis[4] = new Api("/1/doc/{id}", "GET", "Get a document in the default index/type (doc/docs)");
+		apis[5] = new Api("/1/doc/{index}/{id}", "GET", "Get a document in a specific index with default type (docs)");
+		apis[6] = new Api("/1/doc/{index}/{type}/{id}", "GET", "Get a document in a specific index/type");
 		return apis;
 	}
 	
 	@Override
 	public String helpMessage() {
-		return "The /doc API helps you to manage your documents.";
+		return "The /1/doc API helps you to manage your documents.";
 	}
 	
 	/**

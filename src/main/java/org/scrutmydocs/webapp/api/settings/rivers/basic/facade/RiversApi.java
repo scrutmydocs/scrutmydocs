@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
-@RequestMapping("/settings/rivers")
+@RequestMapping("/1/settings/rivers")
 public class RiversApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -49,13 +49,13 @@ public class RiversApi extends CommonBaseApi {
 	@Override
 	public Api[] helpApiList() {
 		Api[] apis = new Api[1];
-		apis[0] = new Api("/settings/rivers", "GET", "Get all existing rivers");
+		apis[0] = new Api("/1/settings/rivers", "GET", "Get all existing rivers");
 		return apis;
 	}
 	
 	@Override
 	public String helpMessage() {
-		return "The /settings/rivers API gives details about rivers.";
+		return "The /1/settings/rivers API gives details about rivers.";
 	}
 	
 	/**

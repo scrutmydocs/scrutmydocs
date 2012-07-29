@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
-@RequestMapping("/search")
+@RequestMapping("/1/search")
 public class SearchApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -49,13 +49,13 @@ public class SearchApi extends CommonBaseApi {
 	@Override
 	public Api[] helpApiList() {
 		Api[] apis = new Api[1];
-		apis[0] = new Api("/search", "POST", "Search for documents");
+		apis[0] = new Api("/1/search", "POST", "Search for documents");
 		return apis;
 	}
 	
 	@Override
 	public String helpMessage() {
-		return "The /search API helps you to search your documents.";
+		return "The /1/search API helps you to search your documents.";
 	}
 	
 	/**

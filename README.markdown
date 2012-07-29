@@ -94,12 +94,20 @@ Scrut My Docs REST API Resources
 Common based API
 ----------------
 
-API are running at scrutmydocs point.
+API are running at scrutmydocs/api point. It could be a nice idea to use a proxy to
+rewrite urls.
+
+Let say you are running scrutmydocs at http://scrutmydocs.org/scrutmydocs/, you should set your proxy to rewrite
+* http://api.scrutmydocs.org to http://scrutmydocs.org/scrutmydocs/api/ and
+* http://demo.scrutmydocs.org to http://scrutmydocs.org/scrutmydocs/
+
+Then, the common base URL for API will be http://api.scrutmydocs.org
+
 
 Each API provide help with the `_help` entry point.
 
 ```sh
-curl 'localhost:8080/scrutmydocs/1/_help'    					 
+curl 'localhost:8080/scrutmydocs/api/1/_help'    					 
 ```
 
 REST Response are always based on the following JSON content:
@@ -377,9 +385,9 @@ A search query object looks like:
 }
 ```
 
-Search is the text to search. You can use a Lucene syntax.
-First is the page number (default to 0).
-PageSize is the size of a page (aka number of results to fetch).
+* Search is the text to search. You can use a Lucene syntax.
+* First is the page number (default to 0).
+* PageSize is the size of a page (aka number of results to fetch).
 
 ### SearchResponse Object
 
@@ -420,9 +428,9 @@ A search response object looks like:
 }
 ```
 
-Took is the time in milliseconds.
-TotalHits is the total number of hits.
-Hits contains an array of Hit objects.
+* Took is the time in milliseconds.
+* TotalHits is the total number of hits.
+* Hits contains an array of Hit objects.
 
 ### Hit Object
 
@@ -444,13 +452,13 @@ A hit object looks like:
   }
 ```
 
-Id is the unique internal ID of the document.
-Type is the object type (default to doc).
-Index is the object index (default to docs)
-ContentType is the document content type.
-Source is always null as we don't provide content by now.
-Title is the document filename.
-Highlights may contain an array of String which highlights the document content with the searched terms. 
+* Id is the unique internal ID of the document.
+* Type is the object type (default to doc).
+* Index is the object index (default to docs)
+* ContentType is the document content type.
+* Source is always null as we don't provide content by now.
+* Title is the document filename.
+* Highlights may contain an array of String which highlights the document content with the searched terms. 
 
 
 ### Examples
@@ -512,11 +520,11 @@ A river object looks like:
 }
 ```
 
-Id is the unique name of your river. It will be used to get or delete the river.
-Name is a fancy name for the river.
-Indexname is where your documents will be send.
-Typename is the type name under your documents will be indexed.
-Start indicates if the river is running (true) or not (false).
+* Id is the unique name of your river. It will be used to get or delete the river.
+* Name is a fancy name for the river.
+* Indexname is where your documents will be send.
+* Typename is the type name under your documents will be indexed.
+* Start indicates if the river is running (true) or not (false).
 
 
 ### Examples
@@ -598,16 +606,16 @@ A fsriver object looks like:
 }
 ```
 
-Id is the unique name of your river. It will be used to get or delete the river.
-Name is a fancy name for the river.
-Indexname is where your documents will be send.
-Typename is the type name under your documents will be indexed.
-Start indicates if the river is running (true) or not (false).
-Url is the root where FS River begins to crawl.
-UpdateRate is the frequency (in seconds).
-Includes is used when you want to index only some files (can be null aka every file is indexed).
-Excludes is used when you want to exclude some files from the include list (can be null aka every file is indexed).
-Analyzer is the analyzer to apply for this river ("default" or "french" by now).
+* Id is the unique name of your river. It will be used to get or delete the river.
+* Name is a fancy name for the river.
+* Indexname is where your documents will be send.
+* Typename is the type name under your documents will be indexed.
+* Start indicates if the river is running (true) or not (false).
+* Url is the root where FS River begins to crawl.
+* UpdateRate is the frequency (in seconds).
+* Includes is used when you want to index only some files (can be null aka every file is indexed).
+* Excludes is used when you want to exclude some files from the include list (can be null aka every file is indexed).
+* Analyzer is the analyzer to apply for this river ("default" or "french" by now).
 
 
 ### Examples

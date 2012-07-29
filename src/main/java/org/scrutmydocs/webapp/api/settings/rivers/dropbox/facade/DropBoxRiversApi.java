@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
-@RequestMapping("/settings/rivers/dropbox")
+@RequestMapping("/1/settings/rivers/dropbox")
 public class DropBoxRiversApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -53,19 +53,19 @@ public class DropBoxRiversApi extends CommonBaseApi {
 	@Override
 	public Api[] helpApiList() {
 		Api[] apis = new Api[7];
-		apis[0] = new Api("/settings/rivers/dropbox", "GET", "Get all existing FileSystem rivers");
-		apis[1] = new Api("/settings/rivers/dropbox/{name}", "GET", "Get details about a FileSystem river");
-		apis[2] = new Api("/settings/rivers/dropbox", "PUT", "Create or update a FileSystem river");
-		apis[3] = new Api("/settings/rivers/dropbox", "POST", "Create or update a FileSystem river");
-		apis[4] = new Api("/settings/rivers/dropbox/{name}", "DELETE", "Delete an existing FileSystem river");
-		apis[5] = new Api("/settings/rivers/dropbox/{name}/start", "GET", "Start a river");
-		apis[6] = new Api("/settings/rivers/dropbox/{name}/stop", "GET", "Stop a river");
+		apis[0] = new Api("/1/settings/rivers/dropbox", "GET", "Get all existing FileSystem rivers");
+		apis[1] = new Api("/1/settings/rivers/dropbox/{name}", "GET", "Get details about a FileSystem river");
+		apis[2] = new Api("/1/settings/rivers/dropbox", "PUT", "Create or update a FileSystem river");
+		apis[3] = new Api("/1/settings/rivers/dropbox", "POST", "Create or update a FileSystem river");
+		apis[4] = new Api("/1/settings/rivers/dropbox/{name}", "DELETE", "Delete an existing FileSystem river");
+		apis[5] = new Api("/1/settings/rivers/dropbox/{name}/start", "GET", "Start a river");
+		apis[6] = new Api("/1/settings/rivers/dropbox/{name}/stop", "GET", "Stop a river");
 		return apis;
 	}
 	
 	@Override
 	public String helpMessage() {
-		return "The /settings/rivers/dropbox API manage Dropbox rivers.";
+		return "The /1/settings/rivers/dropbox API manage Dropbox rivers.";
 	}
 	
 	/**

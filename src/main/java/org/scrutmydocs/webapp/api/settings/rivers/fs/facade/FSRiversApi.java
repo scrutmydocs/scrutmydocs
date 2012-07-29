@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
-@RequestMapping("/settings/rivers/fs")
+@RequestMapping("/1/settings/rivers/fs")
 public class FSRiversApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -53,19 +53,19 @@ public class FSRiversApi extends CommonBaseApi {
 	@Override
 	public Api[] helpApiList() {
 		Api[] apis = new Api[7];
-		apis[0] = new Api("/settings/rivers/fs", "GET", "Get all existing FileSystem rivers");
-		apis[1] = new Api("/settings/rivers/fs{name}", "GET", "Get details about a FileSystem river");
-		apis[2] = new Api("/settings/rivers/fs", "PUT", "Create or update a FileSystem river");
-		apis[3] = new Api("/settings/rivers/fs", "POST", "Create or update a FileSystem river");
-		apis[4] = new Api("/settings/rivers/fs/{name}", "DELETE", "Delete an existing FileSystem river");
-		apis[5] = new Api("/settings/rivers/fs/{name}/start", "GET", "Start a river");
-		apis[6] = new Api("/settings/rivers/fs/{name}/stop", "GET", "Stop a river");
+		apis[0] = new Api("/1/settings/rivers/fs", "GET", "Get all existing FileSystem rivers");
+		apis[1] = new Api("/1/settings/rivers/fs{name}", "GET", "Get details about a FileSystem river");
+		apis[2] = new Api("/1/settings/rivers/fs", "PUT", "Create or update a FileSystem river");
+		apis[3] = new Api("/1/settings/rivers/fs", "POST", "Create or update a FileSystem river");
+		apis[4] = new Api("/1/settings/rivers/fs/{name}", "DELETE", "Delete an existing FileSystem river");
+		apis[5] = new Api("/1/settings/rivers/fs/{name}/start", "GET", "Start a river");
+		apis[6] = new Api("/1/settings/rivers/fs/{name}/stop", "GET", "Stop a river");
 		return apis;
 	}
 	
 	@Override
 	public String helpMessage() {
-		return "The /settings/rivers/fs API manage FileSystem rivers.";
+		return "The /1/settings/rivers/fs API manage FileSystem rivers.";
 	}
 	
 	/**

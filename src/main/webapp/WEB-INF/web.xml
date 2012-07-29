@@ -47,7 +47,7 @@
 
 	<servlet-mapping>
 		<servlet-name>scrutmydocs-api</servlet-name>
-		<url-pattern>/1/*</url-pattern>
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>

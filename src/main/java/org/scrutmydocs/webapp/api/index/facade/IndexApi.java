@@ -47,7 +47,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  */
 @Controller
-@RequestMapping("/index")
+@RequestMapping("/1/index")
 public class IndexApi extends CommonBaseApi {
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -57,16 +57,16 @@ public class IndexApi extends CommonBaseApi {
 	@Override
 	public Api[] helpApiList() {
 		Api[] apis = new Api[4];
-		apis[0] = new Api("/index", "POST", "Create a new Index. You have to post settings.");
-		apis[1] = new Api("/index/{index}", "POST", "Create a new Index named {index}. You can post settings.");
-		apis[2] = new Api("/index/{index}/{type}", "POST", "Create a new Index named {index}/{type}. You can post settings.");
-		apis[3] = new Api("/index/{index}", "DELETE", "Delete an existing index. Use with caution !");
+		apis[0] = new Api("/1/index", "POST", "Create a new Index. You have to post settings.");
+		apis[1] = new Api("/1/index/{index}", "POST", "Create a new Index named {index}. You can post settings.");
+		apis[2] = new Api("/1/index/{index}/{type}", "POST", "Create a new Index named {index}/{type}. You can post settings.");
+		apis[3] = new Api("/1/index/{index}", "DELETE", "Delete an existing index. Use with caution !");
 		return apis;
 	}
 	
 	@Override
 	public String helpMessage() {
-		return "The /index API helps you to manage your indices.";
+		return "The /1/index API helps you to manage your indices.";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/{index}/{type}")
