@@ -107,8 +107,17 @@ Then, the common base URL for API will be http://api.scrutmydocs.org
 Each API provide help with the `_help` entry point.
 
 ```sh
-curl 'localhost:8080/scrutmydocs/api/1/_help'    					 
+curl 'localhost:8080/scrutmydocs/api/_help'    					 
 ```
+
+The following command will give you existing APIs.
+
+```sh
+curl 'localhost:8080/scrutmydocs/api/'    					 
+```
+
+
+
 
 REST Response are always based on the following JSON content:
 ```javascript
@@ -239,7 +248,7 @@ When sending a document to Scrutmydocs, you can use a minimal structure:
 
 ```sh
 # Add a document to the search engine
-curl -XPOST 'localhost:8080/scrutmydocs/1/doc/ -d '
+curl -XPOST 'localhost:8080/scrutmydocs/api/1/doc/ -d '
 {
      "id" :"myid1",
 	 "name" : "mydocument",
@@ -249,7 +258,7 @@ curl -XPOST 'localhost:8080/scrutmydocs/1/doc/ -d '
 '    					 
 
 # Add a document to the search engine
-curl -XPOST 'localhost:8080/scrutmydocs/1/doc/ -d '
+curl -XPOST 'localhost:8080/scrutmydocs/api/1/doc/ -d '
 {
      "id" :"myid2",
 	 "index" :"docs",
@@ -261,16 +270,16 @@ curl -XPOST 'localhost:8080/scrutmydocs/1/doc/ -d '
 '    					 
 
 # Get a document in the default index/type  (docs/doc)
-curl -XGET 'localhost:8080/scrutmydocs/1/doc/myid1/'
+curl -XGET 'localhost:8080/scrutmydocs/api/1/doc/myid1/'
      	 
 # Get a document in a specific index/type
-curl -XGET 'localhost:8080/scrutmydocs/1/doc/docs/doc/myid2/'   			 	     
+curl -XGET 'localhost:8080/scrutmydocs/api/1/doc/docs/doc/myid2/'   			 	     
 
 # DELETE a document in the default index/type  (docs/doc)
-curl -XDELETE 'localhost:8080/scrutmydocs/1/doc/myid1/'         
+curl -XDELETE 'localhost:8080/scrutmydocs/api/1/doc/myid1/'         
 
 # DELETE a document in a specific index/type
-curl -XDELETE 'localhost:8080/scrutmydocs/1/doc/docs/doc/myid2/'    			 	    
+curl -XDELETE 'localhost:8080/scrutmydocs/api/1/doc/docs/doc/myid2/'    			 	    
 ```
 
 
@@ -330,7 +339,7 @@ A index object looks like:
 
 ```sh
 # CREATE an index
-curl -XPOST 'localhost:8080/scrutmydocs/1/index/ -d '
+curl -XPOST 'localhost:8080/scrutmydocs/api/1/index/ -d '
 {
      "index" :"myindex",
 	 "type" : "mytype",
@@ -339,7 +348,7 @@ curl -XPOST 'localhost:8080/scrutmydocs/1/index/ -d '
 '    					 
 
 # DELETE an index
-curl -XDELETE 'localhost:8080/scrutmydocs/1/index/myindex'         
+curl -XDELETE 'localhost:8080/scrutmydocs/api/1/index/myindex'         
 ```
 
 
@@ -385,9 +394,9 @@ A search query object looks like:
 }
 ```
 
-* Search is the text to search. You can use a Lucene syntax.
-* First is the page number (default to 0).
-* PageSize is the size of a page (aka number of results to fetch).
+* `search` is the text to search. You can use a Lucene syntax.
+* `first` is the page number (default to 0).
+* `pageSize` is the size of a page (aka number of results to fetch).
 
 ### SearchResponse Object
 
@@ -428,9 +437,9 @@ A search response object looks like:
 }
 ```
 
-* Took is the time in milliseconds.
-* TotalHits is the total number of hits.
-* Hits contains an array of Hit objects.
+* `took` is the time in milliseconds.
+* `totalHits` is the total number of hits.
+* `hits` contains an array of Hit objects.
 
 ### Hit Object
 
@@ -452,13 +461,13 @@ A hit object looks like:
   }
 ```
 
-* Id is the unique internal ID of the document.
-* Type is the object type (default to doc).
-* Index is the object index (default to docs)
-* ContentType is the document content type.
-* Source is always null as we don't provide content by now.
-* Title is the document filename.
-* Highlights may contain an array of String which highlights the document content with the searched terms. 
+* `id` is the unique internal ID of the document.
+* `type` is the object type (default to doc).
+* `index` is the object index (default to docs)
+* `contentType` is the document content type.
+* `source` is always null as we don't provide content by now.
+* `title` is the document filename.
+* `highlights` may contain an array of String which highlights the document content with the searched terms. 
 
 
 ### Examples
@@ -466,10 +475,10 @@ A hit object looks like:
 
 ```sh
 # SEARCH for apache term
-curl -XGET 'localhost:8080/scrutmydocs/1/search/apache'         
+curl -XGET 'localhost:8080/scrutmydocs/api/1/search/apache'         
 
 # SEARCH for apache term, starting from page 2 with 20 results
-curl -XPOST 'localhost:8080/scrutmydocs/1/search/apache -d '
+curl -XPOST 'localhost:8080/scrutmydocs/api/1/search/apache -d '
 {
 	 "search" :"apache",
 	 "first" : 1,
@@ -520,11 +529,11 @@ A river object looks like:
 }
 ```
 
-* Id is the unique name of your river. It will be used to get or delete the river.
-* Name is a fancy name for the river.
-* Indexname is where your documents will be send.
-* Typename is the type name under your documents will be indexed.
-* Start indicates if the river is running (true) or not (false).
+* `id` is the unique name of your river. It will be used to get or delete the river.
+* `name` is a fancy name for the river.
+* `indexname` is where your documents will be send.
+* `typename` is the type name under your documents will be indexed.
+* `start` indicates if the river is running (true) or not (false).
 
 
 ### Examples
@@ -532,7 +541,7 @@ A river object looks like:
 
 ```sh
 # GET all existing rivers
-curl -XGET 'localhost:8080/scrutmydocs/1/settings/rivers/'
+curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/'
 ```
 
 
@@ -606,16 +615,16 @@ A fsriver object looks like:
 }
 ```
 
-* Id is the unique name of your river. It will be used to get or delete the river.
-* Name is a fancy name for the river.
-* Indexname is where your documents will be send.
-* Typename is the type name under your documents will be indexed.
-* Start indicates if the river is running (true) or not (false).
-* Url is the root where FS River begins to crawl.
-* UpdateRate is the frequency (in seconds).
-* Includes is used when you want to index only some files (can be null aka every file is indexed).
-* Excludes is used when you want to exclude some files from the include list (can be null aka every file is indexed).
-* Analyzer is the analyzer to apply for this river ("default" or "french" by now).
+* `id` is the unique name of your river. It will be used to get or delete the river.
+* `name` is a fancy name for the river.
+* `indexname` is where your documents will be send.
+* `typename` is the type name under your documents will be indexed.
+* `start` indicates if the river is running (true) or not (false).
+* `url` is the root where FS River begins to crawl.
+* `updateRate` is the frequency (in seconds).
+* `includes` is used when you want to index only some files (can be null aka every file is indexed).
+* `excludes` is used when you want to exclude some files from the include list (can be null aka every file is indexed).
+* `analyzer` is the analyzer to apply for this river ("default" or "french" by now).
 
 
 ### Examples
@@ -623,7 +632,7 @@ A fsriver object looks like:
 
 ```sh
 # CREATE a new river
-curl -XPUT 'localhost:8080/scrutmydocs/1/settings/rivers/fs/' -d '
+curl -XPUT 'localhost:8080/scrutmydocs/api/1/settings/rivers/fs/' -d '
 {
 	 "id" : "mydummyriver",
 	 "name" : "My Dummy River",
@@ -640,12 +649,12 @@ curl -XPUT 'localhost:8080/scrutmydocs/1/settings/rivers/fs/' -d '
 
 
 # START a river
-curl -XGET 'localhost:8080/scrutmydocs/1/settings/rivers/fs/mydummyriver/start'  
+curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/fs/mydummyriver/start'  
 
 # STOP a river
-curl -XGET 'localhost:8080/scrutmydocs/1/settings/rivers/fs/mydummyriver/stop'  
+curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/fs/mydummyriver/stop'  
 
 # DELETE a river
-curl -XDELETE 'localhost:8080/scrutmydocs/1/settings/rivers/fs/mydummyriver'         
+curl -XDELETE 'localhost:8080/scrutmydocs/api/1/settings/rivers/fs/mydummyriver'         
 ```
 
