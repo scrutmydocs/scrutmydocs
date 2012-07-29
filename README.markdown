@@ -47,8 +47,8 @@ brew install elasticsearch
 
 ```sh
 service elasticsearch stop
-/usr/local/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.4.0
-/usr/local/elasticsearch/bin/plugin -install dadoonet/fsriver/0.0.2
+/usr/share/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.4.0
+/usr/share/elasticsearch/bin/plugin -install dadoonet/fsriver/0.0.2
 ```
 
 #### Configure elasticsearch.yml node property file
