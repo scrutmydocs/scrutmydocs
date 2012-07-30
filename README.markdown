@@ -16,7 +16,7 @@ In your browser, open <http://localhost:8080/scrutmydocs/>
 
 ### Deploy locally
 
-If you don't have a Java container (like Tomcat, JBoss, ...) but wont to test ScrutMyDocs into your local machine can try tu run it with the following command (tested on Ubuntu).
+If you don't have a Java container (like Tomcat, JBoss, ...) but want to test ScrutMyDocs into your local machine can try to run it with the following command (tested on Ubuntu).
 
 Download jetty-runner from official repository:
 
@@ -50,7 +50,7 @@ now you can see ScrutMyDocs on your local machine, open the browser and open the
 
  * http://localhost:8080/
 
-NOTE: please configure also _elasticasearch_, see next section.
+NOTE: please configure also _elasticsearch_, see next section.
 
 Setup
 -----
