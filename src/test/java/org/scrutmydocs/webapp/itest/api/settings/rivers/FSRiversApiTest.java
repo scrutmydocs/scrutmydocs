@@ -25,10 +25,15 @@ import org.scrutmydocs.webapp.api.settings.rivers.fs.data.RestResponseFSRivers;
 
 
 /**
- * Test for module "settings/rivers/fsriver/"
+ * Test for module "1/settings/rivers/fsriver/"
  * @author David Pilato
  */
 public class FSRiversApiTest extends AbstractFSRiversApiTest<FSRiver, RestResponseFSRiver, RestResponseFSRivers> {
+	
+	@Override
+	protected String apiVersion() {
+		return "1";
+	}
 
 	@Override
 	protected String type() {

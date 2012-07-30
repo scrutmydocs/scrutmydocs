@@ -38,7 +38,7 @@ import org.springframework.http.HttpEntity;
 
 
 /**
- * Abstract Test for module "settings/rivers/T/" where T depends on implementation
+ * Abstract Test for module "1/settings/rivers/T/" where T depends on implementation
  * @author David Pilato
  */
 public abstract class AbstractFSRiversApiTest<T extends AbstractFSRiver, U extends RestResponse<T>, V extends RestResponse<List<T>>> extends AbstractApiTest {
@@ -61,12 +61,17 @@ public abstract class AbstractFSRiversApiTest<T extends AbstractFSRiver, U exten
 	abstract protected Class<V> getClassForMultipleResponse();
 	
 	/**
-	 * Module is "settings/rivers/abstractfs/" where abstractfs
+	 * @return The version of API you are testing "1" for base version
+	 */
+	abstract protected String apiVersion();
+	
+	/**
+	 * Module is "1/settings/rivers/abstractfs/" where abstractfs
 	 * is replaced with {@link #type()}
 	 */
 	@Override
 	protected String getModuleApiUrl() {
-		return "settings/rivers/" + type() + "/";
+		return apiVersion() + "/settings/rivers/" + type() + "/";
 	}
 
 	/**

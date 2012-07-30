@@ -31,16 +31,16 @@ import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 
 
 /**
- * Test for module "index/"
+ * Test for module "1/index/"
  * @author David Pilato
  */
 public class IndexApiTest extends AbstractApiTest {
 	/**
-	 * module is "index/"
+	 * module is "1/index/"
 	 */
 	@Override
 	protected String getModuleApiUrl() {
-		return "index/";
+		return "1/index/";
 	}
 	
 	@Test

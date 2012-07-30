@@ -32,17 +32,17 @@ import org.scrutmydocs.webapp.util.ESHelper;
 
 
 /**
- * Test for module "doc/"
+ * Test for module "1/doc/"
  * @author David Pilato
  */
 public class DocumentApiTest extends AbstractApiTest {
 	
 	/**
-	 * Module is "doc/"
+	 * Module is "1/doc/"
 	 */
 	@Override
 	protected String getModuleApiUrl() {
-		return "doc/";
+		return "1/doc/";
 	}
 
 	@Test

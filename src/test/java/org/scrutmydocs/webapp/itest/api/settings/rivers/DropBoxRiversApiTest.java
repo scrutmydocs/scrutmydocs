@@ -27,10 +27,15 @@ import org.scrutmydocs.webapp.api.settings.rivers.dropbox.data.RestResponseDropB
 
 
 /**
- * Test for module "settings/rivers/dropbox/"
+ * Test for module "1/settings/rivers/dropbox/"
  * @author David Pilato
  */
 public class DropBoxRiversApiTest extends AbstractFSRiversApiTest<DropBoxRiver, RestResponseDropBoxRiver, RestResponseDropBoxRivers> {
+	@Override
+	protected String apiVersion() {
+		return "1";
+	}
+	
 
 	@Override
 	protected String type() {

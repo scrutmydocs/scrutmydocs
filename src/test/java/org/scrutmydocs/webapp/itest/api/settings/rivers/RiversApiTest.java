@@ -30,7 +30,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.basic.data.RestResponseRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.basic.data.RestResponseRivers;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
 import org.scrutmydocs.webapp.itest.api.AbstractApiTest;
@@ -38,7 +37,7 @@ import org.springframework.http.HttpEntity;
 
 
 /**
- * Test for module "settings/rivers/"
+ * Test for module "1/settings/rivers/"
  * @author David Pilato
  */
 public class RiversApiTest extends AbstractApiTest {
@@ -46,11 +45,11 @@ public class RiversApiTest extends AbstractApiTest {
 	private List<String> _fsRivers = null;
 	
 	/**
-	 * Module is "settings/rivers/"
+	 * Module is "1/settings/rivers/"
 	 */
 	@Override
 	protected String getModuleApiUrl() {
-		return "settings/rivers/";
+		return "1/settings/rivers/";
 	}
 
 	@Test

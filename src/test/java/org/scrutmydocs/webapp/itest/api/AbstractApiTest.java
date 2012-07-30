@@ -42,7 +42,7 @@ import org.springframework.web.client.RestTemplate;
 public abstract class AbstractApiTest extends AbstractConfigurationIntegrationTest {
 	protected static final String BASE_URL_SERVER = "localhost";
 	protected static final String BASE_URL_PORT = "9090";
-	protected static final String BASE_URL_SUFFIX = "/scrutmydocs/api/1/";
+	protected static final String BASE_URL_SUFFIX = "/scrutmydocs/api/";
 
 	protected String hostname;
 	protected String port;
