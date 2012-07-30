@@ -59,8 +59,9 @@
 		<!-- Others properties -->
 		<java.version>1.6</java.version>
 		<encoding>UTF-8</encoding>
-		<BUILD_ID>LOCAL</BUILD_ID>
-		<display_version>${project.version}-${BUILD_ID}</display_version>
+		<maven.build.timestamp.format>yyyy/MM/dd-HH:mm</maven.build.timestamp.format>
+		
+		<display_version>${project.version}-${maven.build.timestamp}</display_version>
 	</properties>
 
 	<developers>
