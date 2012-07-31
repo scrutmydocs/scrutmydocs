@@ -23,8 +23,6 @@ import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.data.AbstractFSRive
 import org.scrutmydocs.webapp.util.StringTools;
 
 
-
-
 /**
  * Manage DropBoxRiver Rivers metadata
  * @author PILATO
@@ -35,7 +33,7 @@ public class DropBoxRiver extends AbstractFSRiver {
 	
 	private String token;
 	private String secret;
-	
+
 	/**
 	 * We implement here a "dropbox" river
 	 */

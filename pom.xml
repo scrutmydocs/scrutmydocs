@@ -42,9 +42,10 @@
 		<!-- Dependencies versions -->
 		<spring.version>3.2.3.RELEASE</spring.version>
 		<cglib.version>2.2.2</cglib.version>
-		<elasticsearch.version>0.90.1</elasticsearch.version>
+		<elasticsearch.version>0.90.2</elasticsearch.version>
 		<spring.elasticsearch.version>0.2.0</spring.elasticsearch.version>
 		<fsriver.version>0.2.0</fsriver.version>
+        <dropbox.version>0.2.0</dropbox.version>
         <mapper-attachment.version>1.7.0</mapper-attachment.version>
         <jackson.version>2.2.0</jackson.version>
 		<guava.version>14.0.1</guava.version>
@@ -161,6 +162,12 @@
 			<artifactId>fsriver</artifactId>
 			<version>${fsriver.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>fr.pilato.elasticsearch.river</groupId>
+            <artifactId>dropbox</artifactId>
+            <version>${dropbox.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch-mapper-attachments</artifactId>

@@ -1,8 +1,8 @@
 package org.scrutmydocs.webapp.configuration;
 
-import java.io.Serializable;
-
 import org.scrutmydocs.webapp.util.StringTools;
+
+import java.io.Serializable;
 
 public class ScrutMyDocsProperties implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -11,7 +11,9 @@ public class ScrutMyDocsProperties implements Serializable {
 	private String[] nodeAdresses = {"localhost:9300", "localhost:9301"}; 
 	private String clusterName = "scrutmydocs"; 
 	private String pathData = "~/.scrutmydocs/esdata";
-	
+	private String dropboxKey = null;
+    private String dropboxSecret = null;
+
 	/**
 	 * @return the nodeEmbedded
 	 */
@@ -60,8 +62,38 @@ public class ScrutMyDocsProperties implements Serializable {
 	public void setPathData(String pathData) {
 		this.pathData = pathData;
 	}
-	
-	@Override
+
+    /**
+     * @return Dropbox Application Key
+     */
+    public String getDropboxKey() {
+        return dropboxKey;
+    }
+
+    /**
+     * @param dropboxKey Dropbox Application Key
+     */
+    public void setDropboxKey(String dropboxKey) {
+        this.dropboxKey = dropboxKey;
+    }
+
+    /**
+     *
+     * @return Dropbox Application Secret
+     */
+    public String getDropboxSecret() {
+        return dropboxSecret;
+    }
+
+    /**
+     *
+     * @param dropboxSecret Dropbox Application Secret
+     */
+    public void setDropboxSecret(String dropboxSecret) {
+        this.dropboxSecret = dropboxSecret;
+    }
+
+    @Override
 	public String toString() {
 		return StringTools.toString(this);
 	}

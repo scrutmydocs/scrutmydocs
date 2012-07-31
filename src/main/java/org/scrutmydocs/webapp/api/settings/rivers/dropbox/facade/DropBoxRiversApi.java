@@ -19,8 +19,6 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.dropbox.facade;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.scrutmydocs.webapp.api.common.RestAPIException;
@@ -34,11 +32,9 @@ import org.scrutmydocs.webapp.service.settings.rivers.RiverService;
 import org.scrutmydocs.webapp.service.settings.rivers.dropbox.AdminDropBoxRiverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Controller
@@ -69,7 +65,7 @@ public class DropBoxRiversApi extends CommonBaseApi {
 	}
 	
 	/**
-	 * Search for all FS rivers
+	 * Search for all Dropbox rivers
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET)
@@ -91,7 +87,7 @@ public class DropBoxRiversApi extends CommonBaseApi {
 	}
 	
 	/**
-	 * Search for one FS river
+	 * Search for one Dropbox river
 	 * @return
 	 */
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -110,7 +106,7 @@ public class DropBoxRiversApi extends CommonBaseApi {
 	}
 
 	/**
-	 * Create or Update a FS river
+	 * Create or Update a Dropbox river
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.PUT)
@@ -125,7 +121,7 @@ public class DropBoxRiversApi extends CommonBaseApi {
 	}
 	
 	/**
-	 * Create or Update a FS river
+	 * Create or Update a Dropbox river
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST)
@@ -134,7 +130,7 @@ public class DropBoxRiversApi extends CommonBaseApi {
 	}
 
 	/**
-	 * Remove an FS river
+	 * Remove a Dropbox river
 	 * @return
 	 */
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)

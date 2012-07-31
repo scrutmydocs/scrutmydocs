@@ -22,7 +22,9 @@ package org.scrutmydocs.webapp.service.settings.rivers.dropbox;
 import org.scrutmydocs.webapp.api.settings.rivers.AbstractRiverHelper;
 import org.scrutmydocs.webapp.api.settings.rivers.dropbox.data.DropBoxRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.dropbox.helper.DropBoxRiverHelper;
+import org.scrutmydocs.webapp.configuration.ScrutMyDocsProperties;
 import org.scrutmydocs.webapp.service.settings.rivers.AdminRiverAbstractService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -34,9 +36,12 @@ import org.springframework.stereotype.Component;
 public class AdminDropBoxRiverService extends AdminRiverAbstractService<DropBoxRiver> {
 	private static final long serialVersionUID = 1L;
 
+    @Autowired
+    ScrutMyDocsProperties props;
+
 	@Override
 	public AbstractRiverHelper<DropBoxRiver> getHelper() {
-		return new DropBoxRiverHelper();
+		return new DropBoxRiverHelper(props.getDropboxKey(), props.getDropboxSecret());
 	}
 
 	@Override

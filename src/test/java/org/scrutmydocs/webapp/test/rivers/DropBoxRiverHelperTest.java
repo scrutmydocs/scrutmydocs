@@ -19,9 +19,6 @@
 
 package org.scrutmydocs.webapp.test.rivers;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentHelper;
 import org.junit.Assert;
@@ -29,6 +26,9 @@ import org.junit.Test;
 import org.scrutmydocs.webapp.api.settings.rivers.dropbox.data.DropBoxRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.dropbox.helper.DropBoxRiverHelper;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
+
+import java.io.IOException;
+import java.util.Map;
 
 
 public class DropBoxRiverHelperTest {
@@ -59,12 +59,12 @@ public class DropBoxRiverHelperTest {
 		DropBoxRiver model = new DropBoxRiver("tmp", SMDSearchProperties.INDEX_NAME, 
 				SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "mytoken", "mysecret", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
 		
-		XContentBuilder xb = new DropBoxRiverHelper().toXContent(model);		
+		XContentBuilder xb = new DropBoxRiverHelper("appkey","appsecret").toXContent(model);
 		String jsonContent = xb.string();
 
 		Map<String, Object> map = XContentHelper.convertToMap(jsonContent.getBytes(), 0, jsonContent.length(), false).v2();
 		
-		DropBoxRiver river = new DropBoxRiverHelper().toRiver(new DropBoxRiver(), map);
+		DropBoxRiver river = new DropBoxRiverHelper("appkey","appsecret").toRiver(new DropBoxRiver(), map);
 		
 		Assert.assertEquals(model.getId(), river.getId());
 		Assert.assertEquals(model.getType(), river.getType());

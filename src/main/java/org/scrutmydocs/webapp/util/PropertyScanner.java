@@ -1,17 +1,16 @@
 package org.scrutmydocs.webapp.util;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
-
+import com.google.common.io.Files;
 import org.scrutmydocs.webapp.configuration.ScrutMyDocsProperties;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.StringUtils;
 
-import com.google.common.io.Files;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 public class PropertyScanner {
 
@@ -49,7 +48,9 @@ public class PropertyScanner {
 			FileSystemResource configDir = new FileSystemResource(userHome + "/.scrutmydocs/config/esdata/");
 			smdProps.setPathData(getProperty(props, "path.data", configDir.getPath()));
 			smdProps.setNodeAdresses(getPropertyAsArray(props, "node.addresses", "localhost:9300,localhost:9301"));
-			
+			smdProps.setDropboxKey(getProperty(props, "dropbox.app.key", null));
+            smdProps.setDropboxSecret(getProperty(props, "dropbox.app.secret", null));
+
 			// We check some rules here :
 			// if node.embedded = false, we must have an array of node.adresses
 			if (!smdProps.isNodeEmbedded() && (smdProps.getNodeAdresses() == null || smdProps.getNodeAdresses().length < 1)) {

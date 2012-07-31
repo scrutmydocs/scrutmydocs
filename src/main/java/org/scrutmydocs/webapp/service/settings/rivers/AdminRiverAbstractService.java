@@ -27,6 +27,7 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.indices.IndexMissingException;
 import org.elasticsearch.search.SearchHit;
 import org.scrutmydocs.webapp.api.settings.rivers.AbstractRiverHelper;
@@ -93,7 +94,12 @@ public abstract class AdminRiverAbstractService<T extends BasicRiver> implements
 		try {
 			srb.setIndices(SMDSearchProperties.ES_META_INDEX);
 			srb.setTypes(SMDSearchProperties.ES_META_RIVERS);
-			
+
+            // We need to filter for our rivers only
+            if (getHelper().type() != null) {
+                srb.setFilter(FilterBuilders.termFilter("type",getHelper().type()));
+            }
+
 			SearchResponse response = srb.execute().actionGet();
 			
 			if (response.getHits().totalHits() > 0) {
