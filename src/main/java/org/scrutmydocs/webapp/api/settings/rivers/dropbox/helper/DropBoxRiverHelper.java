@@ -19,14 +19,21 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.dropbox.helper;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.helper.AbstractFSRiverHelper;
 import org.scrutmydocs.webapp.api.settings.rivers.dropbox.data.DropBoxRiver;
 
+import java.io.IOException;
+import java.util.Map;
+
 public class DropBoxRiverHelper extends AbstractFSRiverHelper<DropBoxRiver> {
+    private final String appkey;
+    private final String appsecret;
+
+    public DropBoxRiverHelper(String appkey, String appsecret) {
+        this.appkey = appkey;
+        this.appsecret = appsecret;
+    }
 
 	/**
 	 * We build "dropbox" rivers.
@@ -47,7 +54,9 @@ public class DropBoxRiverHelper extends AbstractFSRiverHelper<DropBoxRiver> {
 	@Override
 	public XContentBuilder addFSMeta(XContentBuilder xcb, DropBoxRiver river)
 			throws IOException {
-		xcb	
+		xcb
+            .field("appkey", appkey)
+            .field("appsecret", appsecret)
 			.field("token", river.getToken())
 			.field("secret", river.getSecret());
 

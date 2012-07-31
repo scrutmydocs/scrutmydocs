@@ -12,8 +12,12 @@ $(function() {
 	// River FS
 	initRiverFS();
 
+	// River DropBox
+	initRiverDropBox();
+
 	// Create Rivers button
 	$(".dropdown-toggle").dropdown();
 	$("#btnAddFSRiver").click(addFSRiver);
+	$("#btnAddDropBoxRiver").click(addDropBoxRiver);
 });
 

@@ -13,7 +13,7 @@
                 <li class="disabled"><a href="#">EMail River</a></li>
                 <li class="disabled"><a href="#">RSS River</a></li>
                 <li class="disabled"><a href="#">Twitter River</a></li>
-                <li class="disabled"><a href="#">Dropbox River</a></li>
+                <li id="btnAddDropBoxRiver"><a href="#">Dropbox River</a></li>
             </ul>
         </div>
     </div>
@@ -36,7 +36,6 @@
         <li class="nav-header">Twitter Rivers</li>
         <%--<li class="disabled"><a class="river-twitter" href="#"><i class="icon-comment"></i> @ilaborie</a></li>--%>
 
-        <li class="nav-header">Dropbox Rivers</li>
-        <%--<li class="disabled"><a class="river-dropbox" href="#"><i class="icon-gift"></i> My Dropbox</a></li>--%>
+        <li id="rivers-dropbox" class="nav-header">Dropbox Rivers</li>
     </ul>
 </div>
