@@ -33,6 +33,7 @@ import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
+import org.elasticsearch.common.text.Text;
 import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.SearchHit;
@@ -105,10 +106,10 @@ public class SearchService {
 				for (HighlightField highlightField : searchHit
 						.getHighlightFields().values()) {
 
-					String[] fragmentsBuilder = highlightField.getFragments();
+					Text[] fragmentsBuilder = highlightField.getFragments();
 
-					for (String fragment : fragmentsBuilder) {
-						hit.getHighlights().add(fragment);
+					for (Text fragment : fragmentsBuilder) {
+						hit.getHighlights().add(fragment.string());
 					}
 				}
 			}
