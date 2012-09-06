@@ -89,9 +89,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:https://github.com/scrutmydocs/scrutmydocs.git</connection>
-		<url>scm:git:https://github.com/scrutmydocs/scrutmydocs.git</url>
-		<developerConnection>scm:git:https://github.com/scrutmydocs/scrutmydocs.git</developerConnection>
+		<url>https://github.com/scrutmydocs/scrutmydocs</url>
+		<connection>scm:git:ssh://git@github.com/scrutmydocs/scrutmydocs.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/scrutmydocs/scrutmydocs.git</developerConnection>
 	</scm>
 
 	<issueManagement>
