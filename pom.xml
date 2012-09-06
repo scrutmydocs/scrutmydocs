@@ -50,7 +50,7 @@
 
 		<!-- Plugins versions -->
 		<maven.compiler.version>2.5</maven.compiler.version>
-		<maven.surefire.version>2.7.1</maven.surefire.version>
+		<maven.surefire.version>2.12.3</maven.surefire.version>
 		<maven.war.version>2.2</maven.war.version>
 		<maven.jetty.version>6.1.26</maven.jetty.version>
 		<maven.eclipse.version>2.9</maven.eclipse.version>
