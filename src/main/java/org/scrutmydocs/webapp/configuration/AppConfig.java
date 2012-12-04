@@ -21,13 +21,16 @@ package org.scrutmydocs.webapp.configuration;
 
 import org.elasticsearch.ElasticSearchException;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.common.Base64;
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.node.Node;
+import org.scrutmydocs.webapp.api.document.data.Document;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.helper.FSRiverHelper;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
+import org.scrutmydocs.webapp.service.document.DocumentService;
 import org.scrutmydocs.webapp.util.ESHelper;
 import org.scrutmydocs.webapp.util.PropertyScanner;
 import org.springframework.context.annotation.Bean;
@@ -79,29 +82,6 @@ public class AppConfig {
 		// TODO Manage ES Settings
 		// factory.setSettings(settings)
 		factory.afterPropertiesSet();
-		
-		try {
-			logger.warn("TODO : remove automatic river creation. Just here for example purpose !");
-			// We are going to create the filesystem river if needed
-			XContentBuilder xb = new FSRiverHelper().toXContent(
-					new FSRiver("myfirstriver", SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "Scan tmp dir", "/tmp_es", 30L, "standard", false));		
-		
-			factory.getObject().prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, "myfirstriver").setSource(xb)
-					.execute().actionGet();
-
-			// We are going to create a second filesystem river to test multiple feeds
-			xb = new FSRiverHelper().toXContent(
-					new FSRiver("mysecondriver", SMDSearchProperties.INDEX_NAME,
-							SMDSearchProperties.INDEX_TYPE_DOC, "Scan second dir", "/tmp_es_second", 30L, "standard", false));		
-			
-			factory.getObject().prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, "mysecondriver").setSource(xb)
-					.execute().actionGet();
-			
-			ESHelper.createIndexIfNeeded(factory.getObject());
-
-		} catch (ElasticSearchException e) {
-			// TODO log.debug("Index is closed");
-		}
 		
 		return factory.getObject();
 	}
