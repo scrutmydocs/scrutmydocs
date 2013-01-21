@@ -25,6 +25,9 @@
             <action issue="45" dev="dadoonet" type="update">
                 Remove sample river and inject automatically 2 sample documents.
             </action>
+            <action issue="70" dev="jbng" type="add">
+                Adding support for Jira Rivers.
+            </action>
         </release>
 
         <release date="2012-09-06" description="Move from JSF to Full JS app" version="0.2.0">
