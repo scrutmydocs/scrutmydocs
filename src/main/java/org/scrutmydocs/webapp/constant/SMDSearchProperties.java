@@ -36,6 +36,12 @@ public interface SMDSearchProperties {
 	public static final String DIR_FIELD_PATH_ENCODED = "pathEncoded";
 	public static final String DIR_FIELD_VIRTUAL_PATH = "virtualpath";
 	public static final String DIR_FIELD_ROOT_PATH = "rootpath";
+
+    public static final String JIRA_COMPONENT_INDEX = "my_jira_index";
+    public static final String JIRA_ISSUE_TYPE = "jira_issue";
+    public static final String JIRA_ISSUE_COMMENT_TYPE = "jira_issue_comment";
+    public static final String JIRA_RIVER_ACTIVITY_INDEX = "jira_river_activity";
+    public static final String JIRA_RIVER_INDEX_UPDATE_TYPE = "jira_river_indexupdate";
 	
 	public static final String ES_META_INDEX = "smdadmin";
 	public static final String ES_META_RIVERS = "rivers";

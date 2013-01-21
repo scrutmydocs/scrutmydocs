@@ -1,0 +1,9 @@
+{
+    "jira_issue_comment" : {
+        "_timestamp" : { "enabled" : true },
+        "properties" : {
+            "project_key" : {"type" : "string", "analyzer" : "keyword"},
+            "source"      : {"type" : "string", "analyzer" : "keyword"}
+        }
+    }
+}

@@ -32,16 +32,16 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AdminFSRiverService extends AdminRiverAbstractService<FSRiver> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public AbstractRiverHelper<FSRiver> getHelper() {
-		return new FSRiverHelper();
-	}
+    @Override
+    public AbstractRiverHelper<FSRiver> getHelper() {
+        return new FSRiverHelper();
+    }
 
-	@Override
-	public FSRiver buildInstance() {
-		return new FSRiver();
-	}
+    @Override
+    public FSRiver buildInstance() {
+        return new FSRiver();
+    }
 
 }

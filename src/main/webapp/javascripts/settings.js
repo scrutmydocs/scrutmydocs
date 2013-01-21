@@ -9,6 +9,9 @@ $(function() {
 	// River FS
 	initRiverFS();
 
+    // River Jira
+	initRiverJira();
+
 	// River DropBox
 	initRiverDropBox();
 	
@@ -18,6 +21,7 @@ $(function() {
 	// Create Rivers button
 	$(".dropdown-toggle").dropdown();
 	$("#btnAddFSRiver").click(addFSRiver);
+	$("#btnAddJiraRiver").click(addJiraRiver);	
 	$("#btnAddDropBoxRiver").click(addDropBoxRiver);
 	$("#btnAddDriveRiver").click(addDriveRiver);
 });
