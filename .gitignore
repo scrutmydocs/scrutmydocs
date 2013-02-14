@@ -5,3 +5,5 @@
 /target
 /.externalToolBuilders/
 /maven-eclipse.xml
+/.idea
+*.iml
