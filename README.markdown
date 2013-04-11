@@ -37,13 +37,13 @@ sudo apt-get install openjdk-6-jdk
 download ScrutMyDocs:
 
 ```sh
-wget https://github.com/downloads/scrutmydocs/scrutmydocs/scrutmydocs-0.1.0.war
+wget https://github.com/downloads/scrutmydocs/scrutmydocs/scrutmydocs-0.2.0.war
 ```
 
 and run application with:
 
 ```sh
-java -jar jetty-runner-8.1.5.v20120716.jar scrutmydocs-0.1.0.war
+java -jar jetty-runner-8.1.5.v20120716.jar scrutmydocs-0.2.0.war
 ```
 
 now you can see ScrutMyDocs on your local machine, open the browser and open the page:
