@@ -19,14 +19,14 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.abstractfs.helper;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.scrutmydocs.webapp.api.settings.rivers.AbstractRiverHelper;
+import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.data.AbstractFSRiver;
 
 import java.io.IOException;
 import java.util.Map;
 
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.scrutmydocs.webapp.api.settings.rivers.AbstractRiverHelper;
-import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.data.AbstractFSRiver;
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 public abstract class AbstractFSRiverHelper<T extends AbstractFSRiver> extends AbstractRiverHelper<T> {
 
@@ -157,12 +157,12 @@ abstractfs will be replaced by your {@link #type()} content.
 											.field("term_vector", "with_positions_offsets")
 											.field("analyzer", analyzer)
 										.endObject()
-										.startObject("author").field("type", "string").endObject()
+										.startObject("author").field("type", "string").field("store", "yes").endObject()
 										.startObject("title").field("type", "string").field("store", "yes").endObject()
-										.startObject("name").field("type", "string").endObject()
-										.startObject("date").field("type", "date").field("format", "dateOptionalTime").endObject()
-										.startObject("keywords").field("type", "string").endObject()
-										.startObject("content_type").field("type", "string").endObject()
+										.startObject("name").field("type", "string").field("store", "yes").endObject()
+										.startObject("date").field("type", "date").field("store", "yes").field("format", "dateOptionalTime").endObject()
+										.startObject("keywords").field("type", "string").field("store", "yes").endObject()
+										.startObject("content_type").field("type", "string").field("store", "yes").endObject()
 									.endObject()
 								.endObject()
 								.startObject("name").field("type", "string").field("analyzer", "keyword").endObject()

@@ -1,9 +1,5 @@
 package org.scrutmydocs.webapp.util;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequestBuilder;
@@ -17,6 +13,10 @@ import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.helper.AbstractFSRiverHelper;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class ESHelper {
@@ -60,7 +60,7 @@ public class ESHelper {
 				
 				// Create type and mapping
 				PutMappingResponse response = pmrb.execute().actionGet();			
-				if (!response.acknowledged()) {
+				if (!response.isAcknowledged()) {
 					throw new Exception("Could not define mapping for type ["+index+"]/["+type+"].");
 				} else {
 					if (logger.isDebugEnabled()) logger.debug("Mapping definition for ["+index+"]/["+type+"] succesfully created.");
@@ -129,7 +129,7 @@ public class ESHelper {
 				}
 				
 				CreateIndexResponse createIndexResponse = cirb.execute().actionGet();
-				if (!createIndexResponse.acknowledged()) throw new Exception("Could not create index ["+indexName+"].");
+				if (!createIndexResponse.isAcknowledged()) throw new Exception("Could not create index ["+indexName+"].");
 			}
 			
 			// We create the mapping for the folder type

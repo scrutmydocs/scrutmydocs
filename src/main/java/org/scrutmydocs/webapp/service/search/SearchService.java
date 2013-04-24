@@ -19,16 +19,6 @@
 
 package org.scrutmydocs.webapp.service.search;
 
-import static org.elasticsearch.index.query.FilterBuilders.prefixFilter;
-import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
-import static org.elasticsearch.index.query.QueryBuilders.queryString;
-import static org.elasticsearch.search.facet.FacetBuilders.termsFacet;
-import static org.scrutmydocs.webapp.constant.SMDSearchProperties.INDEX_NAME;
-import static org.scrutmydocs.webapp.constant.SMDSearchProperties.INDEX_TYPE_DOC;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.logging.ESLogger;
@@ -46,6 +36,16 @@ import org.scrutmydocs.webapp.api.settings.rivers.fs.helper.FSRiverHelper;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.elasticsearch.index.query.FilterBuilders.prefixFilter;
+import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
+import static org.elasticsearch.index.query.QueryBuilders.queryString;
+import static org.elasticsearch.search.facet.FacetBuilders.termsFacet;
+import static org.scrutmydocs.webapp.constant.SMDSearchProperties.INDEX_NAME;
+import static org.scrutmydocs.webapp.constant.SMDSearchProperties.INDEX_TYPE_DOC;
 
 @Component
 public class SearchService {
@@ -78,10 +78,12 @@ public class SearchService {
 				.setFrom(first).setSize(pageSize).addHighlightedField("name")
 				.addHighlightedField("file")
 				.setHighlighterPreTags("<span class='badge badge-info'>")
-				.setHighlighterPostTags("</span>").execute().actionGet();
+				.setHighlighterPostTags("</span>")
+                .addFields("*","_source")
+                .execute().actionGet();
 
 		totalHits = searchHits.getHits().totalHits();
-		took = searchHits.tookInMillis();
+		took = searchHits.getTookInMillis();
 
 		List<Hit> hits = new ArrayList<Hit>();
 		for (SearchHit searchHit : searchHits.getHits()) {
@@ -96,12 +98,12 @@ public class SearchService {
 				hit.setTitle(FSRiverHelper.getSingleStringValue(
 						SMDSearchProperties.DOC_FIELD_NAME,
 						searchHit.getSource()));
-				hit.setContentType(FSRiverHelper.getSingleStringValue(
-						"file._content_type", searchHit.getSource()));
 				// hit.setVirtualPath(FSRiverHelper.getSingleStringValue(SMDSearchProperties.DOC_FIELD_VIRTUAL_PATH,
 				// searchHit.getSource()));
 			}
-
+            if (searchHit.getFields() != null && searchHit.getFields().get("file.content_type") != null) {
+                hit.setContentType((String) searchHit.getFields().get("file.content_type").getValue());
+            }
 			if (searchHit.getHighlightFields() != null) {
 				for (HighlightField highlightField : searchHit
 						.getHighlightFields().values()) {
@@ -150,8 +152,8 @@ public class SearchService {
 					.execute().actionGet();
 
 			TermsFacet terms = searchHits.getFacets().facet("autocomplete");
-			for (Entry entry : terms.entries()) {
-				results.add(entry.getTerm());
+			for (Entry entry : terms.getEntries()) {
+				results.add(entry.getTerm().string());
 			}
 
 		} catch (Exception e) {

@@ -6,7 +6,41 @@ Introduction
 
 Scrut My Docs is a web application using elasticsearch.
 With ScrutMyDocs you can Send, Look for and find all your documents.
- 
+
+Versions
+--------
+
+<table>
+    <thead>
+        <tr>
+            <td>Scrutmydocs</td>
+            <td>ElasticSearch</td>
+            <td>FS River Plugin</td>
+            <td>Attachment Plugin</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>master (0.3.0-SNAPSHOT)</td>
+            <td>0.90.0.RC2</td>
+            <td>0.2.0</td>
+            <td>1.6.0</td>
+        </tr>
+        <tr>
+            <td>0.2.0</td>
+            <td>0.19.9</td>
+            <td>0.0.2</td>
+            <td>1.4.0</td>
+        </tr>
+        <tr>
+            <td>0.1.0</td>
+            <td>0.19.8</td>
+            <td>0.0.2</td>
+            <td>1.4.0</td>
+        </tr>
+    </tbody>
+</table>
+
 
 Installation
 ------------
@@ -37,13 +71,13 @@ sudo apt-get install openjdk-6-jdk
 download ScrutMyDocs:
 
 ```sh
-wget https://github.com/downloads/scrutmydocs/scrutmydocs/scrutmydocs-0.2.0.war
+wget https://github.com/downloads/scrutmydocs/scrutmydocs/scrutmydocs-0.3.0.war
 ```
 
 and run application with:
 
 ```sh
-java -jar jetty-runner-8.1.5.v20120716.jar scrutmydocs-0.2.0.war
+java -jar jetty-runner-8.1.5.v20120716.jar scrutmydocs-0.3.0.war
 ```
 
 now you can see ScrutMyDocs on your local machine, open the browser and open the page:
@@ -68,8 +102,8 @@ If you want to use an external ElasticSearch cluster, you will have to set it up
 
 ##### Linux (Debian-like)
 ```sh
-curl -L -C - -O https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.19.8.deb
-dpkg -i elasticsearch-0.19.8.deb
+curl -L -C - -O https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.90.0.RC2.deb
+dpkg -i elasticsearch-0.90.0.RC2.deb
 ```
 
 ##### OSX
@@ -84,8 +118,8 @@ brew install elasticsearch
 
 ```sh
 service elasticsearch stop
-/usr/share/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.4.0
-/usr/share/elasticsearch/bin/plugin -install dadoonet/fsriver/0.0.2
+/usr/share/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.6.0
+/usr/share/elasticsearch/bin/plugin -install fr.pilato.elasticsearch.river/fsriver/0.2.0
 ```
 
 #### Configure elasticsearch.yml node property file

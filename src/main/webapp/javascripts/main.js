@@ -77,7 +77,16 @@ var handleSearchResults = function(data) {
 		$.each(json.hits,function(index, hit) {
 			// TODO evaluate a Javascript Templating solution
 			// handle content type for icons
-			contentType = hit.contentType;
+            if (hit.contentType != null) {
+                if (hit.contentType.indexOf(";",0) > 0) {
+                    contentType = hit.contentType.substr(0,hit.contentType.indexOf(";",0));
+                } else {
+                    contentType = hit.contentType;
+                }
+
+            } else {
+                contentType = "";
+            }
 			icon = "";
 			// TODO to refactor
 			if (contentType==="application/vnd.oasis.opendocument.text") {
@@ -88,7 +97,10 @@ var handleSearchResults = function(data) {
 				icon = '<img alt="image" src="img/docicons/image.png"/> ';
 			} else if (contentType==="image/gif") {
 				icon = '<img alt="image" src="img/docicons/image.png"/> ';
-			/* TODO Missing icons, ...
+            } else if (contentType==="text/plain") {
+                icon = '<img alt="text" src="img/docicons/txt.png"/> ';
+            }
+            /* TODO Missing icons, ...
 			} else if (contentType==="application/octet-stream") {
 				icon = '<img alt="binary" src="img/docicons/binary.png"/> ';
 			} else if (contentType==="application/zip") {
@@ -96,15 +108,15 @@ var handleSearchResults = function(data) {
 			} else if (contentType==="audio/mpeg") {
 				icon = '<img alt="audio" src="img/docicons/audio.png"/> ';
 			*/
-			}
-			// Create links
 
+			// Create links
 			if (hit.title) {
 				title = hit.title;
 			} else {
 				title = hit.id;
 			}
-			link = '<a target="_blank" href="download?id='+hit.id+'&index='+hit.index+'">' +icon+ title+'</a>';
+			link = '<a target="_blank" href="download?id='+hit.id+'&index='+hit.index+'&content_type=' +
+                contentType +'">' +icon+ title+'</a>';
 			if (hit.highlights) {
 				// add highlight
 				link += '<blockquote>' +hit.highlights.join('<br>')+ '</blockquote>';

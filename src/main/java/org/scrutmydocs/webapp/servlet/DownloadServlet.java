@@ -3,8 +3,12 @@
  */
 package org.scrutmydocs.webapp.servlet;
 
-import java.io.IOException;
-import java.util.Map;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.common.Base64;
+import org.elasticsearch.common.io.Closeables;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -12,13 +16,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.common.Base64;
-import org.elasticsearch.common.io.Closeables;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -48,6 +47,7 @@ public class DownloadServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String id = req.getParameter("id");
 		String index = req.getParameter("index");
+        String contentType = req.getParameter("content_type");
 		Client client = this.getClient();
 
 		GetResponse responseEs = client.prepareGet().setIndex(index).setId(id).execute().actionGet();
@@ -58,7 +58,6 @@ public class DownloadServlet extends HttpServlet {
 			// Write into stream...
 			ServletOutputStream out = resp.getOutputStream();
 			try {
-				String contentType = (String)attachment.get("_content_type");
 				String name = (String)attachment.get("_name");
 				String content = (String)attachment.get("content");
 

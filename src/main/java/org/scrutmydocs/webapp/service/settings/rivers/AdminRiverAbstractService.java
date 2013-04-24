@@ -19,10 +19,6 @@
 
 package org.scrutmydocs.webapp.service.settings.rivers;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.elasticsearch.action.get.GetRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -38,6 +34,10 @@ import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Component
@@ -68,8 +68,8 @@ public abstract class AdminRiverAbstractService<T extends BasicRiver> implements
 			
 			try {
 				GetResponse response = rb.execute().actionGet();
-				if (response.exists()) {
-					river = getHelper().toRiver(buildInstance(), response.sourceAsMap());
+				if (response.isExists()) {
+					river = getHelper().toRiver(buildInstance(), response.getSourceAsMap());
 				}
 			} catch (IndexMissingException e) {
 				// Index does not exists, so RIVER does not exist...
@@ -96,12 +96,12 @@ public abstract class AdminRiverAbstractService<T extends BasicRiver> implements
 			
 			SearchResponse response = srb.execute().actionGet();
 			
-			if (response.hits().totalHits() > 0) {
+			if (response.getHits().totalHits() > 0) {
 				
-				for (int i = 0; i < response.hits().hits().length; i++) {
+				for (int i = 0; i < response.getHits().hits().length; i++) {
 					T river = buildInstance();
 
-					SearchHit hit = response.hits().hits()[i];
+					SearchHit hit = response.getHits().hits()[i];
 
 					// We only manage rivers for type getHelper().type()
 					river = getHelper().toRiver(river, hit.sourceAsMap());

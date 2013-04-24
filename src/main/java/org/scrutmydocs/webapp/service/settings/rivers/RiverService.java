@@ -19,9 +19,6 @@
 
 package org.scrutmydocs.webapp.service.settings.rivers;
 
-import java.io.Serializable;
-import java.util.Map;
-
 import org.elasticsearch.action.admin.indices.close.CloseIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.close.CloseIndexResponse;
 import org.elasticsearch.action.admin.indices.open.OpenIndexRequestBuilder;
@@ -37,6 +34,9 @@ import org.scrutmydocs.webapp.api.settings.rivers.fs.helper.FSRiverHelper;
 import org.scrutmydocs.webapp.util.ESHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.io.Serializable;
+import java.util.Map;
 
 
 @Component
@@ -65,7 +65,7 @@ public class RiverService implements Serializable {
 			}
 			
 			// We can also check if status is ok
-			Map<String, Object> source = responseEs.sourceAsMap();
+			Map<String, Object> source = responseEs.getSourceAsMap();
 			if (source != null) {
 				boolean status = FSRiverHelper.getSingleBooleanValue("ok", source);
 				if (status) return true;
@@ -144,7 +144,7 @@ public class RiverService implements Serializable {
 		irb.setIndex("_river");
 		CloseIndexResponse response = irb.execute().actionGet();
 		
-		if (!response.acknowledged()) {
+		if (!response.isAcknowledged()) {
 			logger.warn("stop() : Pb when closing rivers.");
 		}
 		if (logger.isDebugEnabled()) logger.debug("/stop()");
@@ -160,7 +160,7 @@ public class RiverService implements Serializable {
 		irb.setIndex("_river");
 		OpenIndexResponse response = irb.execute().actionGet();
 		
-		if (!response.acknowledged()) {
+		if (!response.isAcknowledged()) {
 			logger.warn("start() : Pb when starting rivers.");
 		}
 		if (logger.isDebugEnabled()) logger.debug("/start()");
