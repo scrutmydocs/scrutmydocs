@@ -19,8 +19,6 @@
 
 package org.scrutmydocs.webapp.test.rivers;
 
-import java.util.Collection;
-
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,6 +28,8 @@ import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.scrutmydocs.webapp.service.settings.rivers.fs.AdminFSRiverService;
 import org.scrutmydocs.webapp.test.AbstractConfigurationTest;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Collection;
 
 
 public class AdminFSRiverServiceTest extends AbstractConfigurationTest {
@@ -46,8 +46,8 @@ public class AdminFSRiverServiceTest extends AbstractConfigurationTest {
 		client.prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, "mytestriver").setSource(xb)
 				.execute().actionGet();
 		
-		// We have to wait for 1s
-		Thread.sleep(1000);
+		// We have to refresh docs
+        client.admin().indices().prepareRefresh(SMDSearchProperties.ES_META_INDEX).execute().actionGet();
 		
 		Collection<FSRiver> rivers = adminService.get();
 		Assert.assertEquals("Rivers should not be empty", 1, rivers.size());
@@ -62,9 +62,9 @@ public class AdminFSRiverServiceTest extends AbstractConfigurationTest {
 		
 		client.prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, "mytestriver").setSource(xb)
 				.execute().actionGet();
-		
-		// We have to wait for 1s
-		Thread.sleep(1000);
+
+        // We have to refresh docs
+        client.admin().indices().prepareRefresh(SMDSearchProperties.ES_META_INDEX).execute().actionGet();
 		
 		FSRiver fsriver = adminService.get("mytestriver");
 		Assert.assertNotNull("Rivers should exist", fsriver);
