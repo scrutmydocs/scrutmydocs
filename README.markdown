@@ -22,9 +22,9 @@ Versions
     <tbody>
         <tr>
             <td>master (0.3.0-SNAPSHOT)</td>
-            <td>0.90.0.RC2</td>
+            <td>0.90.0</td>
             <td>0.2.0</td>
-            <td>1.6.0</td>
+            <td>1.7.0</td>
         </tr>
         <tr>
             <td>0.2.0</td>
@@ -102,8 +102,8 @@ If you want to use an external ElasticSearch cluster, you will have to set it up
 
 ##### Linux (Debian-like)
 ```sh
-curl -L -C - -O https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.90.0.RC2.deb
-dpkg -i elasticsearch-0.90.0.RC2.deb
+curl -L -C - -O https://github.com/downloads/elasticsearch/elasticsearch/elasticsearch-0.90.0.deb
+dpkg -i elasticsearch-0.90.0.deb
 ```
 
 ##### OSX
@@ -118,7 +118,7 @@ brew install elasticsearch
 
 ```sh
 service elasticsearch stop
-/usr/share/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.6.0
+/usr/share/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.7.0
 /usr/share/elasticsearch/bin/plugin -install fr.pilato.elasticsearch.river/fsriver/0.2.0
 ```
 
