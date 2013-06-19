@@ -13,7 +13,7 @@
  	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">  
 	 	<property name="messageConverters">  
 	      <list>  
-	        <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+	        <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 	      </list>  
 	    </property>
     </bean> 

@@ -32,30 +32,34 @@
 		</license>
 	</licenses>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+    
 	<properties>
 		<!-- Dependencies versions -->
-		<spring.version>3.2.2.RELEASE</spring.version>
+		<spring.version>3.2.3.RELEASE</spring.version>
 		<cglib.version>2.2.2</cglib.version>
-		<elasticsearch.version>0.90.0</elasticsearch.version>
+		<elasticsearch.version>0.90.1</elasticsearch.version>
 		<spring.elasticsearch.version>0.2.0</spring.elasticsearch.version>
 		<fsriver.version>0.2.0</fsriver.version>
         <mapper-attachment.version>1.7.0</mapper-attachment.version>
-        <jackson.version>1.7.1</jackson.version>
-		<guava.version>12.0.1</guava.version>
-		<commons.file-upload.version>1.2</commons.file-upload.version>
-		<log4j.version>1.2.13</log4j.version>
-		<junit.version>4.10</junit.version>
-		<commons.io.version>1.4</commons.io.version>
-		<atmosphere.version>0.4.1</atmosphere.version>
+        <jackson.version>2.2.0</jackson.version>
+		<guava.version>14.0.1</guava.version>
+		<commons.file-upload.version>1.3</commons.file-upload.version>
+		<log4j.version>1.2.17</log4j.version>
+		<junit.version>4.11</junit.version>
+		<commons.io.version>2.4</commons.io.version>
 
 		<!-- Plugins versions -->
-		<maven.compiler.version>2.5</maven.compiler.version>
-		<maven.surefire.version>2.12.3</maven.surefire.version>
-		<maven.war.version>2.2</maven.war.version>
+		<maven.compiler.version>3.1</maven.compiler.version>
+		<maven.surefire.version>2.15</maven.surefire.version>
+		<maven.war.version>2.3</maven.war.version>
 		<maven.jetty.version>6.1.26</maven.jetty.version>
 		<maven.eclipse.version>2.9</maven.eclipse.version>
-		<maven.lesscss.version>1.3.0</maven.lesscss.version>
-		<maven.github.downloads.version>0.6</maven.github.downloads.version>
+		<maven.lesscss.version>1.3.3</maven.lesscss.version>
 
 		<!-- Others properties -->
 		<java.version>1.6</java.version>
@@ -102,11 +106,11 @@
 
 	<dependencies>
 		<!-- Jackson JSON Mapper -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
 
 		<!-- Spring 3 dependencies -->
 		<dependency>
@@ -196,11 +200,6 @@
 			<artifactId>commons-io</artifactId>
 			<version>${commons.io.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.atmosphere</groupId>
-			<artifactId>atmosphere-compat</artifactId>
-			<version>${atmosphere.version}</version>
-		</dependency>
 
 		<!-- Logging -->
 		<dependency>
@@ -260,24 +259,6 @@
 			</testResource>
 		</testResources>
 		<plugins>
-		    <plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>downloads-maven-plugin</artifactId>
-				<version>${maven.github.downloads.version}</version>
-				<configuration>
-					<description>${project.name} download for ${project.version}</description>
-					<override>true</override>
-					<includeAttached>true</includeAttached>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>upload</goal>
-						</goals>
-						<phase>deploy</phase>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -406,20 +387,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<repositories>
-		<repository>
-			<id>sonatype</id>
-			<url>http://oss.sonatype.org/content/repositories/releases/</url>
-		</repository>
-		<repository>
-			<id>sonatype-snapshots</id>
-			<url>http://oss.sonatype.org/content/repositories/snapshots/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 
 	<!-- Just to make deploy not fail ! -->	
 	<distributionManagement>
