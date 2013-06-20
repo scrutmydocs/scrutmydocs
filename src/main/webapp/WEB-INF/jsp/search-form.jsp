@@ -15,6 +15,7 @@
                 <div class="input-append">
                     <input name="q" type="text" class="search-query span7">
                     <button type="submit" class="btn btn-primary"><i class="icon-white icon-search"></i></button>
+                    <div id="loading"><img src="img/loading.gif"/></div>
                 </div>
             </form>
         </div>

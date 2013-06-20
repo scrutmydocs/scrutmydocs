@@ -961,4 +961,5 @@ form.well .form-actions{padding-bottom:O;margin-bottom:-18px;}
 #leftMenu .nav-list li.active span.badge{border:thin solid white;}
 .bar{height:18px;}
 footer{position:relative;height:3em;clear:both;bottom:0;left:0;width:100%;text-align:center;}
+#loading{position:relative;height:30px;padding-top:10px;clear:both;bottom:0;left:0;width:100%;text-align:center;}#loading img{display:none;}
 @media (max-width:979px){body{padding-top:0px;padding-bottom:0px;}}

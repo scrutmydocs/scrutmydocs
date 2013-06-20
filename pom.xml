@@ -90,6 +90,12 @@
 			<email>ilaborie+github@gmail.com</email>
 			<timezone>+1</timezone>
 		</developer>
+        <developer>
+            <id>gcuisinier</id>
+            <name>Gildas Cuisinier</name>
+            <email>hikage@hikage.be</email>
+            <timezone>+1</timezone>
+        </developer>
 	</developers>
 
 	<scm>
@@ -385,6 +391,22 @@
 					</webResources>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changes-plugin</artifactId>
+                <version>2.8</version>
+                <configuration>
+                    <smtpHost>smtp.free.fr</smtpHost>
+                    <smtpPort implementation="java.lang.Integer">25</smtpPort>
+                    <fromDeveloperId>dadoonet</fromDeveloperId>
+                    <toAddresses>
+                        <toAddress implementation="java.lang.String">elasticsearch@googlegroups.com</toAddress>
+                        <toAddress implementation="java.lang.String">elasticsearch-fr@googlegroups.com</toAddress>
+                    </toAddresses>
+                    <template>es-announcement.vm</template>
+                    <templateDirectory>changes</templateDirectory>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 
