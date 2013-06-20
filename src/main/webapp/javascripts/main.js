@@ -38,11 +38,13 @@ var doSearchPage = function(query, from) {
 	// Rest
 	lastData = data;
 	$.postJSON("api/1/search", data, handleSearchResults);
+    $("#loading img").show();
 };
 
 // Handle Search Results
 var handleSearchResults = function(data) {
-	// Handle errors
+    $("#loading img").hide();
+    // Handle errors
 	if (!data.ok) {
 		showRestError(data);
 		return;
