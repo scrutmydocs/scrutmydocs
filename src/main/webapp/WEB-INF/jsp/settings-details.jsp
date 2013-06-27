@@ -4,4 +4,5 @@
 	</div>
 	<jsp:include page="river-fs-detail.jsp"/>
 	<jsp:include page="river-dropbox-detail.jsp"/>
+	<jsp:include page="river-drive-detail.jsp"/>
 </div>
