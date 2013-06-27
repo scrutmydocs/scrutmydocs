@@ -118,12 +118,13 @@ brew install elasticsearch
 
 #### Add required plugins
 
-[mapper-attachment](https://github.com/elasticsearch/elasticsearch-mapper-attachments), [fsriver](https://github.com/dadoonet/fsriver)
+[mapper-attachment](https://github.com/elasticsearch/elasticsearch-mapper-attachments), [fsriver](https://github.com/dadoonet/fsriver), [google-drive-river](https://github.com/lbroudoux/es-google-drive-river)
 
 ```sh
 service elasticsearch stop
 /usr/share/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.7.0
 /usr/share/elasticsearch/bin/plugin -install fr.pilato.elasticsearch.river/fsriver/0.2.0
+/usr/share/elasticsearch/bin/plugin -install com.github.lbroudoux.elasticsearch/google-drive-river/0.0.1
 ```
 
 #### Configure elasticsearch.yml node property file
@@ -869,5 +870,130 @@ curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/dropbox/mydummyrive
 
 # DELETE a river
 curl -XDELETE 'localhost:8080/scrutmydocs/api/1/settings/rivers/dropbox/mydummyriver'
+```
+
+Google Drive Rivers (DriveRivers)
+------------------------------
+
+You can manage your Google Drive rivers with the DriveRivers API.
+
+### REST Resources
+
+<table>
+   <thead>
+      <tr>
+         <th>Resource</th>
+         <th>Description</th>
+      </tr>
+   </thead>
+   <tbody>
+       <tr>
+         <td>GET 1/settings/rivers/drive/_help</td>
+         <td>Display help.</td>
+       </tr>
+       <tr>
+         <td>GET 1/settings/rivers/drive</td>
+         <td>Get all existing Google Drive rivers (it will provide an array of S3River objects).</td>
+       </tr>
+       <tr>
+         <td>GET 1/settings/rivers/drive/{name}</td>
+         <td>Get one Google Drive river (see DriveRiver object).</td>
+       </tr>
+       <tr>
+         <td>POST 1/settings/rivers/drive</td>
+         <td>Create or update a Google Drive river (see DriveRiver Object). The river is not automatically started.</td>
+       </tr>
+       <tr>
+         <td>PUT 1/settings/rivers/drive</td>
+         <td>Same as POST.</td>
+       </tr>
+       <tr>
+         <td>DELETE 1/settings/rivers/drive/{name}</td>
+         <td>Remove a Google Drive river.</td>
+       </tr>
+       <tr>
+         <td>GET 1/settings/rivers/drive/{name}/start</td>
+         <td>Start a river</td>
+       </tr>
+       <tr>
+         <td>GET 1/settings/rivers/drive/{name}/stop</td>
+         <td>Stop a river</td>
+       </tr>
+    </tbody>
+</table>
+
+### DriveRiver Object
+
+A DriveRiver object looks like (see https://github.com/lbroudoux/es-google-drive-river for updated details):
+
+```javascript
+{
+    "id" : "mydummyriver",
+    "name" : "My Dummy River",
+    "indexname" : "docs",
+    "typename" : "doc",
+    "start" : false,
+    "url" :"Work",
+    "folder" :"Work",
+    "clientId":"GoogleDriveClientId",
+    "clientSecret":"GoogleDriveClientSecret",
+    "refreshToken":"GoogleDriveRefreshToken",
+    "updateRate" : 300,
+    "includes" : "*.doc",
+    "excludes" : "resume*",
+    "analyzer" : "french"
+}
+```
+
+* `id` is the unique name of your river. It will be used to get or delete the river.
+* `name` is a fancy name for the river.
+* `indexname` is where your documents will be send.
+* `typename` is the type name under your documents will be indexed.
+* `start` indicates if the river is running (true) or not (false).
+* `url` is the root folder where River begins to crawl within the Drive.
+* `folder` is the root folder where River begins to crawl within the Drive (same as url).
+* `clientId` is the client Id your Google Drive app is registred.
+* `clientSecret` is the client secret your Google Drive app is registred.
+* `refreshToken` is the refresh token you get when running the OAuth process (see https://github.com/lbroudoux/es-google-drive-river) 
+* `updateRate` is the frequency (in seconds).
+* `includes` is used when you want to index only some files (can be null aka every file is indexed).
+* `excludes` is used when you want to exclude some files from the include list (can be null aka every file is indexed).
+* `analyzer` is the analyzer to apply for this river ("default" or "french" by now).
+
+> Note that you will have to conform to the OAuth process to get refresh token from the user.
+
+### Examples
+
+
+```sh
+# CREATE a new river
+curl -XPUT 'localhost:8080/scrutmydocs/api/1/settings/rivers/drive/' -d '
+{
+    "id" : "mydummyriver",
+    "name" : "My Dummy River",
+    "indexname" : "docs",
+    "typename" : "doc",
+    "start" : false,
+    "url" :"MyFolder",
+    "folder" :"MyFolder",
+    "clientId":"AAAAAAAAAAAAAAAA",
+    "clientSecret":"BBBBBBBBBBBBBB",
+    "refreshToken":"CCCCCCCCCCCCCC",
+    "updateRate" : 300,
+    "includes" : "*.doc",
+    "excludes" : "resume*",
+    "analyzer" : "french"
+}
+' -H "Content-Type: application/json" -H "Accept: application/json"
+
+
+# START a river
+curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/drive/mydummyriver/start'
+
+# STOP a river
+curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/drive/mydummyriver/stop'
+
+# DELETE a river
+curl -XDELETE 'localhost:8080/scrutmydocs/api/1/settings/rivers/drive/mydummyriver'
 ```
 

@@ -11,10 +11,14 @@ $(function() {
 
 	// River DropBox
 	initRiverDropBox();
+	
+	// River Google Drive
+	initRiverDrive();
 
 	// Create Rivers button
 	$(".dropdown-toggle").dropdown();
 	$("#btnAddFSRiver").click(addFSRiver);
 	$("#btnAddDropBoxRiver").click(addDropBoxRiver);
+	$("#btnAddDriveRiver").click(addDriveRiver);
 });
 

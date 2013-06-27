@@ -4,6 +4,9 @@
 
     <body>
         <release date="2013-07-01" description="Summer 2013 release" version="0.3.0">
+            <action issue="4" dev="lbroudoux" type="add">
+                Adding support for Google Drive rivers.
+            </action>
             <action issue="36" dev="dadoonet" type="fix">
                 When removing a river with success, message should be green instead of red.
             </action>

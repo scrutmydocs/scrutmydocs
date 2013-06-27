@@ -14,6 +14,7 @@
                 <li class="disabled"><a href="#">RSS River</a></li>
                 <li class="disabled"><a href="#">Twitter River</a></li>
                 <li id="btnAddDropBoxRiver"><a href="#">Dropbox River</a></li>
+                <li id="btnAddDriveRiver"><a href="#">Google Drive River</a></li>
             </ul>
         </div>
     </div>
@@ -37,5 +38,7 @@
         <%--<li class="disabled"><a class="river-twitter" href="#"><i class="icon-comment"></i> @ilaborie</a></li>--%>
 
         <li id="rivers-dropbox" class="nav-header">Dropbox Rivers</li>
+        
+        <li id="rivers-drive" class="nav-header">Google Drive Rivers</li>
     </ul>
 </div>

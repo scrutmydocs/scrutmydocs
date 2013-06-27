@@ -46,6 +46,7 @@
 		<spring.elasticsearch.version>0.2.0</spring.elasticsearch.version>
 		<fsriver.version>0.3.0</fsriver.version>
         <dropbox.version>0.2.0</dropbox.version>
+        <googledrive.version>0.0.1</googledrive.version>
         <mapper-attachment.version>1.8.0</mapper-attachment.version>
         <jackson.version>2.2.0</jackson.version>
 		<guava.version>14.0.1</guava.version>
@@ -103,6 +104,12 @@
             <id>huskercane</id>
             <name>Rohit Singh</name>
             <email>rohits@rohit.net</email>
+        </developer>
+        <developer>
+            <id>lbroudoux</id>
+            <name>Laurent Broudoux</name>
+            <email>laurent.broudoux@gmail.com</email>
+            <timezone>+1</timezone>
         </developer>
 	</developers>
 
@@ -174,7 +181,12 @@
             <artifactId>dropbox</artifactId>
             <version>${dropbox.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.lbroudoux.elasticsearch</groupId>
+            <artifactId>google-drive-river</artifactId>
+            <version>${googledrive.version}</version>
+        </dependency>
+        
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch-mapper-attachments</artifactId>
