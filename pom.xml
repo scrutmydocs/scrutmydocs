@@ -46,6 +46,7 @@
 		<spring.elasticsearch.version>0.2.0</spring.elasticsearch.version>
 		<fsriver.version>0.2.0</fsriver.version>
         <dropbox.version>0.1.0</dropbox.version>
+        <amazons3.version>0.0.1</amazons3.version>
         <mapper-attachment.version>1.7.0</mapper-attachment.version>
         <jackson.version>2.2.0</jackson.version>
 		<guava.version>14.0.1</guava.version>
@@ -161,6 +162,11 @@
             <artifactId>dropbox</artifactId>
             <version>${dropbox.version}</version>
         </dependency>
+       <dependency>
+         <groupId>com.github.lbroudoux.elasticsearch</groupId>
+         <artifactId>amazon-s3-river</artifactId>
+         <version>${amazons3.version}</version>
+      </dependency>
 
         <dependency>
             <groupId>org.elasticsearch</groupId>

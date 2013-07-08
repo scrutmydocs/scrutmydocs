@@ -14,10 +14,14 @@ $(function() {
 
 	// River DropBox
 	initRiverDropBox();
+	
+	// River S3
+	initRiverS3();
 
 	// Create Rivers button
 	$(".dropdown-toggle").dropdown();
 	$("#btnAddFSRiver").click(addFSRiver);
 	$("#btnAddDropBoxRiver").click(addDropBoxRiver);
+	$("#btnAddS3River").click(addS3River);
 });
 
