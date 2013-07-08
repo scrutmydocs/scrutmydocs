@@ -3,7 +3,10 @@
           xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
 
     <body>
-        <release date="2013-07-01" description="Summer 2013 release" version="0.3.0">
+        <release date="2013-09-30" description="Summer 2013 release" version="0.3.0">
+            <action issue="58" dev="lbroudoux" type="add">
+                Adding support for S3 rivers.
+            </action>
             <action issue="4" dev="lbroudoux" type="add">
                 Adding support for Google Drive rivers.
             </action>

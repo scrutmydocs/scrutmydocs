@@ -17,6 +17,9 @@ $(function() {
 	
 	// River Google Drive
 	initRiverDrive();
+	
+	// River S3
+	initRiverS3();
 
 	// Create Rivers button
 	$(".dropdown-toggle").dropdown();
@@ -24,5 +27,6 @@ $(function() {
 	$("#btnAddJiraRiver").click(addJiraRiver);	
 	$("#btnAddDropBoxRiver").click(addDropBoxRiver);
 	$("#btnAddDriveRiver").click(addDriveRiver);
+	$("#btnAddS3River").click(addS3River);
 });
 
