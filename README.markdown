@@ -114,12 +114,13 @@ brew install elasticsearch
 
 #### Add required plugins
 
-[mapper-attachment](https://github.com/elasticsearch/elasticsearch-mapper-attachments), [fsriver](https://github.com/dadoonet/fsriver)
+[mapper-attachment](https://github.com/elasticsearch/elasticsearch-mapper-attachments), [fsriver](https://github.com/dadoonet/fsriver), [amazon-s3-river](https://github.com/lbroudoux/es-amazon-s3-river)
 
 ```sh
 service elasticsearch stop
 /usr/share/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.7.0
 /usr/share/elasticsearch/bin/plugin -install fr.pilato.elasticsearch.river/fsriver/0.2.0
+/usr/share/elasticsearch/bin/plugin -install com.github.lbroudoux.elasticsearch/amazon-s3-river/0.0.1
 ```
 
 #### Configure elasticsearch.yml node property file
@@ -859,3 +860,126 @@ curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/dropbox/mydummyrive
 curl -XDELETE 'localhost:8080/scrutmydocs/api/1/settings/rivers/dropbox/mydummyriver'
 ```
 
+Amazon S3 Rivers (S3Rivers)
+------------------------------
+
+You can manage your Amazon S3 rivers with the S3Rivers API.
+
+### REST Resources
+
+<table>
+   <thead>
+      <tr>
+         <th>Resource</th>
+         <th>Description</th>
+      </tr>
+   </thead>
+   <tbody>
+       <tr>
+         <td>GET 1/settings/rivers/s3/_help</td>
+         <td>Display help.</td>
+       </tr>
+       <tr>
+         <td>GET 1/settings/rivers/s3</td>
+         <td>Get all existing Amazon S3 rivers (it will provide an array of S3River objects).</td>
+       </tr>
+       <tr>
+         <td>GET 1/settings/rivers/s3/{name}</td>
+         <td>Get one Amazon S3 river (see S3River object).</td>
+       </tr>
+       <tr>
+         <td>POST 1/settings/rivers/s3</td>
+         <td>Create or update an Amazon (see S3River Object). The river is not automatically started.</td>
+       </tr>
+       <tr>
+         <td>PUT 1/settings/rivers/s3</td>
+         <td>Same as POST.</td>
+       </tr>
+       <tr>
+         <td>DELETE 1/settings/rivers/s3/{name}</td>
+         <td>Remove an Amazon S3 river.</td>
+       </tr>
+       <tr>
+         <td>GET 1/settings/rivers/s3/{name}/start</td>
+         <td>Start a river</td>
+       </tr>
+       <tr>
+         <td>GET 1/settings/rivers/s3/{name}/stop</td>
+         <td>Stop a river</td>
+       </tr>
+    </tbody>
+</table>
+
+### S3River Object
+
+A S3River object looks like (see https://github.com/lbroudoux/es-amazon-s3-river for updated details):
+
+```javascript
+{
+    "id" : "mydummyriver",
+    "name" : "My Dummy River",
+    "indexname" : "docs",
+    "typename" : "doc",
+    "start" : false,
+    "bucket" : "myownbucket"
+    "url" :"Work/",
+    "pathPrefix" :"Work/",
+    "accessKey":"AWSAccountAccessKey",
+    "secretKey":"AWSAccountSecretKey",
+    "updateRate" : 300,
+    "includes" : "*.doc",
+    "excludes" : "resume*",
+    "analyzer" : "french"
+}
+```
+
+* `id` is the unique name of your river. It will be used to get or delete the river.
+* `name` is a fancy name for the river.
+* `indexname` is where your documents will be send.
+* `typename` is the type name under your documents will be indexed.
+* `start` indicates if the river is running (true) or not (false).
+* `bucket` is the name of the Amazon S3 bucket being crawled.
+* `url` is the path prefix of the S3 River begins to crawl within the bucket (note the trailing `/`).
+* `pathPrefix` is the root where FS River begins to crawl within the bucket (same as url).
+* `accessKey` is the access key of your Amazon Web Services account.
+* `secretKey` is the secret key of your Amazon Web Services account.
+* `updateRate` is the frequency (in seconds).
+* `includes` is used when you want to index only some files (can be null aka every file is indexed).
+* `excludes` is used when you want to exclude some files from the include list (can be null aka every file is indexed).
+* `analyzer` is the analyzer to apply for this river ("default" or "french" by now).
+
+
+### Examples
+
+
+```sh
+# CREATE a new river
+curl -XPUT 'localhost:8080/scrutmydocs/api/1/settings/rivers/s3/' -d '
+{
+    "id" : "mydummyriver",
+    "name" : "My Dummy River",
+    "indexname" : "docs",
+    "typename" : "doc",
+    "start" : false,
+    "bucket" : "MyBucket",
+    "url" :"MyFolder/",
+    "pathPrefix" :"MyFolder/",
+    "accessKey":"AAAAAAAAAAAAAAAA",
+    "secretKey":"BBBBBBBBBBBBBB",
+    "updateRate" : 300,
+    "includes" : "*.doc",
+    "excludes" : "resume*",
+    "analyzer" : "french"
+}
+' -H "Content-Type: application/json" -H "Accept: application/json"
+
+
+# START a river
+curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/s3/mydummyriver/start'
+
+# STOP a river
+curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/s3/mydummyriver/stop'
+
+# DELETE a river
+curl -XDELETE 'localhost:8080/scrutmydocs/api/1/settings/rivers/s3/mydummyriver'
+```
