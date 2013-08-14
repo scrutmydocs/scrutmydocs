@@ -21,20 +21,31 @@ package org.scrutmydocs.webapp.test;
 
 import org.elasticsearch.client.Client;
 import org.elasticsearch.node.Node;
+import org.scrutmydocs.webapp.configuration.ScrutMyDocsProperties;
+import org.scrutmydocs.webapp.util.PropertyScanner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import fr.pilato.spring.elasticsearch.ElasticsearchClientFactoryBean;
 import fr.pilato.spring.elasticsearch.ElasticsearchNodeFactoryBean;
 
+import java.util.Properties;
+
 @Configuration
 public class AppTestConfig {
-	
-	
+
+    @Bean
+    public ScrutMyDocsProperties smdProperties() throws Exception {
+        ScrutMyDocsProperties smdProperties = PropertyScanner.scanPropertyFile();
+        return smdProperties;
+    }
+
 	@Bean
 	public Node esNode() throws Exception {
 		ElasticsearchNodeFactoryBean factory = new ElasticsearchNodeFactoryBean();
-		factory.setSettingsFile("es-test.properties");
+        Properties props = new Properties();
+        props.put("esproperties", "classpath:es-test.properties");
+        factory.setProperties(props);
 		factory.afterPropertiesSet();
 		return factory.getObject();
 	}
@@ -45,7 +56,5 @@ public class AppTestConfig {
 		factory.setNode(esNode());
 		factory.afterPropertiesSet();
 		return factory.getObject();
-		}
-
-
+    }
 }
