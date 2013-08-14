@@ -3,10 +3,10 @@
  */
 package org.scrutmydocs.webapp.servlet;
 
+import org.apache.lucene.util.IOUtils;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.Base64;
-import org.elasticsearch.common.io.Closeables;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -65,7 +65,7 @@ public class DownloadServlet extends HttpServlet {
 				resp.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", name));
 				out.write(Base64.decode(content));
 			} finally {
-				Closeables.closeQuietly(out);
+                IOUtils.closeWhileHandlingException(out);
 			}
 		} else {
 			resp.sendError(HttpServletResponse.SC_NO_CONTENT);

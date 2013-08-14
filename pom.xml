@@ -42,7 +42,7 @@
 		<!-- Dependencies versions -->
 		<spring.version>3.2.3.RELEASE</spring.version>
 		<cglib.version>2.2.2</cglib.version>
-		<elasticsearch.version>0.90.2</elasticsearch.version>
+		<elasticsearch.version>0.90.3</elasticsearch.version>
 		<spring.elasticsearch.version>0.2.0</spring.elasticsearch.version>
 		<fsriver.version>0.2.0</fsriver.version>
         <dropbox.version>0.2.0</dropbox.version>
