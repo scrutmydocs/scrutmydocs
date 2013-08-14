@@ -19,6 +19,7 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.fs.data;
 
+import fr.pilato.elasticsearch.river.fs.river.FsRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.data.AbstractFSRiver;
 import org.scrutmydocs.webapp.util.StringTools;
 
@@ -30,8 +31,13 @@ import org.scrutmydocs.webapp.util.StringTools;
  */
 public class FSRiver extends AbstractFSRiver {
 	private static final long serialVersionUID = 1L;
-	
-	/**
+
+    private String protocol;
+    private String server;
+    private String username;
+    private String password;
+
+    /**
 	 * We implement here a "fs" river
 	 */
 	@Override
@@ -50,29 +56,20 @@ public class FSRiver extends AbstractFSRiver {
 	 */
 	public FSRiver(String id, String url, Long updateRate) {
 		super(id, url, updateRate);
-	}
-
-
-	/**
-	 * @param id The unique id of this river
-	 * @param indexname The ES index where we store our docs
-	 * @param typename The ES type we use to store docs
-	 * @param name The human readable name for this river
-	 * @param url URL where to fetch content
-	 * @param updateRate Update Rate (in seconds)
-	 * @param analyzer Analyzer to use
-	 * @param started Is the river already started ?
-	 */
-	public FSRiver(String id, String indexname, String typename, String name,
-			String url, Long updateRate, String analyzer, boolean started) {
-		this(id, indexname, typename, name, url, updateRate, null, null, analyzer, started);
-	}
+        protocol = FsRiver.PROTOCOL.LOCAL;
+        username = null;
+        password = null;
+    }
 
 	/**
 	 * @param id The unique id of this river
 	 * @param indexname The ES index where we store our docs
 	 * @param typename The ES type we use to store docs
 	 * @param name The human readable name for this river
+     * @param protocol local or ssh
+     * @param server server for ssh
+     * @param username username for ssh
+     * @param password password for ssh
 	 * @param url URL where to fetch content
 	 * @param updateRate Update Rate (in seconds)
 	 * @param includes Include list (comma separator)
@@ -81,11 +78,48 @@ public class FSRiver extends AbstractFSRiver {
 	 * @param started Is the river already started ?
 	 */
 	public FSRiver(String id, String indexname, String typename, String name,
-			String url, Long updateRate, String includes, String excludes, String analyzer, boolean started) {
+			String server, String protocol, String username, String password,
+            String url, Long updateRate, String includes, String excludes, String analyzer, boolean started) {
 		super(id, indexname, typename, name, url, updateRate, includes, excludes, analyzer, started);
+        this.protocol = protocol;
+        this.server = server;
+        this.username = username;
+        this.password = password;
 	}
 
-	@Override
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public void setServer(String server) {
+        this.server = server;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
 	public String toString() {
 		return StringTools.toString(this);
 	}

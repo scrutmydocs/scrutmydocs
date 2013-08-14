@@ -44,9 +44,9 @@
 		<cglib.version>2.2.2</cglib.version>
 		<elasticsearch.version>0.90.3</elasticsearch.version>
 		<spring.elasticsearch.version>0.2.0</spring.elasticsearch.version>
-		<fsriver.version>0.2.0</fsriver.version>
+		<fsriver.version>0.3.0</fsriver.version>
         <dropbox.version>0.2.0</dropbox.version>
-        <mapper-attachment.version>1.7.0</mapper-attachment.version>
+        <mapper-attachment.version>1.8.0</mapper-attachment.version>
         <jackson.version>2.2.0</jackson.version>
 		<guava.version>14.0.1</guava.version>
 		<commons.file-upload.version>1.3</commons.file-upload.version>

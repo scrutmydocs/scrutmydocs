@@ -25,6 +25,39 @@
                     </div>
                 </div>
                 <div class="control-group">
+                    <label class="control-label" for="river-fs-protocol">Protocol</label>
+                    <div class="controls">
+                        <select id="river-fs-protocol" required>
+                            <option value="local">Local</option>
+                            <option value="ssh">SSH</option>
+                        </select>
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+                <div id="river-fs-ssh">
+                    <div class="control-group">
+                        <label class="control-label" for="river-fs-server">Server</label>
+                        <div class="controls">
+                            <input class="input" id="river-fs-server" type="text" placeholder="localhost" />
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="river-fs-username">Login</label>
+                        <div class="controls">
+                            <input class="input" id="river-fs-username" type="text" placeholder="login" />
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="river-fs-password">Password</label>
+                        <div class="controls">
+                            <input class="input" id="river-fs-password" type="password" />
+                            <span class="help-inline"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
                     <label class="control-label" for="river-fs-path">Path</label>
                     <div class="controls">
                         <input class="input" id="river-fs-path" type="text" placeholder="Path" required/>

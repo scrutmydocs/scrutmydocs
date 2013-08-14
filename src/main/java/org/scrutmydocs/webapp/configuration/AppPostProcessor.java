@@ -1,5 +1,6 @@
 package org.scrutmydocs.webapp.configuration;
 
+import fr.pilato.elasticsearch.river.fs.river.FsRiver;
 import org.elasticsearch.ElasticSearchException;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.Base64;
@@ -37,8 +38,8 @@ public class AppPostProcessor implements
 				ESHelper.createIndexIfNeeded(client);
 				
 				// We are going to create two filesystem rivers
-				fsRiverService.start(new FSRiver("myfirstriver", SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "Scan tmp dir", "/tmp_es", 30L, "standard", true));
-				fsRiverService.start(new FSRiver("mysecondriver", SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "Scan second dir", "/tmp_es_second", 30L, "standard", false));
+				fsRiverService.start(new FSRiver("myfirstriver", SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "Scan tmp dir", FsRiver.PROTOCOL.LOCAL, null, null, null, "/tmp_es", 30L, null, null, "standard", true));
+				fsRiverService.start(new FSRiver("mysecondriver", SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, "Scan second dir", FsRiver.PROTOCOL.LOCAL, null, null, null, "/tmp_es_second", 30L, null, null, "standard", false));
 
 				// Add some sample files
 				pushSampleDoc("LICENSE");

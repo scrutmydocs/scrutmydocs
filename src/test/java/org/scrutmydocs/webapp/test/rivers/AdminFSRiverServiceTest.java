@@ -19,6 +19,7 @@
 
 package org.scrutmydocs.webapp.test.rivers;
 
+import fr.pilato.elasticsearch.river.fs.river.FsRiver;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -40,8 +41,10 @@ public class AdminFSRiverServiceTest extends AbstractConfigurationTest {
 		Assert.assertNotNull(adminService);
 
 		XContentBuilder xb = new FSRiverHelper().toXContent(
-				new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
-						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false));		
+				new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME,
+						SMDSearchProperties.INDEX_TYPE_DOC, "tmp",
+                        FsRiver.PROTOCOL.LOCAL, null, null, null,
+                        "/tmp_es", 30L, null, null, "standard", false));
 		
 		client.prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, "mytestriver").setSource(xb)
 				.execute().actionGet();
@@ -57,8 +60,10 @@ public class AdminFSRiverServiceTest extends AbstractConfigurationTest {
 		Assert.assertNotNull(adminService);
 
 		XContentBuilder xb = new FSRiverHelper().toXContent(
-				new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
-						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false));		
+				new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME,
+						SMDSearchProperties.INDEX_TYPE_DOC, "tmp",
+                        FsRiver.PROTOCOL.LOCAL, null, null, null,
+                        "/tmp_es", 30L, null, null, "standard", false));
 		
 		client.prepareIndex(SMDSearchProperties.ES_META_INDEX, SMDSearchProperties.ES_META_RIVERS, "mytestriver").setSource(xb)
 				.execute().actionGet();

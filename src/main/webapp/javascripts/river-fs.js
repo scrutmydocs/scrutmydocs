@@ -10,10 +10,12 @@ var addFSRiver = function() {
 	$("#btnFSRiverCreate").show();
 	$("#btnFSRiverDelete").hide();
 	$("#btnFSRiverUpdate").hide();
+    $("#river-fs-ssh").hide();
 
 	// Initialize default values
 	showFSRiver({
 		name: "FS river",
+        protocol: "local",
 		updateRate: 60,
 		indexname: "docs",
 		typename: "doc",
@@ -54,7 +56,15 @@ var initRiverFS = function(){
 			$("#river-fs-rates").val(ui.value);
 		}
 	});
-
+    // Rates
+    $("#river-fs-protocol").change(function(e) {
+        var value = $(this).val();
+        if (value == "ssh") {
+            $("#river-fs-ssh").show();
+        } else {
+            $("#river-fs-ssh").hide();
+        }
+    });
 	// Actions
 	$("#btnFSRiverStart").click(doStartFSRiver);
 	$("#btnFSRiverStop").click(doStopFSRiver);
@@ -144,6 +154,15 @@ var showFSRiver = function(fsriver) {
 	$("#river-fs-detail h3").text(fsriver.name);
 	$("#river-fs-id").val(fsriver.id);
 	$("#river-fs-name").val(fsriver.name);
+    $("#river-fs-protocol").val(fsriver.protocol);
+    $("#river-fs-server").val(fsriver.server);
+    $("#river-fs-username").val(fsriver.username);
+    $("#river-fs-password").val(fsriver.password);
+    if (fsriver.protocol == "ssh") {
+        $("#river-fs-ssh").show();
+    } else {
+        $("#river-fs-ssh").hide();
+    }
 	$("#river-fs-path").val(fsriver.url);
 	$("#river-fs-rates").val(fsriver.updateRate);
 
@@ -164,6 +183,10 @@ var getFSRiver = function() {
 	return {
 		id : id,
 		name: $("#river-fs-name").val(),
+        protocol: $("#river-fs-protocol").val(),
+        server: $("#river-fs-server").val(),
+        username: $("#river-fs-username").val(),
+        password: $("#river-fs-password").val(),
 		url: $("#river-fs-path").val(),
 		updateRate: $("#river-fs-rates").val(),
 		indexname: $("#river-fs-index").val(),

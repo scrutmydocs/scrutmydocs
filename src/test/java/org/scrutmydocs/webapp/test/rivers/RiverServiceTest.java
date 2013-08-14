@@ -19,6 +19,7 @@
 
 package org.scrutmydocs.webapp.test.rivers;
 
+import fr.pilato.elasticsearch.river.fs.river.FsRiver;
 import org.junit.Assert;
 import org.junit.Test;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
@@ -36,8 +37,10 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 	@Test public void test_add_river() throws InterruptedException {
 		Assert.assertNotNull(riverService);
 
-		FSRiver fsriver = new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
-						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false);		
+		FSRiver fsriver = new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME,
+                SMDSearchProperties.INDEX_TYPE_DOC, "tmp",
+                FsRiver.PROTOCOL.LOCAL, null, null, null,
+                "/tmp_es", 30L, null, null, "standard", false);
 
 		riverService.start(fsriver, new FSRiverHelper().toXContent(fsriver));
 	}
@@ -45,8 +48,10 @@ public class RiverServiceTest extends AbstractConfigurationTest {
 	@Test public void test_remove_river() throws InterruptedException {
 		Assert.assertNotNull(riverService);
 
-		FSRiver fsriver = new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME, 
-						SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "standard", false);		
+		FSRiver fsriver = new FSRiver("mytestriver", SMDSearchProperties.INDEX_NAME,
+                SMDSearchProperties.INDEX_TYPE_DOC, "tmp",
+                FsRiver.PROTOCOL.LOCAL, null, null, null,
+                "/tmp_es", 30L, null, null, "standard", false);
 
 		riverService.start(fsriver, new FSRiverHelper().toXContent(fsriver));
 		

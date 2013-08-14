@@ -19,12 +19,12 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.fs.helper;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.helper.AbstractFSRiverHelper;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class FSRiverHelper extends AbstractFSRiverHelper<FSRiver> {
 	/**
@@ -36,26 +36,59 @@ public class FSRiverHelper extends AbstractFSRiverHelper<FSRiver> {
 	}
 
 	/**
-	 * We don't add any content to the abstractfs metadata
-	 * @param xcb
-	 * @param river
-	 * @return
-	 * @throws IOException
+     * We manage :
+     * <ul>
+     * <li>mode
+     * <li>username
+     * <li>password
+     * </ul>
 	 */
 	@Override
 	public XContentBuilder addFSMeta(XContentBuilder xcb, FSRiver river)
 			throws IOException {
+        xcb
+                .field("protocol", river.getProtocol())
+                .field("server", river.getServer())
+                .field("username", river.getUsername())
+                .field("password", river.getPassword());
 		return xcb;
 	}
 
 	/**
-	 * We don't add anything else from the abstractfs metadata
-	 * @param river
-	 * @param content
-	 * @return
+	 * We manage :
+	 * <ul>
+     * <li>mode
+     * <li>username
+     * <li>password
+	 * </ul>
+	 * JSON definiton :<pre>
+{
+  "type" : "fs",
+  "fs" : {
+	  "update_rate" : 30000,
+	  "name" : "tmp",
+	  "protocol" : "local",
+      "server" : "localhost",
+	  "username" : "login",
+      "password" : "password",
+	  "url" : "/tmp_es",
+	  "includes" : "*.doc,*.pdf",
+	  "excludes" : "resume.*",
+  },
+  "index" : {
+	  "index" : "docs",
+	  "type" : "doc",
+	  "analyzer" : "standard"
+  }
+}
+</pre>
 	 */
 	@Override
 	public FSRiver parseFSMeta(FSRiver river, Map<String, Object> content) {
-		return river;
+        river.setProtocol(getSingleStringValue("fs.protocol", content));
+        river.setServer(getSingleStringValue("fs.server", content));
+        river.setUsername(getSingleStringValue("fs.username", content));
+        river.setPassword(getSingleStringValue("fs.password", content));
+        return river;
 	}
 }

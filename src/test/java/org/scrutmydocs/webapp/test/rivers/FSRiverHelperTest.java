@@ -19,9 +19,7 @@
 
 package org.scrutmydocs.webapp.test.rivers;
 
-import java.io.IOException;
-import java.util.Map;
-
+import fr.pilato.elasticsearch.river.fs.river.FsRiver;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentHelper;
 import org.junit.Assert;
@@ -29,6 +27,9 @@ import org.junit.Test;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.helper.FSRiverHelper;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
+
+import java.io.IOException;
+import java.util.Map;
 
 
 public class FSRiverHelperTest {
@@ -54,10 +55,12 @@ public class FSRiverHelperTest {
 	 * @throws IOException 
 	 */
 	@Test public void test_tofsriver() throws IOException {
-		FSRiver model = new FSRiver("tmp", SMDSearchProperties.INDEX_NAME, 
-				SMDSearchProperties.INDEX_TYPE_DOC, "tmp", "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
+		FSRiver model = new FSRiver("tmp", SMDSearchProperties.INDEX_NAME,
+				SMDSearchProperties.INDEX_TYPE_DOC, "tmp",
+                FsRiver.PROTOCOL.LOCAL, "localhost", "login", "password",
+                "/tmp_es", 30L, "*.doc,*.pdf", "resume.*", "standard", false);
 		
-		XContentBuilder xb = new FSRiverHelper().toXContent(model);		
+		XContentBuilder xb = new FSRiverHelper().toXContent(model);
 		String jsonContent = xb.string();
 
 		Map<String, Object> map = XContentHelper.convertToMap(jsonContent.getBytes(), 0, jsonContent.length(), false).v2();
@@ -66,6 +69,10 @@ public class FSRiverHelperTest {
 		
 		Assert.assertEquals(model.getId(), fsriver.getId());
 		Assert.assertEquals(model.getType(), fsriver.getType());
+        Assert.assertEquals(model.getProtocol(), fsriver.getProtocol());
+        Assert.assertEquals(model.getServer(), fsriver.getServer());
+        Assert.assertEquals(model.getUsername(), fsriver.getUsername());
+        Assert.assertEquals(model.getPassword(), fsriver.getPassword());
 		Assert.assertEquals(model.getUrl(), fsriver.getUrl());
 		Assert.assertEquals(model.getUpdateRate(), fsriver.getUpdateRate());
 

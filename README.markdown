@@ -16,26 +16,30 @@ Versions
             <td>Scrutmydocs</td>
             <td>ElasticSearch</td>
             <td>FS River Plugin</td>
+            <td>Dropbox River Plugin</td>
             <td>Attachment Plugin</td>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>master (0.3.0-SNAPSHOT)</td>
-            <td>0.90.0</td>
+            <td>0.90.3</td>
+            <td>0.3.0</td>
             <td>0.2.0</td>
-            <td>1.7.0</td>
+            <td>1.8.0</td>
         </tr>
         <tr>
             <td>0.2.0</td>
             <td>0.19.9</td>
             <td>0.0.2</td>
+            <td></td>
             <td>1.4.0</td>
         </tr>
         <tr>
             <td>0.1.0</td>
             <td>0.19.8</td>
             <td>0.0.2</td>
+            <td></td>
             <td>1.4.0</td>
         </tr>
     </tbody>
@@ -686,6 +690,10 @@ A fsriver object looks like:
 {
 	 "id" : "mydummyriver",
 	 "name" : "My Dummy River",
+	 "protocol" : "ssh",
+	 "server" : "localhost",
+	 "username" : "sshlogin",
+	 "password" : "sshpassword",
 	 "indexname" : "docs",
 	 "typename" : "doc",
 	 "start" : false,
@@ -699,6 +707,10 @@ A fsriver object looks like:
 
 * `id` is the unique name of your river. It will be used to get or delete the river.
 * `name` is a fancy name for the river.
+* `protocol` could be `local` (default) or `ssh`.
+* `server` SSH server name when protocol is `ssh`.
+* `username` SSH username when protocol is `ssh`.
+* `password` SSH password when protocol is `ssh`.
 * `indexname` is where your documents will be send.
 * `typename` is the type name under your documents will be indexed.
 * `start` indicates if the river is running (true) or not (false).
