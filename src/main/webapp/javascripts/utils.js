@@ -1,38 +1,4 @@
 //////////////////////////////////////////////////////
-// Upload File
-var filesList = new Array();
-var initUpload = function() {
-// Initialize the jQuery File Upload widget:
-    $("#fileupload").fileupload( {
-        url: "upload/",
-        add: function (e, data) {
-            $.each(data.files, function (index, file) {
-                filesList.push(file);
-                $("#uploadInfo ul").append('<li>Uploading  '+file.name+'</li>');
-            });
-        },
-        done: function (e, data) {
-            $("#uploadInfo").html('<ul></ul>');
-            $("#progress .bar").css("width","0%");
-            filesList = new Array();
-            // Close
-            $("#diaUpload").modal("hide");
-        },
-        progressall: function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-            $("#progress .bar").css("width",progress + "%");
-        }
-    });
-
-    $("#diaUpload .start").click(function(e) {
-        $("#fileupload").fileupload("send", {files: filesList});
-
-        e.preventDefault();
-        return false;
-    });
-};
-//////////////////////////////////////////////////////
-
 // Post JSON
 $.postJSON = function(url, payload, callback) {
     $.ajax({

@@ -32,6 +32,7 @@
 	<script src="javascripts/lib/jquery.iframe-transport.js" type="text/javascript"></script>
 	<script src="javascripts/lib/jquery.fileupload.js" type="text/javascript"></script>
 	<script src="javascripts/lib/jquery.fileupload-ui.js" type="text/javascript"></script>
+    <script src="javascripts/lib/dropzone.js"></script>
 
 	<script src="javascripts/utils.js" type="text/javascript"></script>
 	<script src="javascripts/notification.js" type="text/javascript"></script>

@@ -4,6 +4,9 @@
 
     <body>
         <release date="2013-07-01" description="Summer 2013 release" version="0.3.0">
+            <action issue="47" dev="huskercane" type="add">
+                Replace fileupload with dropzone.js.
+            </action>
             <action issue="44" dev="gcuisinier" type="add" due-to="VoSu">
                 Add a loading indicator.
             </action>

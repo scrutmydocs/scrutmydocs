@@ -85,6 +85,8 @@
 			<url>http://malloum.fr/</url>
 			<timezone>+1</timezone>
 		</developer>
+
+        <!-- Thanks to our contributors -->
 		<developer>
 			<id>ilaborie</id>
 			<name>Igor Laborie</name>
@@ -96,6 +98,11 @@
             <name>Gildas Cuisinier</name>
             <email>hikage@hikage.be</email>
             <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>huskercane</id>
+            <name>Rohit Singh</name>
+            <email>rohits@rohit.net</email>
         </developer>
 	</developers>
 

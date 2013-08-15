@@ -9,8 +9,16 @@ $(function() {
 	// Bind Search
 	$("form.form-search").submit(doSearch);
 
-	// Upload
-	initUpload();
+	// Upload with dropzone
+    Dropzone.options.uploadDropzone = {
+        init: function() {
+            uploadDropzone = this;
+            $("#diaUpload").on('hidden', function () {
+                // We clean old entries each time we exit dialog box
+                uploadDropzone.removeAllFiles();
+            });
+        }
+    };
 
 	// Focus on Search
 	$("input.search-query").focus();
