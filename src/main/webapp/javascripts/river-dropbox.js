@@ -233,7 +233,7 @@ var doDeleteDropBoxRiver = function(e) {
 			$("#river-dropbox-detail").hide();
 
 			showNotices([{
-				type: "alert-danger",
+				type: "alert-success",
 				title: data.name + " deleted",
 				message : "The dropbox river '"+data.name+"' have been deleted."
 			}]);
@@ -264,7 +264,7 @@ var doUpdateDropBoxRiver = function(e) {
 		updateDropBoxRiverMenu(data);
 
 		showNotices([{
-			type: "alert-info",
+			type: "alert-success",
 			title: data.name + " updated",
 			message : "The dropbox river '"+data.name+"' have been updated."
 		}]);
@@ -318,7 +318,7 @@ var doStopDropBoxRiver = function(e) {
 		updateDropBoxRiverMenu(data);
 
 		showNotices([{
-			type: "alert-danger",
+			type: "alert-success",
 			title: data.name + " stopped",
 			message : "The dropbox river '"+data.name+"' have been stopped."
 		}]);

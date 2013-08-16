@@ -250,7 +250,7 @@ var doDeleteFSRiver = function(e) {
 			$("#river-fs-detail").hide();
 
 			showNotices([{
-				type: "alert-danger",
+				type: "alert-success",
 				title: data.name + " deleted",
 				message : "The file system river '"+data.name+"' have been deleted."
 			}]);
@@ -281,7 +281,7 @@ var doUpdateFSRiver = function(e) {
 		updateFSRiverMenu(data);
 
 		showNotices([{
-			type: "alert-info",
+			type: "alert-success",
 			title: data.name + " updated",
 			message : "The file system river '"+data.name+"' have been updated."
 		}]);
@@ -335,7 +335,7 @@ var doStopFSRiver = function(e) {
 		updateFSRiverMenu(data);
 
 		showNotices([{
-			type: "alert-danger",
+			type: "alert-success",
 			title: data.name + " stopped",
 			message : "The file system river '"+data.name+"' have been stopped."
 		}]);
