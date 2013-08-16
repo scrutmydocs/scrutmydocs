@@ -7,6 +7,9 @@
             <action issue="47" dev="huskercane" type="add">
                 Replace fileupload with dropzone.js.
             </action>
+            <action issue="68" dev="dadoonet" type="add">
+                Support SSH in FS River.
+            </action>
             <action issue="44" dev="gcuisinier" type="add" due-to="VoSu">
                 Add a loading indicator.
             </action>
