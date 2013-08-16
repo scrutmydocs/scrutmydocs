@@ -5,9 +5,6 @@ $(function() {
 		cache: false,
 		error: onAjaxError
 	});
-	
-	// Upload
-	initUpload();
 
 	// River FS
 	initRiverFS();
