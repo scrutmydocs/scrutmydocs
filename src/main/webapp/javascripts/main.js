@@ -71,11 +71,21 @@ var handleSearchResults = function(data) {
 	$("#result").empty();
 	if(total > 1) {
 		$("#result").append('<span class="badge">'+ total +'</span> documents found in <span class="badge">'+json.took+'</span> milliseconds');
-	} else if (total==1){
+        $("#results-row").show();
+        if (total > 10) {
+            $("#results-pagination").show();
+        } else {
+            $("#results-pagination").hide();
+        }
+    } else if (total==1){
 		$("#result").append('<span class="badge">One</span> document found in <span class="badge">'+json.took+'</span> milliseconds');
-	} else {
-		$("#result").append('No documents found in <span class="badge">'+json.took+'</span> milliseconds');
-	}
+        $("#results-row").show();
+        $("#results-pagination").hide();
+    } else {
+		$("#result").append('Can not find any document matching <span class="badge">'+$("input[name=q]").val()+'</span>...');
+        $("#results-row").hide();
+        $("#results-pagination").hide();
+    }
 	
 	// Display hits
 	$("#results").empty();

@@ -5,13 +5,13 @@
         </div>
     </div>
     <hr />
-    <div class="row">
+    <div class="row" id="results-row">
         <div class="span10 offset1 well">
             <ul id="results" class="nav nav-list">
             </ul>
         </div>
     </div>
-    <div class="row"> 
+    <div class="row" id="results-pagination">
         <div class="span10 offset1 pagination pagination-centered">
             <ul><%-- Pagination --%></ul>
         </div>
