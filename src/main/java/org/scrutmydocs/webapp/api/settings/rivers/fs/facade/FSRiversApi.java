@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.scrutmydocs.webapp.api.common.RestAPIException;
 import org.scrutmydocs.webapp.api.common.data.Api;
 import org.scrutmydocs.webapp.api.common.facade.CommonBaseApi;
-import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
+//import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.data.RestResponseFSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.data.RestResponseFSRivers;
@@ -79,7 +79,10 @@ public class FSRiversApi extends CommonBaseApi {
 			fsrivers = adminService.get();
 			
 			// For each river, we must look if it's running or not
-			for (BasicRiver fsRiver : fsrivers) {
+//			for (BasicRiver fsRiver : fsrivers) {
+//				fsRiver.setStart(riverService.checkState(fsRiver));
+//			}
+			for (FSRiver fsRiver : fsrivers) {
 				fsRiver.setStart(riverService.checkState(fsRiver));
 			}
 			
