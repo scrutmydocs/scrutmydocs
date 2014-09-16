@@ -48,8 +48,6 @@ public class PropertyScanner {
 			FileSystemResource configDir = new FileSystemResource(userHome + "/.scrutmydocs/config/esdata/");
 			smdProps.setPathData(getProperty(props, "path.data", configDir.getPath()));
 			smdProps.setNodeAdresses(getPropertyAsArray(props, "node.addresses", "localhost:9300,localhost:9301"));
-			smdProps.setDropboxKey(getProperty(props, "dropbox.app.key", null));
-            smdProps.setDropboxSecret(getProperty(props, "dropbox.app.secret", null));
 
 			// We check some rules here :
 			// if node.embedded = false, we must have an array of node.adresses

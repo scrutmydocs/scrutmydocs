@@ -124,7 +124,6 @@ brew install elasticsearch
 
 * [mapper-attachment](https://github.com/elasticsearch/elasticsearch-mapper-attachments)
 * [fsriver](https://github.com/dadoonet/fsriver)
-* [dropbox](https://github.com/dadoonet/dropbox)
 * [google-drive-river](https://github.com/lbroudoux/es-google-drive-river)
 * [amazon-s3-river](https://github.com/lbroudoux/es-amazon-s3-river)
 * [jira-river](https://github.com/jbossorg/elasticsearch-river-jira)
@@ -133,7 +132,6 @@ brew install elasticsearch
 service elasticsearch stop
 /usr/share/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.8.0
 /usr/share/elasticsearch/bin/plugin -install fr.pilato.elasticsearch.river/fsriver/0.3.0
-/usr/share/elasticsearch/bin/plugin -install fr.pilato.elasticsearch.river/dropbox/0.2.0
 /usr/share/elasticsearch/bin/plugin -install com.github.lbroudoux.elasticsearch/google-drive-river/0.0.1
 /usr/share/elasticsearch/bin/plugin -install com.github.lbroudoux.elasticsearch/amazon-s3-river/0.0.1
 /usr/share/elasticsearch/bin/plugin -url https://repository.jboss.org/nexus/content/groups/public-jboss/org/jboss/elasticsearch/elasticsearch-river-jira/1.4.1/elasticsearch-river-jira-1.4.1.zip -install elasticsearch-river-jira
@@ -172,16 +170,6 @@ Modify the following settings:
 node.embedded=false
 # If false, you have to define your node(s) address(es), default to : localhost:9300,localhost:9301
 node.addresses=localhost:9300
-```
-
-If you want to use Dropbox rivers, you must define first your dropbox credentials for your own
-[Dropbox Application](https://www.dropbox.com/developers/apps):
-
-```
-# If you want to use Dropbox river, define your App key and Secret here
-# You can create your application on https://www.dropbox.com/developers/apps
-dropbox.app.key=yourkeyhere
-dropbox.app.secret=yoursecrethere
 ```
 
 You can now deploy the web application in your container.
@@ -763,125 +751,6 @@ curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/fs/mydummyriver/sto
 
 # DELETE a river
 curl -XDELETE 'localhost:8080/scrutmydocs/api/1/settings/rivers/fs/mydummyriver'         
-```
-
-Dropbox Rivers (DropboxRivers)
-------------------------------
-
-You can manage your Dropbox rivers with the DropboxRivers API.
-
-### REST Resources
-
-<table>
-	<thead>
-		<tr>
-			<th>Resource</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-	    <tr>
-			<td>GET 1/settings/rivers/dropbox/_help</td>
-			<td>Display help.</td>
-	    </tr>
-	    <tr>
-			<td>GET 1/settings/rivers/dropbox</td>
-			<td>Get all existing Dropbox rivers (it will provide an array of DropboxRiver objects).</td>
-	    </tr>
-	    <tr>
-			<td>GET 1/settings/rivers/dropbox/{name}</td>
-			<td>Get one Dropbox river (see DropboxRiver object).</td>
-	    </tr>
-	    <tr>
-			<td>POST 1/settings/rivers/dropbox</td>
-			<td>Create or update a DropboxRiver (see DropboxRiver Object). The river is not automatically started.</td>
-	    </tr>
-	    <tr>
-			<td>PUT 1/settings/rivers/dropbox</td>
-			<td>Same as POST.</td>
-	    </tr>
-	    <tr>
-			<td>DELETE 1/settings/rivers/dropbox/{name}</td>
-			<td>Remove a Dropbox river.</td>
-	    </tr>
-	    <tr>
-			<td>GET 1/settings/rivers/dropbox/{name}/start</td>
-			<td>Start a river</td>
-	    </tr>
-	    <tr>
-			<td>GET 1/settings/rivers/dropbox/{name}/stop</td>
-			<td>Stop a river</td>
-	    </tr>
-    </tbody>
-</table>
-
-### DropboxRiver Object
-
-A Dropboxriver object looks like:
-
-```javascript
-{
-    "id" : "mydummyriver",
-    "name" : "My Dummy River",
-    "indexname" : "docs",
-    "typename" : "doc",
-    "start" : false,
-    "url" :"/dbfolder",
-    "token":"userdropboxtoken",
-    "secret":"userdropboxsecret",
-    "updateRate" : 300,
-    "includes" : "*.doc",
-    "excludes" : "resume*",
-    "analyzer" : "french"
-}
-```
-
-* `id` is the unique name of your river. It will be used to get or delete the river.
-* `name` is a fancy name for the river.
-* `indexname` is where your documents will be send.
-* `typename` is the type name under your documents will be indexed.
-* `start` indicates if the river is running (true) or not (false).
-* `url` is the root where FS River begins to crawl.
-* `token` is the user token you get from Dropbox.
-* `secret` is the user secret you get from Dropbox.
-* `updateRate` is the frequency (in seconds).
-* `includes` is used when you want to index only some files (can be null aka every file is indexed).
-* `excludes` is used when you want to exclude some files from the include list (can be null aka every file is indexed).
-* `analyzer` is the analyzer to apply for this river ("default" or "french" by now).
-
-> Note that you will have to conform to the OAuth process to get authorization token from the user.
-
-### Examples
-
-
-```sh
-# CREATE a new river
-curl -XPUT 'localhost:8080/scrutmydocs/api/1/settings/rivers/dropbox/' -d '
-{
-    "id" : "mydummyriver",
-    "name" : "My Dummy River",
-    "indexname" : "docs",
-    "typename" : "doc",
-    "start" : false,
-    "url" :"/dbfolder",
-    "token":"userdropboxtoken",
-    "secret":"userdropboxsecret",
-    "updateRate" : 300,
-    "includes" : "*.doc",
-    "excludes" : "resume*",
-    "analyzer" : "french"
-}
-' -H "Content-Type: application/json" -H "Accept: application/json"
-
-
-# START a river
-curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/dropbox/mydummyriver/start'
-
-# STOP a river
-curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/dropbox/mydummyriver/stop'
-
-# DELETE a river
-curl -XDELETE 'localhost:8080/scrutmydocs/api/1/settings/rivers/dropbox/mydummyriver'
 ```
 
 Google Drive Rivers (DriveRivers)

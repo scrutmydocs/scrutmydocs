@@ -19,15 +19,15 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers;
 
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.support.XContentMapValues;
+import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.support.XContentMapValues;
-import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 public abstract class AbstractRiverHelper<T extends BasicRiver> {
 	
@@ -41,7 +41,7 @@ public abstract class AbstractRiverHelper<T extends BasicRiver> {
 	public abstract XContentBuilder addMeta(XContentBuilder xcb, T river) throws IOException;
 	
 	/**
-	 * @return Type managed by this helper, fs, dropbox, ...
+	 * @return Type managed by this helper, fs, ...
 	 */
 	public abstract String type();
 	

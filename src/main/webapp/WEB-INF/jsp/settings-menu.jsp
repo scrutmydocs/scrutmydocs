@@ -41,8 +41,6 @@
         <li class="nav-header">Twitter Rivers</li>
         <%--<li class="disabled"><a class="river-twitter" href="#"><i class="icon-comment"></i> @ilaborie</a></li>--%>
 
-        <li id="rivers-dropbox" class="nav-header">Dropbox Rivers</li>
-        
         <li id="rivers-drive" class="nav-header">Google Drive Rivers</li>
         
         <li id="rivers-s3" class="nav-header">Amazon S3 Rivers</li>

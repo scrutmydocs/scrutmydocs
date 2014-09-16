@@ -20,7 +20,6 @@
 package org.scrutmydocs.webapp.api.settings.rivers.abstractfs.data;
 
 import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.dropbox.data.DropBoxRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
 import org.scrutmydocs.webapp.util.StringTools;
 
@@ -31,7 +30,6 @@ import org.scrutmydocs.webapp.util.StringTools;
  * Filesystem Rivers metadata Abstraction
  * @author PILATO
  * @see FSRiver
- * @see DropBoxRiver
  */
 public class AbstractFSRiver extends BasicRiver {
 	private static final long serialVersionUID = 1L;

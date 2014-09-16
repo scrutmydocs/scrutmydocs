@@ -43,7 +43,7 @@ public class BasicRiver implements Serializable {
 	private String type;
 	
 	/**
-	 * @return The river implementation type, for example: fs, dropbox, rss
+	 * @return The river implementation type, for example: fs, rss
 	 */
 	public String getType() {
 		return "dummy";

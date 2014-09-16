@@ -34,7 +34,7 @@ public class WelcomeApi extends CommonBaseApi {
 
 	@Override
 	public Api[] helpApiList() {
-		Api[] apis = new Api[8];
+		Api[] apis = new Api[7];
 		apis[0] = new Api("/", "GET", "This API");
 		apis[1] = new Api("_help", "GET", "Should give you help on each APIs.");
 		apis[2] = new Api("/1/doc", "POST/GET/DELETE", "Manage documents.");
@@ -42,7 +42,6 @@ public class WelcomeApi extends CommonBaseApi {
 		apis[4] = new Api("/1/search", "POST", "Search for documents.");
 		apis[5] = new Api("/1/settings/rivers", "GET", "Manage Rivers");
 		apis[6] = new Api("/1/settings/rivers/fs", "GET/POST/DELETE", "Manage FileSystem rivers");
-		apis[7] = new Api("/1/settings/rivers/dropbox", "GET/POST/DELETE", "Manage DropBox rivers");
 		return apis;
 	}
 	
