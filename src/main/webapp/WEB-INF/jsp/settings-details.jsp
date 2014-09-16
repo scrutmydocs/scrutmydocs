@@ -3,5 +3,4 @@
 	<div id="notices" class="container-fluid">
 	</div>
 	<jsp:include page="river-fs-detail.jsp"/>
-	<jsp:include page="river-s3-detail.jsp"/>
 </div>
