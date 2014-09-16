@@ -8,36 +8,11 @@
             </button>
             <ul class="dropdown-menu">
                 <li id="btnAddFSRiver"><a href="#">File System River</a></li>
-                <li id="btnAddJiraRiver"><a href="#">Jira River</a></li>
-                <li class="disabled"><a href="#">Database River</a></li>
-                <li class="disabled"><a href="#">FTP River</a></li>
-                <li class="disabled"><a href="#">EMail River</a></li>
-                <li class="disabled"><a href="#">RSS River</a></li>
-                <li class="disabled"><a href="#">Twitter River</a></li>
-                <li id="btnAddDropBoxRiver"><a href="#">Dropbox River</a></li>
-                <li id="btnAddDriveRiver"><a href="#">Google Drive River</a></li>
-                <li id="btnAddS3River"><a href="#">Amazon S3 River</a></li>
             </ul>
         </div>
     </div>
     <%-- Navigation --%>
     <ul class="nav nav-list">
         <li id="rivers-fs" class="nav-header">File System Rivers</li>
-		
-        <li id="rivers-db" class="nav-header">Database Rivers</li>
-        <%--<li class="disabled"><a class="river-db" href="#"><i class="icon-leaf"></i> My MongoDB</a></li>--%>
-
-        <li class="nav-header">FTP Rivers</li>
-        <%--<li class="disabled"><a class="river-ftp" href="#"><i class="icon-download-alt"></i> My FTP</a></li>--%>
-
-        <li class="nav-header">EMail Rivers</li>
-        <%--<li class="disabled"><a class="river-email" href="#"><i class="icon-envelope"></i> My Gmail</a></li>--%>
-
-        <li class="nav-header">RSS Rivers</li>
-        <%--<li class="disabled"><a class="river-rss" href="#"><i class="icon-signal"></i> My RSS</a></li>--%>
-
-        <li class="nav-header">Twitter Rivers</li>
-        <%--<li class="disabled"><a class="river-twitter" href="#"><i class="icon-comment"></i> @ilaborie</a></li>--%>
-
     </ul>
 </div>
