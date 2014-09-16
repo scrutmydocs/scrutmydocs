@@ -42,7 +42,7 @@ public class S3RiversApiTest extends AbstractFSRiversApiTest<S3River, RestRespon
 
 	@Override
 	protected String type() {
-		return "drive";
+		return "s3";
 	}
 
 	@Override

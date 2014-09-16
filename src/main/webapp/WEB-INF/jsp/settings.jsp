@@ -39,7 +39,6 @@
 	<script src="javascripts/notification.js" type="text/javascript"></script>
 	<script src="javascripts/river-fs.js" type="text/javascript"></script>
 	<script src="javascripts/river-jira.js" type="text/javascript"></script>
-    <script src="javascripts/river-drive.js" type="text/javascript"></script>
 	<script src="javascripts/river-s3.js" type="text/javascript"></script>
 	<script src="javascripts/settings.js" type="text/javascript"></script>
 </body>

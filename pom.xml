@@ -46,7 +46,6 @@
 		<spring.elasticsearch.version>0.3.0</spring.elasticsearch.version>
 		<fsriver.version>0.3.0</fsriver.version>
         <amazons3.version>0.0.1</amazons3.version>
-        <googledrive.version>0.0.1</googledrive.version>
         <jirariver.version>1.3.0</jirariver.version>
         <mapper-attachment.version>1.8.0</mapper-attachment.version>
         <jackson.version>2.2.0</jackson.version>
@@ -187,12 +186,7 @@
 			<groupId>org.jboss.elasticsearch</groupId>
 			<artifactId>elasticsearch-river-jira</artifactId>
 			<version>${jirariver.version}</version>
-		</dependency>		
-        <dependency>
-            <groupId>com.github.lbroudoux.elasticsearch</groupId>
-            <artifactId>google-drive-river</artifactId>
-            <version>${googledrive.version}</version>
-        </dependency>
+		</dependency>
         
         <dependency>
             <groupId>org.elasticsearch</groupId>
