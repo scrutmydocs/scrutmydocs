@@ -12,7 +12,6 @@ import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.helper.AbstractFSRiverHelper;
-import org.scrutmydocs.webapp.api.settings.rivers.jira.helper.JiraRiverHelper;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 
 import java.io.BufferedReader;
@@ -171,28 +170,6 @@ public class ESHelper {
         }
 
         if (logger.isDebugEnabled()) logger.debug("/createIndexIfNeededNoMapping({})");
-    }
-
-    /**
-     * Create an index without pushing the mapping
-     * @param client Elasticsearch client
-     * @param indexName Index name
-     * @param analyzerName Analyzer type
-     * @param jiraContent tells if mapping should be done on JiraContent or JiraRiverActivity Index
-     */
-    public static void createJiraIndexMapping(Client client, String indexName, String typeName, String analyzerName, boolean jiraContent) {
-        if (!isMappingExist(client, indexName, typeName)) {
-            try {
-                if (jiraContent) {
-                    pushMapping(client, indexName, typeName, JiraRiverHelper.toJiraContentIndexMapping(typeName, analyzerName));
-                } else {
-                    pushMapping(client, indexName, typeName, JiraRiverHelper.toJiraRiverActivityMapping(typeName, analyzerName));
-                }
-            } catch (Exception e) {
-                logger.warn("createJiraIndexMapping() : Exception raised : {}", e.getClass());
-                if (logger.isDebugEnabled()) logger.debug("- Exception stacktrace :", e);
-            }
-        }
     }
 
 	/**

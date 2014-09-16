@@ -73,9 +73,7 @@ public class SearchService {
 
 		org.elasticsearch.action.search.SearchResponse searchHits = esClient
 				.prepareSearch()
-                //.setIndices(INDEX_NAME,"my_jira_index")
                 .setIndices(getSearchableIndexes())
-				//.setTypes(INDEX_TYPE_DOC,"jira_issue")
                 .setTypes(getSearchableTypes())
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setQuery(qb)
 				.setFrom(first).setSize(pageSize).addHighlightedField("name")
@@ -126,15 +124,6 @@ public class SearchService {
                 }
             }
             
-			if (searchHit.getType().equals("jira_issue")) {
-				if (searchHit.getSource() != null) {
-					hit.setTitle("Issue " + AbstractRiverHelper.getSingleStringValue(
-                            "issue_key", searchHit.getSource()) +" from project "+ AbstractRiverHelper.getSingleStringValue(
-							"project_name", searchHit.getSource()));
-					hit.setContentType(AbstractRiverHelper.getSingleStringValue(
-							"document_url", searchHit.getSource()));
-				}
-			}
 			hits.add(hit);
 		}
 
@@ -186,9 +175,6 @@ public class SearchService {
     public String[] getSearchableIndexes(){
         List<String> indexList = new ArrayList<String>();
         indexList.add(INDEX_NAME);
-        if (esClient.admin().indices().prepareExists("my_jira_index").execute().actionGet().isExists()){
-            indexList.add("my_jira_index");
-        }
         String[] indexArr = new String[indexList.size()];
         indexArr = indexList.toArray(indexArr);
         return indexArr;
@@ -197,14 +183,6 @@ public class SearchService {
     public String[] getSearchableTypes(){
         List<String> typeList = new ArrayList<String>();
         typeList.add(INDEX_TYPE_DOC);
-        if (esClient.admin().indices().prepareExists("my_jira_index").execute().actionGet().isExists()){
-            if (esClient.admin().indices().prepareTypesExists("my_jira_index").setTypes("jira_issue").execute().actionGet().isExists()){
-                typeList.add("jira_issue");
-            }
-            if (esClient.admin().indices().prepareTypesExists("my_jira_index").setTypes("jira_issue_comment").execute().actionGet().isExists()){
-                typeList.add("jira_issue_comment");
-            }
-        }
         String[] typeArr = new String[typeList.size()];
         typeArr = typeList.toArray(typeArr);
         return typeArr;

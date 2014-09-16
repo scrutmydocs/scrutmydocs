@@ -125,14 +125,12 @@ brew install elasticsearch
 * [mapper-attachment](https://github.com/elasticsearch/elasticsearch-mapper-attachments)
 * [fsriver](https://github.com/dadoonet/fsriver)
 * [amazon-s3-river](https://github.com/lbroudoux/es-amazon-s3-river)
-* [jira-river](https://github.com/jbossorg/elasticsearch-river-jira)
 
 ```sh
 service elasticsearch stop
 /usr/share/elasticsearch/bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.8.0
 /usr/share/elasticsearch/bin/plugin -install fr.pilato.elasticsearch.river/fsriver/0.3.0
 /usr/share/elasticsearch/bin/plugin -install com.github.lbroudoux.elasticsearch/amazon-s3-river/0.0.1
-/usr/share/elasticsearch/bin/plugin -url https://repository.jboss.org/nexus/content/groups/public-jboss/org/jboss/elasticsearch/elasticsearch-river-jira/1.4.1/elasticsearch-river-jira-1.4.1.zip -install elasticsearch-river-jira
 ```
 
 #### Configure elasticsearch.yml node property file
@@ -873,121 +871,4 @@ curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/s3/mydummyriver/sto
 
 # DELETE a river
 curl -XDELETE 'localhost:8080/scrutmydocs/api/1/settings/rivers/s3/mydummyriver'
-```
-
-JIRA Rivers
------------
-
-You can manage your JIRA rivers with the JIRA Rivers API.
-
-### REST Resources
-
-<table>
-   <thead>
-      <tr>
-         <th>Resource</th>
-         <th>Description</th>
-      </tr>
-   </thead>
-   <tbody>
-       <tr>
-         <td>GET 1/settings/rivers/jira/_help</td>
-         <td>Display help.</td>
-       </tr>
-       <tr>
-         <td>GET 1/settings/rivers/jira</td>
-         <td>Get all existing JIRA rivers (it will provide an array of JiraRiver objects).</td>
-       </tr>
-       <tr>
-         <td>GET 1/settings/rivers/jira/{id}</td>
-         <td>Get one JIRA river (see JiraRiver object).</td>
-       </tr>
-       <tr>
-         <td>POST 1/settings/rivers/jira</td>
-         <td>Create or update a JIRA river (see JiraRiver Object). The river is not automatically started.</td>
-       </tr>
-       <tr>
-         <td>PUT 1/settings/rivers/jira</td>
-         <td>Same as POST.</td>
-       </tr>
-       <tr>
-         <td>DELETE 1/settings/rivers/jira/{id}</td>
-         <td>Remove a JIRA river.</td>
-       </tr>
-       <tr>
-         <td>GET 1/settings/rivers/jira/{id}/start</td>
-         <td>Start a river</td>
-       </tr>
-       <tr>
-         <td>GET 1/settings/rivers/jira/{name}/stop</td>
-         <td>Stop a river</td>
-       </tr>
-    </tbody>
-</table>
-
-### JiraRiver Object
-
-A JiraRiver object looks like (see https://github.com/jbossorg/elasticsearch-river-jira for updated details):
-
-```javascript
-{
-    "id": "mydummyriver",
-    "name": "My Dummy River",
-    "indexname": "my_jira_index",
-    "typename": "jira_issue",
-    "start": false,
-    "type": "jira",
-    "urlBase": "https://issues.jboss.org",
-    "username": "jira_username",
-    "pwd": "jira_user_password",
-    "jqlTimeZone": "Europe/Paris",
-    "timeout": "5s",
-    "maxIssuesPerRequest": 50,
-    "projectKeysIndexed": "TESTPROJECT",
-    "indexUpdatePeriod": "5m",
-    "indexFullUpdatePeriod": "1h",
-    "maxIndexingThreads": 2,
-    "analyzer": "keyword",
-    "jiraIssueCommentType": "jira_issue_comment",
-    "jiraRiverActivityIndexName": "jira_river_activity",
-    "jiraRiverUpdateType": "jira_river_indexupdate"
-}
-```
-
-* `id` is the unique name of your river. It is generated with a "trim()" on the river name parameter. Used to get or delete the river.
-* `name` is a fancy name for the river.
-* `indexname` is where JIRA components documents will be send
-* `typename` is the type name under your JIRA compoents will be indexed. For the moment only jira_issue are processed.
-* `start` indicates if the river is running (true) or not (false).
-* `urlBase` is the base URL of the JIRA Instance
-* `username` is the JIRA account user name
-* `pwd` is the JIRA account user password
-* `jqlTimeZone` is optional identifier of timezone used to format time values into JQL when requesting updated issues. Timezone of ElasticSearch JVM is used if not provided.
-* `timeout` is time value, defines timeout for http/s REST request to the JIRA. Optional, 5s is default if not provided.
-* `maxIssuesPerRequest` defines maximal number of updated issues requested from JIRA by one REST request. Optional, 50 used if not provided.
-* `projectKeysIndexed` is a comma separated list of JIRA project keys to be indexed. If omitted all visible projects are fetched.
-* `indexUpdatePeriod` is time value, defines how often is search index updated from JIRA instance. Optional, default 5 minutes.
-* `maxIndexingThreads` defines maximal number of parallel indexing threads running for this river.
-* `jiraIssueCommentType` defines the elasticsearch type used to index JIRA Issue Comments.
-* `jiraRiverActivityIndexName` defines the index where JIRA River Activities are sent.
-* `jiraRiverUpdateType` defines the elasticsearch type used to index JIRA River updates events.
-
-> Some parameters are readonly for the moment in order to set JIRA River easily. Otherwise, there are required mapping to set before creating a JIRA River
-
-### Examples
-
-
-```sh
-
-# START a river
-curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/jira/mydummyriver/start'
-
-# STOP a river
-curl -XGET 'localhost:8080/scrutmydocs/api/1/settings/rivers/jira/mydummyriver/stop'
-
-# DELETE a river
-curl -XDELETE 'localhost:8080/scrutmydocs/api/1/settings/rivers/jira/mydummyriver'
-
-# GET a JIRA Issue
-curl -XGET 'localhost:8080/scrutmydocs/api/1/jiraissue/{ISSUEKEY}'
 ```

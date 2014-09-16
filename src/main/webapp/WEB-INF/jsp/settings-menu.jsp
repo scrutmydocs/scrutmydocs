@@ -24,8 +24,6 @@
     <ul class="nav nav-list">
         <li id="rivers-fs" class="nav-header">File System Rivers</li>
 		
-		<li id="rivers-jira" class="nav-header">Jira Rivers</li>
-		
         <li id="rivers-db" class="nav-header">Database Rivers</li>
         <%--<li class="disabled"><a class="river-db" href="#"><i class="icon-leaf"></i> My MongoDB</a></li>--%>
 

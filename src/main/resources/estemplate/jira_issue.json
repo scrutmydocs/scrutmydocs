@@ -1,9 +1,0 @@
-{
-    "jira_issue" : {
-        "_timestamp" : { "enabled" : true },
-        "properties" : {
-            "project_key" : {"type" : "string", "analyzer" : "keyword"},
-            "source"      : {"type" : "string", "analyzer" : "keyword"}
-        }
-    }
-}

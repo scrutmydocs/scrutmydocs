@@ -30,7 +30,6 @@ import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.data.AbstractFSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.jira.data.JiraRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.helper.FSRiverHelper;
 import org.scrutmydocs.webapp.util.ESHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,18 +96,7 @@ public class RiverService implements Serializable {
 			AbstractFSRiver fsriver = (AbstractFSRiver) river;
 			createIndexIfNeeded(fsriver);
 		}
-		// If our river is a Jira River for document, we can manage the index creation
-		if (river instanceof JiraRiver) {
-			JiraRiver jirariver = (JiraRiver) river;
-			try {
-				createIndexIfNeeded(jirariver);
-			} catch (Exception e) {
-				logger.warn("start() : Exception raised : {}", e.getClass());
-				if (logger.isDebugEnabled()) logger.debug("- Exception stacktrace :", e);
-			}
-		}
-		
-		
+
 		try {
 			client.prepareIndex("_river", river.getId(), "_meta").setRefresh(true).setSource(xb)
 					.execute().isDone();
@@ -195,24 +183,4 @@ public class RiverService implements Serializable {
 		
 		if (logger.isDebugEnabled()) logger.debug("/createIndexIfNeeded({})", fsriver);
 	}
-        
-    /**
-	 * Create required indexes for the jira river if needed.
-	 * @param jirariver
-     * @throws Exception 
-	 */
-	public void createIndexIfNeeded(JiraRiver jirariver) throws Exception {
-		if (logger.isDebugEnabled()) logger.debug("createIndexIfNeeded({})", jirariver);
-		
-		// We only add the river if the river is started
-		if (jirariver == null || !jirariver.isStart()) return;
-
-        ESHelper.createIndexIfNeededNoMapping(client,jirariver.getIndexname());
-        ESHelper.createIndexIfNeededNoMapping(client,jirariver.getJiraRiverActivityIndexName());
-        ESHelper.createJiraIndexMapping(client,jirariver.getIndexname(),jirariver.getJiraIssueCommentType(),jirariver.getAnalyzer(),true);
-        ESHelper.createJiraIndexMapping(client,jirariver.getJiraRiverActivityIndexName(),jirariver.getJiraRiverUpdateType(),jirariver.getAnalyzer(),false);
-
-		if (logger.isDebugEnabled()) logger.debug("/createIndexIfNeeded({})", jirariver);
-	}
-
 }
