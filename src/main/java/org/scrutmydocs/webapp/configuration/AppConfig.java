@@ -19,27 +19,17 @@
 
 package org.scrutmydocs.webapp.configuration;
 
-import org.elasticsearch.ElasticSearchException;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.common.Base64;
-import org.elasticsearch.common.logging.ESLogger;
-import org.elasticsearch.common.logging.Loggers;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.node.Node;
-import org.scrutmydocs.webapp.api.document.data.Document;
-import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.fs.helper.FSRiverHelper;
-import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.scrutmydocs.webapp.service.document.DocumentService;
-import org.scrutmydocs.webapp.util.ESHelper;
-import org.scrutmydocs.webapp.util.PropertyScanner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import fr.pilato.spring.elasticsearch.ElasticsearchAbstractClientFactoryBean;
 import fr.pilato.spring.elasticsearch.ElasticsearchClientFactoryBean;
 import fr.pilato.spring.elasticsearch.ElasticsearchNodeFactoryBean;
 import fr.pilato.spring.elasticsearch.ElasticsearchTransportClientFactoryBean;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.common.logging.ESLogger;
+import org.elasticsearch.common.logging.Loggers;
+import org.elasticsearch.node.Node;
+import org.scrutmydocs.webapp.util.PropertyScanner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {

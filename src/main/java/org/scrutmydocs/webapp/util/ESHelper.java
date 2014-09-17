@@ -2,14 +2,12 @@ package org.scrutmydocs.webapp.util;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.admin.indices.mapping.get.GetMappingsResponse;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequestBuilder;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.cluster.ClusterState;
-import org.elasticsearch.cluster.metadata.IndexMetaData;
-import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.logging.ESLogger;
-import org.elasticsearch.common.logging.Loggers;
+import org.elasticsearch.common.logging.ESLoggerFactory;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.helper.AbstractFSRiverHelper;
 import org.scrutmydocs.webapp.constant.SMDSearchProperties;
@@ -20,7 +18,7 @@ import java.io.InputStreamReader;
 
 
 public class ESHelper {
-	private static ESLogger logger = Loggers.getLogger("ESHelper");
+	private static ESLogger logger = ESLoggerFactory.getLogger(ESHelper.class.getName());
 
 	/**
 	 * Define a type for a given index and if exists with its mapping definition (loaded in classloader)
@@ -82,15 +80,11 @@ public class ESHelper {
 	 * @return true if mapping exists
 	 */
 	public static boolean isMappingExist(Client client, String index, String type) {
-		ClusterState cs = client.admin().cluster().prepareState().setFilterIndices(index).execute().actionGet().getState();
-		IndexMetaData imd = cs.getMetaData().index(index);
-		
-		if (imd == null) return false;
-
-		MappingMetaData mdd = imd.mapping(type);
-
-		if (mdd != null) return true;
-		return false;
+        GetMappingsResponse mappingsResponse = client.admin().indices().prepareGetMappings(index).setTypes(type).get();
+        if (mappingsResponse.getMappings().get(index) == null) {
+            return false;
+        }
+		return mappingsResponse.getMappings().get(index).containsKey(type);
 	}
 	
 	/**

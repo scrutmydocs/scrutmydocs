@@ -40,12 +40,11 @@
     
 	<properties>
 		<!-- Dependencies versions -->
-		<spring.version>3.2.3.RELEASE</spring.version>
+		<spring.version>4.0.6.RELEASE</spring.version>
 		<cglib.version>2.2.2</cglib.version>
-		<elasticsearch.version>0.90.7</elasticsearch.version>
-		<spring.elasticsearch.version>0.3.0</spring.elasticsearch.version>
-		<fsriver.version>0.3.0</fsriver.version>
-        <mapper-attachment.version>1.8.0</mapper-attachment.version>
+		<elasticsearch.version>1.3.2</elasticsearch.version>
+		<spring.elasticsearch.version>1.3.0</spring.elasticsearch.version>
+		<fsriver.version>1.3.1</fsriver.version>
         <jackson.version>2.2.0</jackson.version>
 		<guava.version>14.0.1</guava.version>
 		<commons.file-upload.version>1.3</commons.file-upload.version>
@@ -180,12 +179,6 @@
 			<artifactId>fsriver</artifactId>
 			<version>${fsriver.version}</version>
 		</dependency>
-
-        <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch-mapper-attachments</artifactId>
-            <version>${mapper-attachment.version}</version>
-        </dependency>
 
 		<!-- Standard dependencies -->
 		<dependency>

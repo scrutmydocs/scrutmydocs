@@ -3,28 +3,25 @@
  */
 package org.scrutmydocs.webapp.servlet;
 
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.List;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.elasticsearch.common.Base64;
+import org.scrutmydocs.webapp.api.common.RestAPIException;
+import org.scrutmydocs.webapp.api.document.data.Document;
+import org.scrutmydocs.webapp.constant.SMDSearchProperties;
+import org.scrutmydocs.webapp.service.document.DocumentService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.elasticsearch.ElasticSearchException;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.common.Base64;
-import org.scrutmydocs.webapp.constant.SMDSearchProperties;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Download Document Servlet
@@ -39,8 +36,8 @@ public class UploadServlet extends HttpServlet {
 	/** The spring context. */
 	private ApplicationContext springContext;
 
-	/** The ES client. */
-	private Client client;
+	/** The Document service. */
+	private DocumentService documentService;
 
 	/** The factory. */
 	private DiskFileItemFactory factory;
@@ -77,39 +74,27 @@ public class UploadServlet extends HttpServlet {
 			}
 		} catch (FileUploadException e) {
 			throw new ServletException(e);
-		}
-	}
+		} catch (RestAPIException e) {
+            throw new ServletException(e);
+        }
+    }
 
 	/**
 	 * Index document.
-	 * 
-	 * @param fileName
-	 *        the file name
-	 * @param contentType
-	 *        the content type
-	 * @param content
-	 *        the file content
-	 * @return the id of indexed document
-	 * @throws ElasticSearchException
-	 *         the elastic search exception
-	 * @throws IOException
-	 *         Signals that an I/O exception has occurred.
 	 */
-	private String indexDocument(String fileName, String contentType, byte[] content) throws ElasticSearchException, IOException {
-		Client client = this.getClient();
-		IndexResponse response = client.prepareIndex(SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC).setSource(jsonBuilder().startObject().field("name", fileName).field("postDate", Calendar.getInstance().getTime()).startObject("file").field("_content_type", contentType).field("_name", fileName).field("content", Base64.encodeBytes(content)).endObject().endObject()).execute().actionGet();
-		return response.getId();
+	private String indexDocument(String fileName, String contentType, byte[] content) throws RestAPIException {
+        String base64Content = Base64.encodeBytes(content);
+        Document document = new Document(null, SMDSearchProperties.INDEX_NAME, SMDSearchProperties.INDEX_TYPE_DOC, fileName, contentType, base64Content);
+		return getDocumentService().push(document).getId();
 	}
 
 	/**
 	 * Gets the client.
-	 * 
-	 * @return the client
 	 */
-	private synchronized Client getClient() {
-		if(this.client == null) {
-			this.client = this.springContext.getBean(Client.class);
+	private synchronized DocumentService getDocumentService() {
+		if(this.documentService == null) {
+			this.documentService = this.springContext.getBean(DocumentService.class);
 		}
-		return this.client;
+		return this.documentService;
 	}
 }

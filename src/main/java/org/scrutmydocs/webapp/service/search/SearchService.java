@@ -33,7 +33,6 @@ import org.elasticsearch.search.highlight.HighlightField;
 import org.scrutmydocs.webapp.api.search.data.Hit;
 import org.scrutmydocs.webapp.api.search.data.SearchResponse;
 import org.scrutmydocs.webapp.api.settings.rivers.AbstractRiverHelper;
-import org.scrutmydocs.webapp.constant.SMDSearchProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -76,8 +75,10 @@ public class SearchService {
                 .setIndices(getSearchableIndexes())
                 .setTypes(getSearchableTypes())
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH).setQuery(qb)
-				.setFrom(first).setSize(pageSize).addHighlightedField("name")
-				.addHighlightedField("file")
+				.setFrom(first).setSize(pageSize)
+                .addHighlightedField("file.filename")
+				.addHighlightedField("content")
+                .addHighlightedField("meta.title")
 				.setHighlighterPreTags("<span class='badge badge-info'>")
 				.setHighlighterPostTags("</span>")
                 .addFields("*", "_source")
@@ -86,7 +87,7 @@ public class SearchService {
 		totalHits = searchHits.getHits().totalHits();
 		took = searchHits.getTookInMillis();
 
-		List<Hit> hits = new ArrayList<Hit>();
+		List<Hit> hits = new ArrayList();
 		for (SearchHit searchHit : searchHits.getHits()) {
 			Hit hit = new Hit();
 
@@ -94,36 +95,29 @@ public class SearchService {
 			hit.setType(searchHit.getType());
 			hit.setId(searchHit.getId());
 			// hit.setSource(searchHit.getSourceAsString());
-			if (searchHit.getType().equals(SMDSearchProperties.INDEX_TYPE_DOC)) {
-				if (searchHit.getSource() != null) {
-					hit.setTitle(AbstractRiverHelper.getSingleStringValue(
-							SMDSearchProperties.DOC_FIELD_NAME,
-							searchHit.getSource()));
 
-                if (searchHit.getSource() != null) {
-                    hit.setTitle(AbstractRiverHelper.getSingleStringValue(
-                            SMDSearchProperties.DOC_FIELD_NAME,
-                            searchHit.getSource()));
-                    // hit.setVirtualPath(FSRiverHelper.getSingleStringValue(SMDSearchProperties.DOC_FIELD_VIRTUAL_PATH,
-                    // searchHit.getSource()));
-                }
-                if (searchHit.getFields() != null && searchHit.getFields().get("file.content_type") != null) {
+            if (searchHit.getFields() != null) {
+                if (searchHit.getFields().get("file.content_type") != null) {
                     hit.setContentType((String) searchHit.getFields().get("file.content_type").getValue());
                 }
-                if (searchHit.getHighlightFields() != null) {
-                    for (HighlightField highlightField : searchHit
-                            .getHighlightFields().values()) {
-    
-                            Text[] fragmentsBuilder = highlightField.getFragments();
-    
-                            for (Text fragment : fragmentsBuilder) {
-                                hit.getHighlights().add(fragment.string());
-                            }
-                        }
+            }
+
+            if (searchHit.getSource() != null) {
+                hit.setTitle(AbstractRiverHelper.getSingleStringValue(
+                        "meta.title",
+                        searchHit.getSource()));
+            }
+
+
+            if (searchHit.getHighlightFields() != null) {
+                for (HighlightField highlightField : searchHit.getHighlightFields().values()) {
+                    Text[] fragmentsBuilder = highlightField.getFragments();
+                    for (Text fragment : fragmentsBuilder) {
+                        hit.getHighlights().add(fragment.string());
                     }
                 }
             }
-            
+
 			hits.add(hit);
 		}
 

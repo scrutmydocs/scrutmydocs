@@ -19,24 +19,22 @@
 
 package org.scrutmydocs.webapp.service.settings.rivers;
 
-import org.elasticsearch.action.admin.indices.close.CloseIndexRequestBuilder;
+import com.google.common.base.Predicate;
 import org.elasticsearch.action.admin.indices.close.CloseIndexResponse;
-import org.elasticsearch.action.admin.indices.open.OpenIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.open.OpenIndexResponse;
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.indices.IndexMissingException;
 import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.data.AbstractFSRiver;
 import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.fs.helper.FSRiverHelper;
 import org.scrutmydocs.webapp.util.ESHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 @Component
@@ -47,33 +45,54 @@ public class RiverService implements Serializable {
 	
 	@Autowired Client client;
 
+    public static boolean awaitBusy(Predicate<?> breakPredicate, long maxWaitTime, TimeUnit unit) throws InterruptedException {
+        long maxTimeInMillis = TimeUnit.MILLISECONDS.convert(maxWaitTime, unit);
+        long iterations = Math.max(Math.round(Math.log10(maxTimeInMillis) / Math.log10(2)), 1);
+        long timeInMillis = 1;
+        long sum = 0;
+        for (int i = 0; i < iterations; i++) {
+            if (breakPredicate.apply(null)) {
+                return true;
+            }
+            sum += timeInMillis;
+            Thread.sleep(timeInMillis);
+            timeInMillis *= 2;
+        }
+        timeInMillis = maxTimeInMillis - sum;
+        Thread.sleep(Math.max(timeInMillis, 0));
+        return breakPredicate.apply(null);
+    }
+
 	/**
 	 * Check if the river exists and if it's started
 	 * @param river
 	 */
-	public boolean checkState(BasicRiver river) {
+	public boolean checkState(final BasicRiver river) {
 		if (logger.isDebugEnabled()) logger.debug("checkState({})", river);
 		// We only check the river if you provide its definition
 		if (river == null) return false;
 		
 		try {
-			GetResponse responseEs = client
-					.prepareGet("_river", river.getId(), "_status")
-					.execute().actionGet();
-			if(!responseEs.isExists() )  {
-				return false;
-			}
-			
-			// We can also check if status is ok
-			Map<String, Object> source = responseEs.getSourceAsMap();
-			if (source != null) {
-				Boolean status = FSRiverHelper.getSingleBooleanValue("ok", source);
-				if (status == null) return false;
-                return status;
-			}
-			
-			
-			
+            // With elasticsearch 1.x, rivers could take some time to be created on nodes
+            // So we need to wait a little before stating the river has not been started
+            boolean exists = awaitBusy(new Predicate<Object>() {
+                @Override
+                public boolean apply(Object input) {
+                    boolean status = false;
+                    try {
+                        status = client
+                                .prepareGet("_river", river.getId(), "_status")
+                                .get().isExists();
+                    } catch (IndexMissingException e) {
+                        // We can ignore that one
+                    }
+                    return status;
+                }
+            // TODO We should try to have a better handling here as when a river does not run
+            // users can have a little delay for displaying settings
+            }, 500, TimeUnit.MILLISECONDS);
+
+            return exists;
 		} catch (Exception e) {
 			logger.warn("checkState({}) : Exception raised : {}", river, e.getClass());
 			if (logger.isDebugEnabled()) logger.debug("- Exception stacktrace :", e);
@@ -140,12 +159,8 @@ public class RiverService implements Serializable {
 	 */
 	public void stop() {
 		if (logger.isDebugEnabled()) logger.debug("stop()");
-		CloseIndexRequestBuilder irb = new CloseIndexRequestBuilder(client.admin().indices());
-
-		irb.setIndex("_river");
-		CloseIndexResponse response = irb.execute().actionGet();
-		
-		if (!response.isAcknowledged()) {
+        CloseIndexResponse response = client.admin().indices().prepareClose("_river").get();
+        if (!response.isAcknowledged()) {
 			logger.warn("stop() : Pb when closing rivers.");
 		}
 		if (logger.isDebugEnabled()) logger.debug("/stop()");
@@ -156,11 +171,7 @@ public class RiverService implements Serializable {
 	 */
 	public void start() {
 		if (logger.isDebugEnabled()) logger.debug("start()");
-		OpenIndexRequestBuilder irb = new OpenIndexRequestBuilder(client.admin().indices());
-
-		irb.setIndex("_river");
-		OpenIndexResponse response = irb.execute().actionGet();
-		
+        OpenIndexResponse response = client.admin().indices().prepareOpen("_river").get();
 		if (!response.isAcknowledged()) {
 			logger.warn("start() : Pb when starting rivers.");
 		}

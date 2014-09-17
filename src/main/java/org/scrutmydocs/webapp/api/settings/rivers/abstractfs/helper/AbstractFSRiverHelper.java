@@ -19,6 +19,7 @@
 
 package org.scrutmydocs.webapp.api.settings.rivers.abstractfs.helper;
 
+import fr.pilato.elasticsearch.river.fs.util.FsRiverUtil;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.scrutmydocs.webapp.api.settings.rivers.AbstractRiverHelper;
 import org.scrutmydocs.webapp.api.settings.rivers.abstractfs.data.AbstractFSRiver;
@@ -141,41 +142,109 @@ abstractfs will be replaced by your {@link #type()} content.
 	 * @return An ES xcontent (JSON)
 	 */
 	public static XContentBuilder toRiverMapping(String type, String analyzer) {
-		XContentBuilder xb = null;
+		XContentBuilder xbMapping = null;
 		try {
-			xb = jsonBuilder()
-					.startObject()
-						.startObject(type)
-							.startObject("properties")
-								.startObject("file")
-									.field("type", "attachment")
-									.field("path", "full")
-									.startObject("fields")
-										.startObject("file")
-											.field("type", "string")
-											.field("store", "yes")
-											.field("term_vector", "with_positions_offsets")
-											.field("analyzer", analyzer)
-										.endObject()
-										.startObject("author").field("type", "string").field("store", "yes").endObject()
-										.startObject("title").field("type", "string").field("store", "yes").endObject()
-										.startObject("name").field("type", "string").field("store", "yes").endObject()
-										.startObject("date").field("type", "date").field("store", "yes").field("format", "dateOptionalTime").endObject()
-										.startObject("keywords").field("type", "string").field("store", "yes").endObject()
-										.startObject("content_type").field("type", "string").field("store", "yes").endObject()
-									.endObject()
-								.endObject()
-								.startObject("name").field("type", "string").field("analyzer", "keyword").endObject()
-								.startObject("pathEncoded").field("type", "string").field("analyzer", "keyword").endObject()
-								.startObject("postDate").field("type", "date").field("format", "dateOptionalTime").endObject()
-								.startObject("rootpath").field("type", "string").field("analyzer", "keyword").endObject()
-								.startObject("virtualpath").field("type", "string").field("analyzer", "keyword").endObject()
-							.endObject()
-						.endObject()
-					.endObject();
+            xbMapping = jsonBuilder().prettyPrint().startObject();
+
+            // Type
+            xbMapping.startObject(type);
+
+            // Manage _source
+            // We store binary source as a stored field so we don't need it in _source
+            xbMapping.startObject("_source").array("excludes", FsRiverUtil.Doc.ATTACHMENT).endObject();
+
+            xbMapping.startObject("properties");
+
+            // Doc content
+            addAnalyzedString(xbMapping, FsRiverUtil.Doc.CONTENT, analyzer);
+
+            // Doc source
+            addBinary(xbMapping, FsRiverUtil.Doc.ATTACHMENT);
+
+            // Meta
+            xbMapping.startObject(FsRiverUtil.Doc.META).startObject("properties");
+            addAnalyzedString(xbMapping, FsRiverUtil.Doc.Meta.AUTHOR);
+            addAnalyzedString(xbMapping, FsRiverUtil.Doc.Meta.TITLE);
+            addDate(xbMapping, FsRiverUtil.Doc.Meta.DATE);
+            addAnalyzedString(xbMapping, FsRiverUtil.Doc.Meta.KEYWORDS);
+            xbMapping.endObject().endObject(); // End Meta
+
+            // File
+            xbMapping.startObject(FsRiverUtil.Doc.FILE).startObject("properties");
+            addNotAnalyzedString(xbMapping, FsRiverUtil.Doc.File.CONTENT_TYPE);
+            addDate(xbMapping, FsRiverUtil.Doc.File.LAST_MODIFIED);
+            addDate(xbMapping, FsRiverUtil.Doc.File.INDEXING_DATE);
+            addLong(xbMapping, FsRiverUtil.Doc.File.FILESIZE);
+            addLong(xbMapping, FsRiverUtil.Doc.File.INDEXED_CHARS);
+            addNotAnalyzedString(xbMapping, FsRiverUtil.Doc.File.FILENAME);
+            addNotIndexedString(xbMapping, FsRiverUtil.Doc.File.URL);
+            xbMapping.endObject().endObject(); // End File
+
+            // Path
+            xbMapping.startObject(FsRiverUtil.Doc.PATH).startObject("properties");
+            addNotAnalyzedString(xbMapping, FsRiverUtil.Doc.Path.ENCODED);
+            addNotAnalyzedString(xbMapping, FsRiverUtil.Doc.Path.VIRTUAL);
+            addNotAnalyzedString(xbMapping, FsRiverUtil.Doc.Path.ROOT);
+            addNotAnalyzedString(xbMapping, FsRiverUtil.Doc.Path.REAL);
+            xbMapping.endObject().endObject(); // End Path
+
+            xbMapping.endObject().endObject().endObject(); // End Type
 		} catch (IOException e) {
 			// TODO Log when error
-		}		
-		return xb;
+		}
+		return xbMapping;
 	}
+
+    private static void addAnalyzedString(XContentBuilder xcb, String fieldName) throws IOException {
+        xcb.startObject(fieldName)
+                .field("type", "string")
+                .field("store", "yes")
+                .endObject();
+    }
+
+    private static void addAnalyzedString(XContentBuilder xcb, String fieldName, String analyzer) throws IOException {
+        xcb.startObject(fieldName)
+                .field("type", "string")
+                .field("store", "yes")
+                .field("analyzer", analyzer)
+                .endObject();
+    }
+
+    private static void addNotAnalyzedString(XContentBuilder xcb, String fieldName) throws IOException {
+        xcb.startObject(fieldName)
+                .field("type", "string")
+                .field("store", "yes")
+                .field("index", "not_analyzed")
+                .endObject();
+    }
+
+    private static void addNotIndexedString(XContentBuilder xcb, String fieldName) throws IOException {
+        xcb.startObject(fieldName)
+                .field("type", "string")
+                .field("store", "yes")
+                .field("index", "no")
+                .endObject();
+    }
+
+    private static void addDate(XContentBuilder xcb, String fieldName) throws IOException {
+        xcb.startObject(fieldName)
+                .field("type", "date")
+                .field("format", "dateOptionalTime")
+                .field("store", "yes")
+                .endObject();
+    }
+
+    private static void addLong(XContentBuilder xcb, String fieldName) throws IOException {
+        xcb.startObject(fieldName)
+                .field("type", "long")
+                .field("store", "yes")
+                .endObject();
+    }
+
+    private static void addBinary(XContentBuilder xcb, String fieldName) throws IOException {
+        xcb.startObject(fieldName)
+                .field("type", "binary")
+                .field("store", true)
+                .endObject();
+    }
 }

@@ -3,10 +3,11 @@
  */
 package org.scrutmydocs.webapp.servlet;
 
+import fr.pilato.elasticsearch.river.fs.util.FsRiverUtil;
 import org.apache.lucene.util.IOUtils;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.Base64;
+import org.elasticsearch.common.bytes.BytesArray;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -17,7 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 
 /**
@@ -50,20 +50,22 @@ public class DownloadServlet extends HttpServlet {
         String contentType = req.getParameter("content_type");
 		Client client = this.getClient();
 
-		GetResponse responseEs = client.prepareGet().setIndex(index).setId(id).execute().actionGet();
+		GetResponse responseEs = client.prepareGet()
+                .setIndex(index).setId(id)
+                .setFields(
+                        FsRiverUtil.Doc.ATTACHMENT,
+                        FsRiverUtil.Doc.META + "." + FsRiverUtil.Doc.Meta.TITLE)
+                .get();
 		if(responseEs.isExists()) {
-			@SuppressWarnings("unchecked")
-			Map<String, Object> attachment = (Map<String, Object>)responseEs.getSource().get("file");
-
 			// Write into stream...
 			ServletOutputStream out = resp.getOutputStream();
 			try {
-				String name = (String)attachment.get("_name");
-				String content = (String)attachment.get("content");
+				String name = (String) responseEs.getField(FsRiverUtil.Doc.META + "." + FsRiverUtil.Doc.Meta.TITLE).getValue();
+				BytesArray content = (BytesArray) responseEs.getField(FsRiverUtil.Doc.ATTACHMENT).getValue();
 
 				resp.setContentType(contentType);
 				resp.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", name));
-				out.write(Base64.decode(content));
+				out.write(content.toBytes());
 			} finally {
                 IOUtils.closeWhileHandlingException(out);
 			}

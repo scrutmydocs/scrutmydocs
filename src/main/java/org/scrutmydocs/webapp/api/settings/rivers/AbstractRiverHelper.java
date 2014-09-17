@@ -64,8 +64,7 @@ public abstract class AbstractRiverHelper<T extends BasicRiver> {
 			xb = jsonBuilder()
 					.startObject()
 						.field("type", river.getType())
-						.startObject(river.getType())
-							.field("name", river.getId());
+						.startObject(river.getType());
 
 			
 			// We add specific metadata here

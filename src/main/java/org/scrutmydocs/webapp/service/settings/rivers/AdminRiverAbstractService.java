@@ -97,7 +97,7 @@ public abstract class AdminRiverAbstractService<T extends BasicRiver> implements
 
             // We need to filter for our rivers only
             if (getHelper().type() != null) {
-                srb.setFilter(FilterBuilders.termFilter("type",getHelper().type()));
+                srb.setPostFilter(FilterBuilders.termFilter("type",getHelper().type()));
             }
 
 			SearchResponse response = srb.execute().actionGet();
