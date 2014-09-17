@@ -19,9 +19,6 @@
 
 package org.scrutmydocs.webapp.itest.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import org.elasticsearch.common.logging.ESLogger;
 import org.elasticsearch.common.logging.ESLoggerFactory;
 import org.junit.Test;
@@ -29,6 +26,9 @@ import org.scrutmydocs.webapp.api.common.data.RestResponseWelcome;
 import org.scrutmydocs.webapp.api.common.data.Welcome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -46,6 +46,7 @@ public abstract class AbstractApiTest extends AbstractConfigurationIntegrationTe
 
 	protected String hostname;
 	protected String port;
+    protected String base_url;
 	
 	private ESLogger logger = ESLoggerFactory.getLogger(AbstractApiTest.class
 			.getName());
@@ -54,14 +55,15 @@ public abstract class AbstractApiTest extends AbstractConfigurationIntegrationTe
 	 * If you want to run test from your IDE:
 	 * <ul>
 	 * <li>Start ScrutMyDocs in your container
-	 * <li>Define -Dscrutmydocs.host=localhost -Dscrutmydocs.port=9090 with your server address
-	 * <li>By default, integration tests run on localhost:9090
+	 * <li>Define -Dscrutmydocs.host=localhost -Dscrutmydocs.port=9090 -Dscrutmydocs.url=/scrutmydocs/api/ with your server address
+	 * <li>By default, integration tests run on localhost:9090/scrutmydocs/api/
 	 * </ul>
 	 */
 	public AbstractApiTest() {
 		// We check if we run tests outside maven integration tests
 		hostname = System.getProperty("scrutmydocs.host", BASE_URL_SERVER);
 		port = System.getProperty("scrutmydocs.port", BASE_URL_PORT);
+        base_url = System.getProperty("scrutmydocs.url", BASE_URL_SUFFIX);
 	}
 	
 	/**
@@ -105,7 +107,7 @@ public abstract class AbstractApiTest extends AbstractConfigurationIntegrationTe
 		sbf.append(hostname);
 		sbf.append(":");
 		sbf.append(port);
-		sbf.append(BASE_URL_SUFFIX);
+		sbf.append(base_url);
 		if (getModuleApiUrl() != null) sbf.append(getModuleApiUrl());
 		if (append != null) sbf.append(append);
 		return sbf.toString();

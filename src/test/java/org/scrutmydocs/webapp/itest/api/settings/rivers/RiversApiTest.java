@@ -19,21 +19,19 @@
 
 package org.scrutmydocs.webapp.itest.api.settings.rivers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.scrutmydocs.webapp.api.settings.rivers.basic.data.BasicRiver;
-import org.scrutmydocs.webapp.api.settings.rivers.basic.data.RestResponseRivers;
 import org.scrutmydocs.webapp.api.settings.rivers.fs.data.FSRiver;
+import org.scrutmydocs.webapp.api.settings.rivers.fs.data.RestResponseFSRivers;
 import org.scrutmydocs.webapp.itest.api.AbstractApiTest;
 import org.springframework.http.HttpEntity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 
 /**
@@ -60,14 +58,14 @@ public class RiversApiTest extends AbstractApiTest {
 		setupAddRiver(new FSRiver("all_mydummy3", "/dummydir3", 90L));
 		
 		
-		String url = buildFullApiUrl();
+		String url = buildFullApiUrl("fs/");
 
-		RestResponseRivers output = restTemplate.getForObject(url, RestResponseRivers.class);
+        RestResponseFSRivers output = restTemplate.getForObject(url, RestResponseFSRivers.class);
 		assertNotNull(output);
 		assertTrue(output.isOk());
 
 		// We should have at least 3 rivers
-		List<BasicRiver> rivers = (List<BasicRiver>) output.getObject();
+		List<FSRiver> rivers = (List<FSRiver>) output.getObject();
 		assertNotNull(rivers);
 		
 		int riverMatches = 0;

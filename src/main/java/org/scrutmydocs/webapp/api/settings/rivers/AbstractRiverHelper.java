@@ -117,9 +117,6 @@ public abstract class AbstractRiverHelper<T extends BasicRiver> {
 			if (!content.containsKey(type)) 
 				throw new RuntimeException("A River must contain \""+type+"\":{...}");
 
-			river.setId(getSingleStringValue(type+".name", content));
-			river.setName(getSingleStringValue(type+".name", content));
-			
 			// We parse specific metadata depending on the river type
 			river = parseMeta(river, content);
 			

@@ -71,6 +71,8 @@ public abstract class AdminRiverAbstractService<T extends BasicRiver> implements
 				GetResponse response = rb.execute().actionGet();
 				if (response.isExists()) {
 					river = getHelper().toRiver(buildInstance(), response.getSourceAsMap());
+                    river.setId(response.getId());
+                    river.setName(response.getId());
 				}
 			} catch (IndexMissingException e) {
 				// Index does not exists, so RIVER does not exist...
@@ -111,6 +113,8 @@ public abstract class AdminRiverAbstractService<T extends BasicRiver> implements
 
 					// We only manage rivers for type getHelper().type()
 					river = getHelper().toRiver(river, hit.sourceAsMap());
+                    river.setId(hit.getId());
+                    river.setName(hit.getId());
 
 					if (river.getType().equals(getHelper().type())) {
 						// For each river, we check if the river is started or not
