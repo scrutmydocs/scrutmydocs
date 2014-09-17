@@ -67,7 +67,6 @@ public class FSRiverHelperTest {
 		
 		FSRiver fsriver = new FSRiverHelper().toRiver(new FSRiver(), map);
 		
-		Assert.assertEquals(model.getId(), fsriver.getId());
 		Assert.assertEquals(model.getType(), fsriver.getType());
         Assert.assertEquals(model.getProtocol(), fsriver.getProtocol());
         Assert.assertEquals(model.getServer(), fsriver.getServer());
@@ -79,7 +78,6 @@ public class FSRiverHelperTest {
 		Assert.assertEquals(model.getIncludes(), fsriver.getIncludes());
 		Assert.assertEquals(model.getExcludes(), fsriver.getExcludes());
 
-		Assert.assertEquals(model.getName(), fsriver.getName());
 		Assert.assertEquals(model.getTypename(), fsriver.getTypename());
 		Assert.assertEquals(model.getAnalyzer(), fsriver.getAnalyzer());
 	}
