@@ -10,37 +10,11 @@ With ScrutMyDocs you can Send, Look for and find all your documents.
 Versions
 --------
 
-<table>
-    <thead>
-        <tr>
-            <td>Scrutmydocs</td>
-            <td>ElasticSearch</td>
-            <td>FS River Plugin</td>
-            <td>Attachment Plugin</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>master (0.3.0-SNAPSHOT)</td>
-            <td>0.90.3</td>
-            <td>0.3.0</td>
-            <td>1.8.0</td>
-        </tr>
-        <tr>
-            <td>0.2.0</td>
-            <td>0.19.9</td>
-            <td>0.0.2</td>
-            <td>1.4.0</td>
-        </tr>
-        <tr>
-            <td>0.1.0</td>
-            <td>0.19.8</td>
-            <td>0.0.2</td>
-            <td>1.4.0</td>
-        </tr>
-    </tbody>
-</table>
-
+|  Scrutmydocs   | Elasticsearch | FS River |  Mapper Attchments |
+|----------------|---------------|----------|--------------------|
+| 0.3.0-SNAPSHOT |     1.3.2     | 1.3.1    |                    |
+|     0.2.0      |     0.19.9    | 0.0.2    |       1.4.0        |
+|     0.1.0      |     0.19.8    | 0.0.2    |       1.4.0        |
 
 Installation
 ------------
