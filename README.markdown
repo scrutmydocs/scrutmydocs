@@ -16,6 +16,14 @@ Versions
 |     0.2.0      |     0.19.9    | 0.0.2    |       1.4.0        |
 |     0.1.0      |     0.19.8    | 0.0.2    |       1.4.0        |
 
+
+Build status
+------------
+
+Thanks to [CodeShip.io](https://codeship.io/), we now have a build status for this repository:
+
+[ ![Codeship Status for scrutmydocs/scrutmydocs](https://codeship.io/projects/4f4c1ca0-225e-0132-009d-5e59753a6e8f/status)](https://codeship.io/projects/36516)
+
 Installation
 ------------
 
