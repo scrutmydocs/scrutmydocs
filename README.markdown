@@ -1,6 +1,9 @@
 Scrut My Docs
 =========
 
+This repo is not maintained and won't have any feature implemented.
+Instead, look at [the Workplace Search project](https://www.elastic.co/enterprise-search/workplace-search) which is much more mature and production ready. It's available under the free basic license.
+
 Introduction
 ------------
 
